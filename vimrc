@@ -1,28 +1,34 @@
-"this is my file
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" 
+" "My vim, my control, I want vim to behave the way I want.
+" 
+"
+set nocompatible
+filetype off
 
 
-"alternatively, pass a path where Vundle should install plugins
+"Vundle bro, its all your's now, enjoy the stint
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
     " let Vundle manage Vundle, required
     Plugin 'gmarik/Vundle.vim'
     Plugin 'Valloric/YouCompleteMe'
+    " NERDTree is the real nerd 
+    Plugin 'scrooloose/nerdtree'
 
     " All of the Plugins are to be added before this
 call vundle#end()            " required
 filetype plugin indent on    " required
+"Vundle bro, thanks for the job.
 
-
+" Monokai has been my favourite for some time now
+" alternatives are always welcome though
 colorscheme monokai 
-set guifont=Monaco\ 9
 
 
 "Setting tab and indentation stuffs
-set tabstop=4
-set shiftwidth=4
+set ts=4
+set sw=4
 set expandtab
 set cindent
 syntax on
@@ -41,7 +47,7 @@ set breakindent
 set splitbelow
 set splitright
 
-"split navigations
+"split window navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -51,16 +57,24 @@ nnoremap <C-H> <C-W><C-H>
 set foldmethod=indent
 set foldlevel=99
 
-
-au BufRead,BufNewFile *.py,*epyw,*.c match BadWhitespace /\s\+$/
-
-
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Monaco\ 11
+    set guifont=Monaco\ 12
   elseif has("gui_macvim")
     set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
     set guifont=Consolas:h11:cANSI
+  else
+      set guifont=Monaco\ 12
   endif
+else
+    set guifont=Monaco\ 12
 endif
+
+" force LF in line ending
+set fileformat=unix
+set fileformats=unix,dos
+
+
+" YCM support for C Language family
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'

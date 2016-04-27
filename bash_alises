@@ -1,0 +1,3 @@
+alias tree="tree --dirsfirst"
+# I always forget git reset
+alias unstage="git reset"
