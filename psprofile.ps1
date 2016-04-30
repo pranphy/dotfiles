@@ -10,3 +10,6 @@ function mklink { cmd /c mklink $args }
 
 # I am already improved 
 new-alias vi vim
+
+#which command in wondws
+New-Alias which get-command
