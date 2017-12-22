@@ -10,7 +10,7 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth:erasedups
+export HISTCONTROL=ignoreboth:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -37,7 +37,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -91,8 +91,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias lh='ls -lh'
-alias lah='ls -lah'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -121,45 +119,54 @@ fi
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-###To access hadoop 
-export HADOOP_HOME="/opt/hadoop-0.20.2-cdh3u6"
-
-export PATH="$HADOOP_HOME/bin:$PATH"
-export HADOOP_CLASSPATH="$JAVA_HOME/lib/tools.jar"
-
-alias shdf='hadoop fs'
-
-export ORACLE_HOME="/opt/Oracle/Database"
-export PATH="$ORACLE_HOME/bin:$PATH"
-export ORACLE_SID="PrakashDB"
-
-
 # Add wxPython support
-export PYTONHOME="/opt/wxPython"
-export PYTHONPATH=$PYTHONPATH:$PYTONHOME
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PYTHONPATH/lib
+#export WXPYTHON2="/opt/wxPython"
+#export WXPHOENIX="/opt/Phoenix"
+#export PYTHONPATH=$WXPHOENIX
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PYTHONPATH/lib:/usr/lib/x86_64-linux-gnu
 
 export ANT_HOME="/opt/ant"
 export PATH="$ANT_HOME/bin:$PATH"
 
-CPPFLAGS=-I/opt/include/Boost/
+#Set vi mode in terminal
 set -o vi
 
 #XDG Env variables I don't know it
 export XDG_CONFIG_HOME=$HOME/.config
 
-alias tree="tree --dirsfirst"
+#Setup JAVA
+export JAVA_HOME="/opt/jdk1.8.0_121"
+export PATH="$JAVA_HOME/bin:$PATH"
 
-#Its high time now that I use python3 by default
-#alias python="python3.5"
+export GIT_FTP_HOME="/home/pranphy/MyRoot/bin/git-ftp"
+export PATH="$PATH:$GIT_FTP_HOME"
+
+# AddMyRoot bin alias
+export PATH="$PATH:$HOME/MyRoot/bin"
+
+#ANDROID_HOME
+export ANDROID_TOOLS="/opt/android-sdk-linux"
+export PATH="$PATH:$ANDROID_TOOLS/tools"
+
+#ANDROID_HOME
+export ANDROID_PLATFORM_TOOLS="$ANDROID_TOOLS/platform-tools"
+export PATH="$PATH:$ANDROID_PLATFORM_TOOLS"
+
+#RCLONE HOME
+export RCLONE_HOME="/opt/rclone"
+export PATH="$PATH:$RCLONE_HOME"
+
+#Zotero home
+export ZOTERO_HOME="/opt/Zotero"
+export PATH="$PATH:$ZOTERO_HOME"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/pranphy/.sdkman"
+[[ -s "/home/pranphy/.sdkman/bin/sdkman-init.sh" ]] && source "/home/pranphy/.sdkman/bin/sdkman-init.sh"
 
 
-#GRADLE PATH
-export GRADLE_PATH="/opt/android-studio/gradle/gradle-2.8"
-export PATH="$PATH:$GRADLE_PATH/bin"
+export ROOTSYS=/opt/ROOT
+export PATH=$PATH:$ROOTSYS/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTSYS/lib
 
-
-#android path
-export ANDROID_HOME="/opt/lib/android-sdk-linux"
-export PATH="$ANDROID_HOME/tools:$PATH"
-export PATH="$ANDROID_HOME/platform-tools:$PATH"
+export PYTHONPATH=$PYTHONPATH:$ROOTSYS/lib
