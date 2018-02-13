@@ -31,7 +31,7 @@ filetype plugin indent on    " required
 
 " Monokai has been my favourite for some time now
 " alternatives are always welcome though
-colorscheme monokai 
+colorscheme molokai 
 
 
 "Setting tab and indentation stuffs
@@ -104,9 +104,9 @@ set fileformat=unix
 set fileformats=unix,dos
 
 
-let &colorcolumn=join(range(81,999),",")
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-let &colorcolumn="80,".join(range(120,999),",")
+"let &colorcolumn=join(range(81,999),",")
+"highlight ColorColumn ctermbg=235 guibg=#2c2d27
+"let &colorcolumn="80,".join(range(120,999),",")
 
 " YCM support for C Language family
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
