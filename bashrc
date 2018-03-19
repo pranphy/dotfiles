@@ -10,10 +10,9 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-export HISTCONTROL=ignoreboth:erasedups
-
-# append to the history file, don't overwrite it
+HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
+PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
@@ -170,3 +169,10 @@ export PATH=$PATH:$ROOTSYS/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTSYS/lib
 
 export PYTHONPATH=$PYTHONPATH:$ROOTSYS/lib
+
+
+#GEANT and CLHEP
+export CLHEP_BASE_DIR="/opt/CLHEP"
+export G4INSTALL="/opt/GEANT4"
+export PATH="$PATH:$CLHEP_BASE_DIR/bin:$G4INSTALL/bin"
+
