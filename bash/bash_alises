@@ -21,7 +21,8 @@ alias g++="g++-6"
 alias vi="nvim"
 #alias vim="nvim"
 
-alias slac="ssh pgphoton@rhel6-64.slac.stanford.edu"
-alias slacx="ssh -X pgphoton@rhel6-64.slac.stanford.edu"
-alias drexel="ssh pg459@dunx1.irt.drexel.edu"
-alias drexelftp="sftp pg459@dunx1.irt.drexel.edu"
+# Carried over confusion from vim
+alias :q="exit()"
+
+# For my private aliases 
+source '~/.config/bash/private_aliases'

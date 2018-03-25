@@ -1,4 +1,4 @@
 ## My Dot Files
-> Thanks to symblinks beauty  :smile:
+> थोप्लोबाट सुरू हुने कागजातहरू
 
-These are my dot files, thanks to symblinks I can use them anywhere in any computer pointing to these.
+यहाँ के राख्ने भनेर कसैले मलाई राम्रो सुझाव दिनु होला कृपया।

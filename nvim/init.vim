@@ -1,5 +1,6 @@
 " 
-" "My vim, my control, I want vim to behave the way I want.
+" Thought for a while about what to put here
+" and ended up writing this instead.
 " 
 "
 set nocompatible
@@ -24,6 +25,11 @@ call vundle#begin()
     " Let the latex begin
     Plugin 'lervag/vimtex'
 
+
+    " The first time I used computer to type I had this in mind
+    Plugin 'SirVer/ultisnips'
+
+
     " All of the Plugins are to be added before this
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -31,7 +37,7 @@ filetype plugin indent on    " required
 
 " Monokai has been my favourite for some time now
 " alternatives are always welcome though
-colorscheme monokai 
+colorscheme monokai  " kinda sucks for latex
 
 
 "Setting tab and indentation stuffs
@@ -44,7 +50,6 @@ syntax on
 " To make modelines in file work
 set modeline
 set modelines=5
-
 
 "To make smart wrap
 set nowrap
@@ -62,25 +67,16 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 "Terminal Navigations
-"The esc to go to bormal mode
+"The esc to go to normal mode
 tnoremap <Esc> <C-\><C-n>
 tnoremap <A-h> <C-\><C-n><C-w>h
 tnoremap <A-j> <C-\><C-n><C-w>j
 tnoremap <A-k> <C-\><C-n><C-w>k
 tnoremap <A-l> <C-\><C-n><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
+
 
 " Enable dragging
 set mouse=n
-
-
-vmap <C-c> "+yi
-vmap <C-x> "+c
-vmap <C-v> c<ESC>"+p
-imap <C-v> <C-r><C-o>"+*+P
 
 
 "Enable folding
@@ -89,14 +85,14 @@ set foldlevel=99
 
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Monaco\ 11
+    set guifont=Monaco\ 9
   elseif has("gui_win32")
-    set guifont=Consolas:h11:cANSI
+    set guifont=Consolas:h9:cANSI
   else
-      set guifont=Monaco\ 11
+      set guifont=Monaco\ 9
   endif
 else
-    set guifont=Monaco\ 10
+    set guifont=Monaco\ 9
 endif
 
 " force LF in line ending
@@ -109,7 +105,7 @@ set fileformats=unix,dos
 "let &colorcolumn="80,".join(range(120,999),",")
 
 " YCM support for C Language family
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf='~/.config/nvim/ycm/ycm_extra_conf.py'
 let g:cpp_class_scope_highlight=1
 
 " YCM Support for latex family language
@@ -118,17 +114,36 @@ if !exists('g:ycm_semantic_triggers')
 endif
 let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
 
-"let g:ycm_semantic_triggers.tex = [
-"    \ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
-"    \ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
-"    \ 're!\\hyperref\[[^]]*',
-"    \ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
-"    \ 're!\\(include(only)?|input){[^}]*',
-"    \ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
-"    \ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
-"    \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
-"    \ 're!\\usepackage(\s*\[[^]]*\])?\s*\{[^}]*',
-"    \ 're!\\documentclass(\s*\[[^]]*\])?\s*\{[^}]*',
-"    \ 're!\\[A-Za-z]*',
-"    \ ]
+" Vimtex configuration
+let g:vimtex_view_method = 'zathura'
+
+
+" Now make ulti snippet work
+" Trigger configuration. 
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+
+"
+"let g:UltiSnipsSnippetDirectories=["~/.config/nvim/UltiSnips","UltiSnips"]
+"
+":UltiSnipsEdit to split vertically.
+ let g:UltiSnipsEditSplit="vertical"
+"
+"
+"
+
+inoremap jk <esc>
+inoremap Jk <esc>
+inoremap jk <esc>
+inoremap Jk <esc>
+vnoremap jk <esc>
+vnoremap Jk <esc>
+vnoremap JK <esc>
+tnoremap jk <C-\><C-n>
+inoremap <esc> <nop>
+
+
+nnoremap ev :vsplit $MYVIMRC<cr>
+nnoremap sv :source $MYVIMRC<cr>
 
