@@ -25,4 +25,4 @@ alias vi="nvim"
 alias :q="exit()"
 
 # For my private aliases 
-source '~/.config/bash/private_aliases'
+source './private_aliases'
