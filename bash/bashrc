@@ -130,7 +130,7 @@ export PATH="$ANT_HOME/bin:$PATH"
 #Set vi mode in terminal
 set -o vi
 
-#XDG Env variables I don't know it
+#XDG Env variables 
 export XDG_CONFIG_HOME=$HOME/.config
 
 #Setup JAVA
@@ -158,11 +158,6 @@ export PATH="$PATH:$RCLONE_HOME"
 #Zotero home
 export ZOTERO_HOME="/opt/Zotero"
 export PATH="$PATH:$ZOTERO_HOME"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/pranphy/.sdkman"
-[[ -s "/home/pranphy/.sdkman/bin/sdkman-init.sh" ]] && source "/home/pranphy/.sdkman/bin/sdkman-init.sh"
-
 
 export ROOTSYS=/opt/ROOT
 export PATH=$PATH:$ROOTSYS/bin

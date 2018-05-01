@@ -19,10 +19,14 @@ alias g++="g++-6"
 
 #ok use nvim
 alias vi="nvim"
+alias vim8="/opt/vim8/bin/vim"
 #alias vim="nvim"
 
 # Carried over confusion from vim
 alias :q="exit()"
 
+#  Clean tex
+alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz"
+
 # For my private aliases 
-source './private_aliases'
+source ~/.private_aliases
