@@ -4,6 +4,35 @@ extends texmath
 
 global !p
 
+def create_matrix(snip):
+	org = snip.buffer[snip.line]
+	pvb  = (snip.buffer[snip.line]).strip()[0]
+	rowss = snip.buffer[snip.line].split('x')[1]
+	colss = snip.buffer[snip.line].split('x')[2]
+
+	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+	
+	rows = int_val(rowss)
+	cols = int_val(colss)
+
+	offset = cols + 1
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+	
+	# this line clears the content of line
+	#snip.buffer[snip.line] = ''
+	
+	final_str = old_spacing + "\\begin{"+pvb+"matrix}\n"
+
+	for i in range(rows):
+		final_str += old_spacing + '\t'
+		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+
+		final_str += " \\\\\\\n"
+
+	final_str += old_spacing + "\\end{"+pvb+"matrix}\n$0"
+
+	snip.expand_anon(final_str)
+
 def create_table(snip):
 	rows = snip.buffer[snip.line].split('x')[0]
 	cols = snip.buffer[snip.line].split('x')[1]
@@ -43,18 +72,30 @@ def add_row(snip):
 	snip.expand_anon(final_str)
 
 
+def mathcal(snip): 
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+	curline = snip.buffer[snip.line]
+	pos = curline.find('cal')
+	letter = (curline[:pos])[-1]
+	to = snip.column
+	newstr = curline[:pos]+r"\mathcal{P}"+curline[to:]
+
+	#snip.buffer[snip.line] = ''
+
+	final_str = old_spacing 
+	final_str += r"\mathcal{"+letter+r"}$1"
+	final_str = newstr
+
+	snip.rv = 'appe'
+	#snip.expand_anon(final_str)
+
+
 endglobal
 
 snippet "b(egin)?" "begin{} / end{}" br
 \begin{${1:something}}
 	${0:${VISUAL}}
 \end{$1}
-endsnippet
-
-snippet abs "abstract environment" b
-\begin{abstract}
-	$0
-\end{abstract}
 endsnippet
 
 snippet tab "tabular / array environment" b
@@ -67,9 +108,18 @@ pre_expand "create_table(snip)"
 snippet "gentbl(\d+)x(\d+)" "Generate table of *width* by *height*" r  
 endsnippet
 
+pre_expand "create_matrix(snip)"
+snippet "([pvb])matrix(\d+)x(\d+)" "Generate a matrix " r
+endsnippet
+
 pre_expand "add_row(snip)"
 snippet "tr(\d+)" "Add table row of dimension ..." r
 endsnippet
+
+pre_expand "mathcal(snip)" 
+snippet "cal(\w)" "Insert mathcal letters " ri
+endsnippet
+
 
 snippet table "Table environment" b
 \begin{table}[${1:htpb}]
@@ -114,9 +164,7 @@ snippet it "Individual item" b
 endsnippet
 
 snippet part "Part" b
-\part{${1:part name}}%
-\label{prt:${2:${1/(\w+)|\W+/(?1:\L$0\E:_)/ga}}}
-
+\part{${1:part name}} \label{prt:${2:${1/(\w+)|\W+/(?1:\L$0\E:_)/ga}}}
 $0
 endsnippet
 
@@ -193,8 +241,12 @@ snippet pac "Package" b
 \usepackage`!p snip.rv='[' if t[1] else ""`${1:options}`!p snip.rv = ']' if t[1] else ""`{${2:package}}$0
 endsnippet
 
-snippet lp "Long parenthesis"
-\left(${1:${VISUAL:contents}}\right)$0
+snippet lp "Long parenthesis" i
+\left( ${1:${VISUAL:contents}}\right)$0
+endsnippet
+
+snippet lb "Long braces" i
+\left\lbrace ${1:${VISUAL:contents}}\right\rbrace$0
 endsnippet
 
 snippet "mint(ed)?( (\S+))?" "Minted code typeset" br
@@ -207,48 +259,84 @@ endsnippet
 ###################################################
 ############# Praksh Snippet start here ###########
 ###################################################
-snippet frk
+snippet frk "fraction " iA
 \frac{$1}{$2} 
 endsnippet
 
-snippet bra
-\bra{$1}
+snippet bra "bra in Diract notation" i
+\bra{$1} 
 endsnippet
 
-snippet ket
-\ket{$1}
+snippet ket "ket in Dirac notation" i
+\ket{$1} 
 endsnippet 
 
+snippet ip "inner product" i
+\ip{$1}{$2}
+endsnippet
 
-snippet mel
-\mel{$1}{$2}{$3}$0
+snippet imag "imaginary part of" i
+\text{Im}
 endsnippet
 
 
-snippet pdv
-\pdv[${1:2}]{$2}{$3}
+snippet comm "commutator" i
+\comm{$1}{$2}
 endsnippet
 
-snippet lpcn
-\pdv[2]{$1}{${2:x}} + \pdv[2]{$1}{${3:y}}
+snippet mel "matrix element " i
+\mel{$1}{$2}{$3}$0  
 endsnippet
 
-snippet cases
+snippet vec "vector " i
+\vec{$1}
+endsnippet
+
+snippet dot "dot over symbol" i 
+\dot{$1}
+endsnippet
+
+snippet pdv "partial derivative " iA
+\pdv{$1}{$2} 
+endsnippet
+
+
+
+snippet dv "derivative " i
+\dv{$1}{$2} 
+endsnippet
+
+snippet dv2 "second derivative " i
+\dv[2]{$1}{$2} 
+endsnippet
+
+
+
+
+snippet pdv2 " second partial derivative " i
+\pdv[${1:2}]{$2}{$3} 
+endsnippet	
+
+snippet lpcn "laplacian " i
+\pdv[2]{$1}{${2:x}} + \pdv[2]{$1}{${3:y}} 
+endsnippet
+
+snippet cases "cases from ams math" b
 \begin{cases}
-	$1	& \text{ if } ${2: x \leq 0} \\
+	$1	& \text{ if } ${2: x \leq 0} \\\\
 	$3	& \text{ if } ${4: x \geq 0}
 \end{cases}
 endsnippet
 
-snippet align
-\begin{align} \label{${1: eq:only}}
-	$2
+snippet align "align " b
+\begin{align} \label{eq:${1:only}}
+	$2 
 \end{align}
 $0
 endsnippet
 
 
-snippet alins
+snippet alins " align asterisk " b
 \begin{align*}
 	$1
 \end{align*}
@@ -256,24 +344,24 @@ $0
 endsnippet
 
 
-snippet intl 
-\int\limits_{${1:0}}^{${2:\infty}}
+snippet intl "integrate with limits " i
+\int\limits_{${1:0}}^{${2:\infty}} 
 endsnippet
 
-snippet inff
+snippet inff " integrate from -infty to infty " i
 \int\limits_{-\infty}^{\infty} 
 endsnippet
 
-snippet inffr
-\int\limits_{\infty}{\infty} 
+snippet inffr "integrate from + infty to - infty " i
+\int\limits_{\infty}^{-\infty} 
 endsnippet
 
 
-snippet info
+snippet info "integrate from -infty to zero " i
 \int\limits_{-\infty}^{0} 
 endsnippet
 
-snippet inof
+snippet inof "interate fom zero to infty" i
 \int\limits_{0}^{\infty} 
 endsnippet
 
@@ -285,20 +373,51 @@ snippet {{
 \left\lbrace $1 \right\rbrace 
 endsnippet
 
-snippet parenthesis
-($1)
+snippet [[ "double bracket" iA
+\left[ $1 \right] 
 endsnippet
 
+snippet bar "bar over symbol " i
+\bar{$1}
+endsnippet
+
+
 snippet exp
-e^{$1}
+e^{$1} 
 endsnippet 
 
 snippet sqrt
-\sqrt{$1}
+\sqrt{$1} 
 endsnippet
 
 snippet txt
-\text{$1}
+\text{$1} 
 endsnippet
+
+snippet ( "parenthesis ste " iA
+($1)
+endsnippet
+
+snippet { "parenthesis ste " iA
+{$1}
+endsnippet
+
+
+snippet $ " inline math " iA
+$$1$
+endsnippet
+
+snippet posb "poisson bracket " i
+\posb{$1}{$2} 
+endsnippet
+
+snippet suml "sum with limits " i
+\sum_{${1:n=1}}^{$2}
+endsnippet
+
+snippet sfn "sfn" i
+${2:S}\left(\left\lbrace ${1:p_i }\right\rbrace \right)
+endsnippet
+
 
 # vim:ft=snippets:

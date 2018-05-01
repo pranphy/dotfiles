@@ -114,6 +114,8 @@ if !exists('g:ycm_semantic_triggers')
 endif
 let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
 
+"let g:loaded_youcompleteme = 1
+
 " Vimtex configuration
 let g:vimtex_view_method = 'zathura'
 
@@ -124,6 +126,7 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 
+"inoremap <space><tab> <c-j>
 "
 "let g:UltiSnipsSnippetDirectories=["~/.config/nvim/UltiSnips","UltiSnips"]
 "
@@ -134,16 +137,15 @@ let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 "
 
 inoremap jk <esc>
+inoremap jK <esc>
 inoremap Jk <esc>
-inoremap jk <esc>
-inoremap Jk <esc>
-vnoremap jk <esc>
-vnoremap Jk <esc>
-vnoremap JK <esc>
+inoremap JK <esc>
 tnoremap jk <C-\><C-n>
 inoremap <esc> <nop>
 
 
+
+nnoremap <space> :nohl<cr>
 nnoremap ev :vsplit $MYVIMRC<cr>
 nnoremap sv :source $MYVIMRC<cr>
 
