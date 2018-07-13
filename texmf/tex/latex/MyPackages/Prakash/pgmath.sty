@@ -1,0 +1,46 @@
+\ProvidesPackage{pgmath}
+\RequirePackage{enumitem}
+%
+%%
+%%]
+\RequirePackage{xifthen}
+
+
+% Environments and stuffs
+\newenvironment{questions}{\begin{enumerate}}{\end{enumerate}}
+\newcommand{\question}[1][]{%
+    \ifthenelse{\equal{#1}{}}{\item}{\item \textbf{(#1)}}%
+}
+\newenvironment{parts}{\begin{enumerate}[noitemsep,topsep=0pt]}{\end{enumerate}}
+\renewcommand{\part}{\item}
+\newenvironment{solution}{~\\ \textbf{Solution: }~\\}{\hfill $\square$ ~\\}
+%
+%
+%
+% Quantum shortcuts 
+% decided to use physics package
+% \newcommand{\bra}[1]{\left\langle #1 \right\rvert}
+% \newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
+% \newcommand{\ip}[2]{\left\langle #1\mid\vbar #2 \right\rangle}
+%
+% general mathematics
+% Unit vector 
+\newcommand{\uvec}[1]{\mathbf{\hat{#1}}}
+\newcommand{\vecop}[1]{\mathbf{{#1}}}
+%
+% Astro constants
+\newcommand{\msun}{M_{\odot}}
+\newcommand{\lsun}{L_{\odot}}
+\newcommand{\nfrac}[2]{{}^{#1}{\mskip -5mu/\mskip -3mu}_{#2}}
+\newcommand{\e}[1]{\times 10^{#1}}
+%
+%
+% Classical mechanics
+%
+%
+% poisson bracket
+\newcommand{\posb}[2]{\left[#1,#2 \right]}
+%
+%
+%
+%\endinput

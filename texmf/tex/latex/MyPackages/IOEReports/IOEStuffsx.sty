@@ -1,0 +1,154 @@
+\ProvidesPackage{IOEStuffsx}
+\usepackage{graphicx}
+\def\stdName{Prakash Gautam}
+\def\stdRoll{068BEX429}
+\def\stdEmail{pranphy@gmail.com}
+\def\stdDate{\today}
+\def\stdSubmittedTo{Department of Electronics and Computer Engineering}
+\def\stdCoverTitle{A\\Lab Report On\\}
+\def\stdTitle{~}
+\def\stdSubject{~}
+\def\stdOBracket{(}
+\def\stdCBracket{)}
+\def\stdRollOBracket{(}
+\def\stdRollCBracket{)}
+
+
+
+
+\newcommand{\MyName}{Prakash Gautam\(068BEX429\)}
+
+\newcommand{\stName}[1]
+{
+	\def\stdName{#1}
+}
+
+\newcommand{\stEmail}[1]
+{
+	\def\stdEmail{#1}
+}
+
+\newcommand{\stRoll}[1]
+{
+	\def\stdRoll{#1}
+	\def\stdRollOBracket{(}
+	\def\stdRollCBracket{)}
+}
+
+\newcommand{\stTitle}[2][~]
+{
+	\def\stdSubject{#1}
+	
+	\def\stdTitle{#2}
+}
+
+\newcommand{\stSubmittedTo}[1]
+{
+	\def\stdSubmittedTo{#1}
+}
+
+\newcommand{\stCoverTitle}[1]
+{
+	
+	\def\stdOBracket{~}
+	\def\stdCBracket{~}
+	\def\stdCoverTitle{#1}
+}
+
+\newcommand{\stDate}[1]
+{
+	\def\stdDate{#1}
+}
+
+\newcommand{\stAuthor}{
+	\author
+	{
+		{
+			\stdName{\small $~^{\#1}$}
+		}\\
+		\vspace{1.6mm}
+		\fontsize{10}{10}\selectfont\itshape
+		%\begin{tiny}
+		%
+		$^{\#}$Tribhuvan University,Institute of Engineering,\\
+		Department of Electronics and Commputer Engineering,\\
+		Pulchowk Campus, \\
+		Pulchowk Lalitpur, Nepal.\\
+		%\end{tiny}
+		%
+		\fontsize{9}{9}\selectfont\ttfamily\upshape
+		$^{1}$\,\stdEmail\\
+		\fontsize{10}{10}\selectfont\rmfamily\itshape
+	}
+}
+
+\newcommand{\stConfTitle}{%
+	\title{\stdTitle}%
+	\author{\stdName}%
+	\address{Tribhuvan University, IOE, Pulchowk Campus, Lalitpur Nepal}%
+	\ead{\stdEmail}
+}
+
+\newcommand{\stMakeTitle}{%
+	\title{\stdTitle}%
+	\stAuthor%
+	\maketitle%
+}
+
+
+\newcommand{\stCoverPage}{
+\begin{titlepage}
+\fontsize{12}{12}
+\begin{center}
+	\begin{Huge}
+		{} \vspace*{7mm}
+		Tribhuvan University\\%
+		\includegraphics[scale=1.1]{logo.png}\\%
+		Institute of Engineering\\% 
+		Pulchowk Campus\\ \vfill%
+	\end{Huge}%
+	\textbf{%
+		\stdCoverTitle%
+		\stdSubject\\%
+		(\stdTitle)\\ \vfill}%
+		
+	\textbf{Submitted to:}\\%
+		\stdSubmittedTo\\ \vfill
+	\textbf{Submitted by:}\\%
+			\stdName\stdRollOBracket\stdRoll\stdRollCBracket\\
+	\vfill%
+	\stdDate% 
+	\pagebreak
+\end{center}
+\fontsize{10}{10}
+\end{titlepage}
+}
+
+
+\newcommand{\stGeneralCoverPage}{
+\begin{titlepage}
+\fontsize{12}{12}
+\begin{center}
+	\begin{Huge}
+		{} \vspace*{7mm}
+		Tribhuvan University\\%
+		\includegraphics[scale=1.1]{logo.png}\\%
+		Institute of Engineering\\% 
+		Pulchowk Campus\\ \vfill%
+	\end{Huge}%
+	\textbf{
+		\stdCoverTitle\\
+		\stdSubject\\%
+		\stdOBracket\stdTitle\stdCBracket\\ \vfill}%
+		
+	\textbf{Submitted to:}\\%
+		\stdSubmittedTo\\ \vfill
+	\textbf{Submitted by:}\\%
+			\stdName(\stdRoll)\\
+	\vfill%
+	\stdDate% 
+	\pagebreak
+\end{center}
+\fontsize{10}{10}
+\end{titlepage}
+}
