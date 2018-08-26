@@ -1,0 +1,76 @@
+\tikzfeynmanset{
+  fermion/.style={
+    line width=0.8pt,
+    /tikz/postaction={
+      /tikz/decoration={
+        markings,
+        mark=at position 0.5 with {
+          \node[
+            transform shape,
+            xshift=-0.9mm,
+            fill,
+            dart tail angle=120,
+            inner sep=0.9pt,
+            draw=none,
+            dart
+          ] { };
+        },
+      },
+      /tikz/decorate=true,
+    },
+  },
+  fermion2/.style={
+    /tikz/postaction={
+      /tikz/decoration={
+        markings,
+        mark=at position 0.5 with {
+          \arrow{>[length=6pt, width=5pt]};
+        },
+      },
+      /tikz/decorate=true,
+    },
+  },
+  boson/.style={
+      decorate,
+      %thick,
+      line width=0.8pt,
+      %draw=black,
+      decoration={
+        coil,
+        aspect=0,
+        amplitude=2pt, 
+        segment length=5pt,
+      },
+  },
+  %
+  photon/.style={
+      decorate,
+      decoration={snake},
+      draw=red
+  },
+  particle/.style={
+      draw=blue,
+      postaction={decorate},
+      decoration={
+          markings,
+          mark=at position .5 with {\arrow[draw=blue]{>}}
+      }
+  },
+  antiparticle/.style={
+      draw=blue, postaction={decorate},
+      decoration={
+          markings,mark=at position .5 with {\arrow[draw=blue]{<}}
+      }
+  },
+  % Now begin gluon
+  % All decoration for gluons now
+  gluon/.style={
+      decorate,
+      draw=black,
+      decoration={
+          coil,
+          amplitude=4pt,
+          segment length=5pt
+      },
+  },
+}
