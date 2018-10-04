@@ -1,8 +1,111 @@
 priority -50
-
 extends texmath
-
 global !p
+
+_tokenize = re.compile(r'[\\$()\[\]]').finditer
+_math_environment_pairs = {
+    # keys are opening characters, values matching closing characters
+    # each is a tuple of char (string), escaped (boolean)
+    ('$', False): ('$', False),
+    ('(', True): (')', True),
+    ('[', True): (']', True),
+}
+
+# This function comes from https://goo.gl/o6hss5
+def is_maths(s, pos):
+    """Determines if pos in s is within a LaTeX maths environment"""
+    opener = None  # (opener_char, escaped) if within $...$ or \(...\)
+    opener_pos = None  # position of last opener character
+    prev_pos = -1  # position of preceding token
+    escaped = False  # True if the most recent token was an escaping backslash
+
+    for token in _tokenize(s):
+        token_pos = token.start()
+        char = token[0]
+
+        if opener is None and token_pos > pos:
+            # we are past the desired position, it'll never be within a
+            # maths environment.
+            return False
+
+        # if there was more text between the current token and the last
+        # backslash, then that backslash applied to something else.
+        if escaped and token_pos > prev_pos + 1:
+            escaped = False
+
+        if char == '\\':
+            # toggle the escaped flag; doubled escapes negate
+            escaped = not escaped
+        elif opener is not None:
+            if (char, escaped) == _math_environment_pairs[opener]:
+                if opener_pos < pos < token_pos:
+                    # position is after the opener, before the closer
+                    return True
+            # Could potentially be malformed LaTeX, if (char, escaped)
+            # is itself not a key in _math_environment_pairs. Ignored
+            # here.
+            opener = None
+        elif (char, escaped) in _math_environment_pairs:
+            opener = (char, escaped)
+            opener_pos = token_pos
+
+        prev_pos = token_pos
+
+    return False
+
+
+def check_math(document,lineno,col=0):
+	if is_maths(document[lineno],col):
+		return True
+	math_envs = ['equation','align']
+	false_envs = ['table','tabular','figure','enumerate','description']
+	true_start = [r'\[',r'$$',r'\(']
+	false_start = [r'\item',r'\section',r'\subsection',r'\chapter']
+	for lin in range(lineno,0,-1):
+		cur_tex = document[lin].strip()
+		beg_found = end_found = False
+		for env in math_envs:
+			tex_env = r'\begin{'+env+r'}'
+			tex_envs = r'\begin{'+env+r'*}'
+			if cur_tex.startswith(tex_env) or cur_tex.startswith(tex_envs):
+				return True
+			tex_env_end = r'\end{'+env+r'}'
+			tex_envs_end = r'\end{'+env+r'*}'
+			if cur_tex.startswith(tex_env_end) or cur_tex.startswith(tex_envs_end):
+				return False 
+		for env in false_envs:
+			tex_env = r'\begin{'+env+r'}'
+			tex_envs = r'\begin{'+env+r'*}'
+			if cur_tex.startswith(tex_env) or cur_tex.startswith(tex_envs):
+				return False 
+			tex_env = r'\end{'+env+r'}'
+			tex_envs = r'\end{'+env+r'*}'
+			if cur_tex.startswith(tex_env) or cur_tex.startswith(tex_envs):
+				return False 
+		for tru in true_start:
+			if cur_tex.startswith(tru):
+				return True
+		for fal in false_start:
+			if cur_tex.startswith(fal):
+				return False
+	return False
+
+def greek_symbols():
+	sym = ['psi','phi']
+	return sym
+
+def math_funcs():
+	return ['sin','cos','tan','csc','cot','ket','bra','bar','hat']
+
+def greek_process(letter):
+	greek = ['theta','beta','gamma','sigma','delta','pi','psi','lambda','phi','xi','tau','rho']
+	if not letter.startswith('var') and letter.startswith('v'):
+		letter = letter.replace('v','var')
+	if letter in greek in greek or letter.replace('var','') in greek:
+		return '\\'+letter
+	else:
+		return letter
+
 
 def create_matrix(snip):
 	org = snip.buffer[snip.line]
@@ -71,26 +174,25 @@ def add_row(snip):
 
 	snip.expand_anon(final_str)
 
-
-def mathcal(snip): 
-	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
-	curline = snip.buffer[snip.line]
-	pos = curline.find('cal')
-	letter = (curline[:pos])[-1]
-	to = snip.column
-	newstr = curline[:pos]+r"\mathcal{P}"+curline[to:]
-
-	#snip.buffer[snip.line] = ''
-
-	final_str = old_spacing 
-	final_str += r"\mathcal{"+letter+r"}$1"
-	final_str = newstr
-
-	snip.rv = 'appe'
-	#snip.expand_anon(final_str)
-
-
 endglobal
+
+
+priority 0
+
+# General latex stuffs
+#==================================================
+snippet template "Basic template" b
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{amsmath, amssymb}
+
+\begin{document}
+	$0
+\end{document}
+endsnippet
 
 snippet "b(egin)?" "begin{} / end{}" br
 \begin{${1:something}}
@@ -114,10 +216,6 @@ endsnippet
 
 pre_expand "add_row(snip)"
 snippet "tr(\d+)" "Add table row of dimension ..." r
-endsnippet
-
-pre_expand "mathcal(snip)" 
-snippet "cal(\w)" "Insert mathcal letters " ri
 endsnippet
 
 
@@ -169,85 +267,87 @@ $0
 endsnippet
 
 snippet cha "Chapter" b
-\chapter{${1:chapter name}}%
-\label{cha:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-$0
+\chapter{${1:chapter name}} \label{cha:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	$0
 endsnippet
 
 snippet sec "Section" b
-\section{${1:section name}}%
-\label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-$0
+\section{${1:section name}} \label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	$0
 endsnippet
 
 snippet sec* "Section" b
-\section*{${1:section name}}%
-\label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-${0}
+\section*{${1:section name}} \label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	${0}
 endsnippet
 
 
 snippet sub "Subsection" b
-\subsection{${1:subsection name}}%
-\label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-$0
+\subsection{${1:subsection name}} \label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	$0
 endsnippet
 
 snippet sub* "Subsection" b
-\subsection*{${1:subsection name}}%
-\label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-${0}
+\subsection*{${1:subsection name}} \label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	${0}
 endsnippet
 
 snippet ssub "Subsubsection" b
-\subsubsection{${1:subsubsection name}}%
-\label{ssub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-$0
+\subsubsection{${1:subsubsection name}} \label{ssub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	$0
 endsnippet
 
 snippet ssub* "Subsubsection" b
-\subsubsection*{${1:subsubsection name}}%
-\label{ssub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-${0}
+\subsubsection*{${1:subsubsection name}} \label{ssub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	${0}
 endsnippet
 
 snippet par "Paragraph" b
-\paragraph{${1:paragraph name}}%
-\label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-$0
+\paragraph{${1:paragraph name}} \label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	$0
 endsnippet
 
 snippet subp "Subparagraph" b
-\subparagraph{${1:subparagraph name}}%
-\label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-
-$0
+\subparagraph{${1:subparagraph name}} \label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+	$0
 endsnippet
 
-snippet ni "Non-indented paragraph" b
-\noindent
-$0
-endsnippet
 
 snippet pac "Package" b
 \usepackage`!p snip.rv='[' if t[1] else ""`${1:options}`!p snip.rv = ']' if t[1] else ""`{${2:package}}$0
 endsnippet
 
-snippet lp "Long parenthesis" i
-\left( ${1:${VISUAL:contents}}\right)$0
+
+snippet align "align " "not check_math(snip.buffer,snip.line,snip.column)" eb
+\begin{align} \label{eq:${1:only}}
+	$2 
+\end{align}
+$0
 endsnippet
 
-snippet lb "Long braces" i
-\left\lbrace ${1:${VISUAL:contents}}\right\rbrace$0
+snippet soln " align asterisk " b
+\begin{solution}
+	$1
+\end{solution}
+$0
 endsnippet
+
+
+snippet alins " align asterisk " bA
+\begin{align*}
+	$1
+\end{align*}
+$0
+endsnippet
+
+
+snippet cases "cases from ams math" b
+\begin{cases}
+	$1	& \text{ if } ${2: x \leq 0} \\\\
+	$3	& \text{ if } ${4: \text{otherwise}}
+\end{cases}
+endsnippet
+
 
 snippet "mint(ed)?( (\S+))?" "Minted code typeset" br
 \begin{minted}{${1:`!p
@@ -259,140 +359,23 @@ endsnippet
 ###################################################
 ############# Praksh Snippet start here ###########
 ###################################################
-snippet frk "fraction " iA
-\frac{$1}{$2} 
+
+snippet "([0-9]+)e(-?)([0-9]+) " "Comment" "not check_math(snip.buffer,snip.line,snip.column)" eriA
+`!p
+base = match.group(1)
+sign = match.group(2)
+index = match.group(3)
+snip.rv = r'$'+base+r'\times 10^{'+sign+index+r'}$'` 
 endsnippet
 
-snippet bra "bra in Diract notation" i
-\bra{$1} 
+snippet "([0-9]+)e(-?)([0-9]+) " "Comment" "check_math(snip.buffer,snip.line,snip.column)" eriA
+`!p
+base = match.group(1)
+sign = match.group(2)
+index = match.group(3)
+snip.rv = base+r'\times 10^{'+sign+index+r'}'` 
 endsnippet
 
-snippet ket "ket in Dirac notation" i
-\ket{$1} 
-endsnippet 
-
-snippet ip "inner product" i
-\ip{$1}{$2}
-endsnippet
-
-snippet imag "imaginary part of" i
-\text{Im}
-endsnippet
-
-
-snippet comm "commutator" i
-\comm{$1}{$2}
-endsnippet
-
-snippet mel "matrix element " i
-\mel{$1}{$2}{$3}$0  
-endsnippet
-
-snippet vec "vector " i
-\vec{$1}
-endsnippet
-
-snippet dot "dot over symbol" i 
-\dot{$1}
-endsnippet
-
-snippet pdv "partial derivative " iA
-\pdv{$1}{$2} 
-endsnippet
-
-
-
-snippet dv "derivative " i
-\dv{$1}{$2} 
-endsnippet
-
-snippet dv2 "second derivative " i
-\dv[2]{$1}{$2} 
-endsnippet
-
-
-
-
-snippet pdv2 " second partial derivative " i
-\pdv[${1:2}]{$2}{$3} 
-endsnippet	
-
-snippet lpcn "laplacian " i
-\pdv[2]{$1}{${2:x}} + \pdv[2]{$1}{${3:y}} 
-endsnippet
-
-snippet cases "cases from ams math" b
-\begin{cases}
-	$1	& \text{ if } ${2: x \leq 0} \\\\
-	$3	& \text{ if } ${4: x \geq 0}
-\end{cases}
-endsnippet
-
-snippet align "align " b
-\begin{align} \label{eq:${1:only}}
-	$2 
-\end{align}
-$0
-endsnippet
-
-
-snippet alins " align asterisk " b
-\begin{align*}
-	$1
-\end{align*}
-$0
-endsnippet
-
-
-snippet intl "integrate with limits " i
-\int\limits_{${1:0}}^{${2:\infty}} 
-endsnippet
-
-snippet inff " integrate from -infty to infty " i
-\int\limits_{-\infty}^{\infty} 
-endsnippet
-
-snippet inffr "integrate from + infty to - infty " i
-\int\limits_{\infty}^{-\infty} 
-endsnippet
-
-
-snippet info "integrate from -infty to zero " i
-\int\limits_{-\infty}^{0} 
-endsnippet
-
-snippet inof "interate fom zero to infty" i
-\int\limits_{0}^{\infty} 
-endsnippet
-
-snippet ((
-\left($1 \right) 
-endsnippet
-
-snippet {{
-\left\lbrace $1 \right\rbrace 
-endsnippet
-
-snippet [[ "double bracket" iA
-\left[ $1 \right] 
-endsnippet
-
-snippet bar "bar over symbol " i
-\bar{$1}
-endsnippet
-
-
-snippet exp
-e^{$1} 
-endsnippet 
-
-snippet sqrt
-\sqrt{$1} 
-endsnippet
-
-snippet txt
-\text{$1} 
-endsnippet
 
 snippet ( "parenthesis ste " iA
 ($1)
@@ -402,22 +385,408 @@ snippet { "parenthesis ste " iA
 {$1}
 endsnippet
 
-
-snippet $ " inline math " iA
+snippet $ " inline math "  "not check_math(snip.buffer,snip.line,snip.column)" eiA
 $$1$
 endsnippet
 
-snippet posb "poisson bracket " i
+snippet " "double quote "  "not check_math(snip.buffer,snip.line,snip.column)" eiA
+\`\`$1"
+endsnippet
+
+
+
+#==================================================
+#================= Non Math Stuffs ================
+#==================================================
+
+snippet pi "pi in regular  mode" "not check_math(snip.buffer,snip.line,snip.column)" ewA
+$\pi$
+endsnippet
+
+
+#==================================================
+#============== Common Math Stuffs ================
+#==================================================
+
+snippet intl "integrate with limits " "check_math(snip.buffer,snip.line,snip.column)" eiA
+
+endsnippet
+
+snippet inff " integrate from -infty to infty " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\int\limits_{-\infty}^{\infty} 
+endsnippet
+
+snippet inrff "integrate from + infty to - infty " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\int\limits_{\infty}^{-\infty} 
+endsnippet
+
+snippet info "integrate from -infty to zero " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\int\limits_{-\infty}^{0} 
+endsnippet
+
+snippet inof "interate fom zero to infty" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\int\limits_{0}^{\infty} 
+endsnippet
+
+snippet inop "interate fom zero to pi" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\int\limits_{0}^{\pi} 
+endsnippet
+
+snippet inpp "interate fom -pi to pi" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\int\limits_{-pi}^{\pi} 
+endsnippet
+
+snippet lr( "left( right)" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\left( ${1:${VISUAL}} \right) $0
+endsnippet
+
+snippet lr| "left| right|" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\left| ${1:${VISUAL}} \right| $0
+endsnippet
+
+snippet lr{ "left\{ right\}" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\left\\{ ${1:${VISUAL}} \right\\} $0
+endsnippet
+
+snippet lr[ "left[ right]" i
+\left[ ${1:${VISUAL}} \right] $0
+endsnippet
+
+snippet lra "leftangle rightangle" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\left<${1:${VISUAL}} \right>$0
+endsnippet
+
+snippet frk "Fraction " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\frac{$1}{$2}
+endsnippet
+
+
+snippet "([\w\d\\\}\{\)\(_\^,+-]+)/" "General Fraction " "check_math(snip.buffer,snip.line,snip.column)" erwA
+\\frac{`!p snip.rv=match.group(1)`}{$1}$0
+endsnippet
+snippet vec "vector " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\vec{$1}
+endsnippet
+
+
+snippet vop "vector " "check_math(snip.buffer,snip.line,snip.column)" ei
+\vecop{$1}
+endsnippet
+
+
+snippet dot "dot over symbol" "check_math(snip.buffer,snip.line,snip.column)" ei 
+\dot{$1}
+endsnippet
+
+#==================================================
+#========== Text Math Func & Stuffs ===============
+#==================================================
+
+snippet trc "Trace" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\mathrm{Tr}
+endsnippet
+
+snippet img "imaginary part of" "check_math(snip.buffer,snip.line,snip.column)" ei
+\mathrm{Im}
+endsnippet
+
+#==================================================
+#=========== Script Index and Stuffs ==============
+#==================================================
+
+snippet sts "Sub text" "check_math(snip.buffer,snip.line,snip.column)" eiA
+_\text{$1}
+endsnippet
+
+snippet ^^ "quick power " "check_math(snip.buffer,snip.line,snip.column)" eiA
+^{$1}
+endsnippet
+
+snippet __ "quick sub " "check_math(snip.buffer,snip.line,snip.column)" eiA
+_{$1}
+endsnippet
+
+snippet '([A-DF-Za-df-z]){1}(\d)' "auto subscript" "check_math(snip.buffer,snip.line,snip.column)" ewrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+snippet '([A-Za-z]){1}_(\d\d)' "auto subscript2" "check_math(snip.buffer,snip.line,snip.column)" ewrA
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
+endsnippet
+
+snippet sr "square " "check_math(snip.buffer,snip.line,snip.column)" eiA
+^{2}
+endsnippet
+
+snippet cb "Cube of the " "check_math(snip.buffer,snip.line,snip.column)" eiA
+^{3}
+endsnippet
+
+
+snippet sb "Subscript " "check_math(snip.buffer,snip.line,snip.column)" eiA
+_{$1}
+endsnippet
+
+snippet td "Power " "check_math(snip.buffer,snip.line,snip.column)" eiA
+^{$1}$0
+endsnippet
+
+snippet inv "inverse" "check_math(snip.buffer,snip.line,snip.column)" eiA
+^{-1}
+endsnippet
+
+priority 10
+snippet "idx([0-9a-zA-Z])" "index superscript " "check_math(snip.buffer,snip.line,snip.column)" erA
+^{(`!p snip.rv = match.group(1)`)}
+endsnippet
+
+priority 0
+snippet rij "mrij" "check_math(snip.buffer,snip.line,snip.column)" ei
+(${1:x}_${2:n})_{${3:$2}\\in${4:\\N}}$0
+endsnippet
+
+snippet star "star" "check_math(snip.buffer,snip.line,snip.column)" eiA
+^\star 
+endsnippet
+
+snippet dag "dagger" "check_math(snip.buffer,snip.line,snip.column)" eiA
+^\dagger
+endsnippet
+
+
+
+#==================================================
+#=========== Operator     Stuffs ==================
+#==================================================
+
+
+snippet iff "iff" "check_math(snip.buffer,snip.line,snip.column)" eAi
+\iff
+endsnippet
+
+snippet << "<<" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\ll
+endsnippet
+
+snippet >> ">>" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\gg
+endsnippet
+
+snippet -> "implies" "check_math(snip.buffer,snip.line,snip.column)" eAi
+\rightarrow
+endsnippet
+snippet => "implies" "check_math(snip.buffer,snip.line,snip.column)" eAi
+\implies
+endsnippet
+
+snippet ~ "~" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\sim 
+endsnippet
+
+snippet <= "leq" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\leq 
+endsnippet
+
+
+snippet == "equals" "check_math(snip.buffer,snip.line,snip.column)" eiA
+&=$1\\\\
+endsnippet
+
+snippet != "equals" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\neq 
+endsnippet
+
+snippet >= "geq" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\ge 
+endsnippet
+
+
+#==================================================
+#=========== Trigonometry and Stuffs ==============
+#==================================================
+
+
+# One parameter family of three letter function
+snippet "([a-z]{3})(\w+) " "Sine functions" "check_math(snip.buffer,snip.line,snip.column)" erA
+`!p import os
+key = match.group(1)
+mtch = match.group(2)
+if key in math_funcs():
+	rval = '\\'+key+'{'+greek_process(mtch) + '}' 
+else:
+	rval = '{}{} '.format(key,mtch)
+snip.rv = rval`
+endsnippet
+
+snippet ln "log natural " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\ln 
+endsnippet
+
+snippet log "log base 10" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\log
+endsnippet
+
+#==================================================
+#=========== Calculus and Stuffs ==================
+#==================================================
+
+
+snippet ddx "d/dx" "check_math(snip.buffer,snip.line,snip.column)" ewA
+\dv{${1:}}{x} $0
+endsnippet
+
+snippet ddt "d/dt" "check_math(snip.buffer,snip.line,snip.column)" ewA
+\frac{d${1:}}{dt} $0
+endsnippet
+
+snippet part "d/dx" "check_math(snip.buffer,snip.line,snip.column)" ew
+\frac{\partial ${1:}}{\partial ${2:x}} $0
+endsnippet
+
+snippet pd "partial derivative " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\pdv{$1}{$2} 
+endsnippet
+
+snippet dv "derivative " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\dv{$1}{$2} 
+endsnippet
+
+snippet dvt "second derivative " "check_math(snip.buffer,snip.line,snip.column)" ei
+\dv[2]{$1}{$2} 
+endsnippet
+
+snippet pdvt " second partial derivative " "check_math(snip.buffer,snip.line,snip.column)" ei
+\pdv[${1:2}]{$2}{$3} 
+endsnippet	
+
+snippet lpcn "laplacian " "check_math(snip.buffer,snip.line,snip.column)" ei
+\pdv[2]{$1}{${2:x}} + \pdv[2]{$1}{${3:y}} 
+endsnippet
+
+#==================================================
+#=========== Common Physics Stuffs ================
+#==================================================
+
+snippet posb "poisson bracket " "check_math(snip.buffer,snip.line,snip.column)" ei
 \posb{$1}{$2} 
 endsnippet
 
-snippet suml "sum with limits " i
+snippet ip "inner product" "check_math(snip.buffer,snip.line,snip.column)" ei
+\ip{$1}{${2:$1}}
+endsnippet
+
+snippet op "inner product" "check_math(snip.buffer,snip.line,snip.column)" ei
+\op{$1}{${2:$1}}
+endsnippet
+
+
+snippet mel "matrix element " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\mel{$1}{$2}{${3:$1}}$0  
+endsnippet
+
+
+snippet bra "bra QM" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\bra{$1}$0  
+endsnippet
+
+
+snippet ket "ket QM" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\ket{$1}$0
+endsnippet
+
+snippet comm "commutator" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\comm{$1}{$2}
+endsnippet
+
+snippet acom "anti commutator" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\acomm{$1}{$2}
+endsnippet
+
+snippet bar "bar over symbol " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\bar{$1}
+endsnippet
+
+snippet set "set " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\\{$1\\}$0
+endsnippet
+
+snippet exv "expectation value" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\expval{$1}
+endsnippet 
+
+snippet sqrt "square root " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\sqrt{$1} 
+endsnippet
+
+snippet txt "text " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\text{$1}
+endsnippet
+
+snippet suml "sum with limits " "check_math(snip.buffer,snip.line,snip.column)" eiA
 \sum_{${1:n=1}}^{$2}
 endsnippet
 
-snippet sfn "sfn" i
-${2:S}\left(\left\lbrace ${1:p_i }\right\rbrace \right)
+snippet sumn "Sum over n" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\sum_n
+endsnippet
+
+snippet "mcl(\w)" "mathcal" "check_math(snip.buffer,snip.line,snip.column)" erA
+\mathcal{`!p snip.rv = match.group(1).upper() `}
+endsnippet
+
+snippet "mbb(\w)" "mathbb" "check_math(snip.buffer,snip.line,snip.column)" erA
+\mathbb{`!p snip.rv = match.group(1).upper() `}
+endsnippet
+
+#==================================================
+#=========== Greek Symbols & Stuffs ===============
+#==================================================
+
+snippet oo "infinity " "check_math(snip.buffer,snip.line,snip.column)" eiA
+\infty
+endsnippet
+
+
+snippet DD "delta" "check_math(snip.buffer,snip.line,snip.column)" eiA
+\Delta 
+endsnippet
+
+#==================================================
+#=========== Experimental Stuffs ==================
+#==================================================
+
+snippet '^.*\)/' "() frac" "check_math(snip.buffer,snip.line,snip.column)" ewrA
+`!p
+stripped = match.string[:-1]
+depth = 0
+i = len(stripped) - 1
+while True:
+	if stripped[i] == ')': depth += 1
+	if stripped[i] == '(': depth -= 1
+	if depth == 0: break;
+	i-=1
+snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
+`{$1}$0
+endsnippet
+
+
+
+snippet sympy "sympyblock " "check_math(snip.buffer,snip.line,snip.column)" ew
+sympy $1 sympy$0
+endsnippet
+
+priority 10000
+snippet 'sympy(.*)sympy' "sympy" "check_math(snip.buffer,snip.line,snip.column)" ewr
+`!p
+from sympy import *
+x, y, z, t = symbols('x y z t')
+k, m, n = symbols('k m n', integer=True)
+f, g, h = symbols('f g h', cls=Function)
+init_printing()
+snip.rv = eval('latex(' + match.group(1).replace('\\', '').replace('^', '**').replace('{', '(').replace('}', ')') + ')')
+`
 endsnippet
 
 
 # vim:ft=snippets:
+
