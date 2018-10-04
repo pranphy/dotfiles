@@ -12,7 +12,6 @@ esac
 # See bash(1) for more options
 HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
-PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
@@ -129,6 +128,7 @@ export PATH="$ANT_HOME/bin:$PATH"
 
 #Set vi mode in terminal
 set -o vi
+bind '"jk":vi-movement-mode'
 
 #XDG Env variables 
 export XDG_CONFIG_HOME=$HOME/.config
@@ -137,19 +137,19 @@ export XDG_CONFIG_HOME=$HOME/.config
 export JAVA_HOME="/opt/jdk1.8.0_121"
 export PATH="$JAVA_HOME/bin:$PATH"
 
-export GIT_FTP_HOME="/home/pranphy/MyRoot/bin/git-ftp"
-export PATH="$PATH:$GIT_FTP_HOME"
-
 # AddMyRoot bin alias
-export PATH="$PATH:$HOME/MyRoot/bin"
+export PATH="$HOME/MyRoot/usr/bin:$PATH"
+export LD_LIBRARY_PATH=$HOME/MyRoot/usr/lib:$LD_LIBRARY_PATH
+# export my functions
+source $HOME/MyRoot/usr/bin/Functions
 
 #ANDROID_HOME
-export ANDROID_TOOLS="/opt/android-sdk-linux"
-export PATH="$PATH:$ANDROID_TOOLS/tools"
+export ANDROID_HOME="/opt/android-sdk"
+export PATH="$PATH:$ANDROID_HOME/tools"
 
 #ANDROID_HOME
-export ANDROID_PLATFORM_TOOLS="$ANDROID_TOOLS/platform-tools"
-export PATH="$PATH:$ANDROID_PLATFORM_TOOLS"
+export ANDROID_PLATFORM_TOOLS="$ANDROID_HOME/platform-tools"
+export PATH="$ANDROID_PLATFORM_TOOLS:$PATH"
 
 #RCLONE HOME
 export RCLONE_HOME="/opt/rclone"
@@ -159,15 +159,22 @@ export PATH="$PATH:$RCLONE_HOME"
 export ZOTERO_HOME="/opt/Zotero"
 export PATH="$PATH:$ZOTERO_HOME"
 
+#mupdf home
+export MUPDF_HOME="/opt/mupdf"
+export PATH="$PATH:$MUPDF_HOME/bin"
+
 export ROOTSYS=/opt/ROOT
 export PATH=$PATH:$ROOTSYS/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTSYS/lib
 
 export PYTHONPATH=$PYTHONPATH:$ROOTSYS/lib
 
-
 #GEANT and CLHEP
 export CLHEP_BASE_DIR="/opt/CLHEP"
 export G4INSTALL="/opt/GEANT4"
 export PATH="$PATH:$CLHEP_BASE_DIR/bin:$G4INSTALL/bin"
+
+# setup boost, cuz why not
+GCC_INCLUDE_DIR="$HOME/MyRoot/usr/lib/boost_1_68_0:$GCC_INCLUDE_DIR"
+
 

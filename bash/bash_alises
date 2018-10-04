@@ -14,7 +14,7 @@ alias ipython="ipython3"
 alias searchtext="grep -rnw . -e "
 
 #Use newer g++
-alias g++="g++-6"
+alias g++="g++-7"
 
 
 #ok use nvim
@@ -23,10 +23,25 @@ alias vim8="/opt/vim8/bin/vim"
 #alias vim="nvim"
 
 # Carried over confusion from vim
-alias :q="exit()"
+alias :q="exit"
 
 #  Clean tex
-alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz"
+alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist"
+
+# Youtube audio get
+alias ytaudio="youtube-dl --extract-audio --audio-format=mp3 "
+
+
+alias logdate='date +%d-%m-%Y_%H:%M:%S'
+
+alias duse="du -h --max-depth=1"
+
+
+alias expath='cd $(readlink . -e )'
 
 # For my private aliases 
 source ~/.private_aliases
+
+
+
+
