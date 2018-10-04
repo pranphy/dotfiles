@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/home/pranphy/SSFS'
+let g:netrw_dirhist_2='/home/pranphy/SSFS/HistPlot'
+let g:netrw_dirhist_3='/home/pranphy/SLAC/Sabthok/PhaseI'
+let g:netrw_dirhist_4='/home/pranphy/SLAC/Sabthok/PhaseI/VetoPlot'
+let g:netrw_dirhist_5='/home/pranphy/SLAC/Sabthok/PhaseI'
