@@ -1,14 +1,11 @@
 
-"color badwolf 
+color badwolf 
 "
 
-" abbreviations
-iabbrev <buffer> npi n\pi
-iabbrev <buffer> 2pi 2\pi
-
-
 "inoremap <buffer> aln \begin{align*}<esc>o\end{align*}<esc>O
-nnoremap  vte :vsplit ~/.config/nvim/ftplugin/tx_varmapping.vim<cr>
-nnoremap  vtl:source ~/.config/nvim/ftplugin/tx_varmapping.vim<cr>
+nnoremap  tme :split ~/.config/nvim/ftplugin/tex_mappings.vim<cr>
+nnoremap  tml :source ~/.config/nvim/ftplugin/tex_mappings.vim<cr>
+
+inoremap <A-j> <esc>F=i&<esc>A \\<esc>o
 
 
