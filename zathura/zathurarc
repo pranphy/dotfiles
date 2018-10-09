@@ -1,0 +1,11 @@
+# vim: ft=conf
+set selection-clipboard clipboard
+
+set default-bg "#000000"
+set default-fg "#FF0000"
+
+map <C-i> recolor
+
+set recolor true
+
+set window-icon "/home/pranphy/.icons/pdf_circle.svg"
