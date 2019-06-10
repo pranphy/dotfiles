@@ -121,12 +121,13 @@ export PATH="/usr/local/heroku/bin:$PATH"
 #export WXPYTHON2="/opt/wxPython"
 #export WXPHOENIX="/opt/Phoenix"
 #export PYTHONPATH=$WXPHOENIX
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PYTHONPATH/lib:/usr/lib/x86_64-linux-gnu
+#export LD_LIBRARY_PATH=$PYTHONPATH/lib:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
-export ANT_HOME="/opt/ant"
-export PATH="$ANT_HOME/bin:$PATH"
+#export ANT_HOME="/opt/ant"
+#export PATH="$ANT_HOME/bin:$PATH"
 
 #Set vi mode in terminal
+EDITOR=vi
 set -o vi
 bind '"jk":vi-movement-mode'
 
@@ -134,7 +135,8 @@ bind '"jk":vi-movement-mode'
 export XDG_CONFIG_HOME=$HOME/.config
 
 #Setup JAVA
-export JAVA_HOME="/opt/jdk1.8.0_121"
+#export JAVA_HOME="/opt/jdk1.8.0_121"
+export JAVA_HOME=/opt/jdk-12.0.1
 export PATH="$JAVA_HOME/bin:$PATH"
 
 # AddMyRoot bin alias
@@ -145,7 +147,7 @@ source $HOME/MyRoot/usr/bin/Functions
 
 #ANDROID_HOME
 export ANDROID_HOME="/opt/android-sdk"
-export PATH="$PATH:$ANDROID_HOME/tools"
+export PATH="$ANDROID_HOME/tools:$PATH"
 
 #ANDROID_HOME
 export ANDROID_PLATFORM_TOOLS="$ANDROID_HOME/platform-tools"
@@ -153,7 +155,7 @@ export PATH="$ANDROID_PLATFORM_TOOLS:$PATH"
 
 #RCLONE HOME
 export RCLONE_HOME="/opt/rclone"
-export PATH="$PATH:$RCLONE_HOME"
+export PATH="$RCLONE_HOME:$PATH"
 
 #Zotero home
 export ZOTERO_HOME="/opt/Zotero"
@@ -163,18 +165,43 @@ export PATH="$PATH:$ZOTERO_HOME"
 export MUPDF_HOME="/opt/mupdf"
 export PATH="$PATH:$MUPDF_HOME/bin"
 
-export ROOTSYS=/opt/ROOT
-export PATH=$PATH:$ROOTSYS/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTSYS/lib
+#export ROOTSYS=/opt/root614
+export ROOTSYS=/opt/ROOT7
+export PATH=$ROOTSYS/bin:$PATH
+export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
 
-export PYTHONPATH=$PYTHONPATH:$ROOTSYS/lib
+export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
 
 #GEANT and CLHEP
 export CLHEP_BASE_DIR="/opt/CLHEP"
 export G4INSTALL="/opt/GEANT4"
-export PATH="$PATH:$CLHEP_BASE_DIR/bin:$G4INSTALL/bin"
-
+export PATH="$CLHEP_BASE_DIR/bin:$G4INSTALL/bin:$PATH"
+#export BOOST_ROOT=${HOME}/MyRoot/usr
+#export BOOST_LIBRARYDIR=${HOME}/MyRoot/usr/lib
 # setup boost, cuz why not
-GCC_INCLUDE_DIR="$HOME/MyRoot/usr/lib/boost_1_68_0:$GCC_INCLUDE_DIR"
+GCC_INCLUDE_DIR="$HOME/MyRoot/usr/include:$GCC_INCLUDE_DIR"
 
+
+export PATH=${HOME}/node_modules/.bin:${PATH}
+
+# Update latex 2018 
+export PATH="/usr/local/texlive/2018/bin/x86_64-linux:$PATH"
+
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/pranphy/MyRoot/opt/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/pranphy/MyRoot/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/pranphy/MyRoot/opt/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/pranphy/MyRoot/opt/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+conda deactivate
+# <<< conda initialize <<<
 

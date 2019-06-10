@@ -18,15 +18,15 @@ snippet pyprog "begin" iA
 `!p snip.rv = get_header()`
 
 class ${1:MakePlot}(${2:ParentClass}):
-    def __init__(self):
-        pass
+	def __init__(self):
+		pass
 	
-    def ${3:make_plot}(self`!p snip.rv = ',' if t[4] != '' else ''`${4:other_params}):
-        pass
+	def ${3:make_plot}(self`!p snip.rv = ',' if t[4] != '' else ''`${4:other_params}):
+		pass
 
 if __name__ == '__main__':
 	${5:MP = $1}()
-    MP.$3(`!p snip.rv = t[4].strip()`)
+	MP.$3(`!p snip.rv = t[4].strip()`)
 endsnippet
 
 snippet pyhead "head" iA

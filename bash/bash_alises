@@ -7,14 +7,11 @@ alias lh='ls -lh'
 alias lah='ls -lah'
 
 #Its high time now that I use python3 by default
-alias python="python3"
-alias ipython="ipython3"
+#alias ipython="ipython3.7"
+#alias pip="python3.7 -m pip"
 
 #Search all files in a directory for a text
-alias searchtext="grep -rnw . -e "
-
-#Use newer g++
-alias g++="g++-7"
+alias searchtext="grep -rnw . -e"
 
 
 #ok use nvim
@@ -28,20 +25,19 @@ alias :q="exit"
 #  Clean tex
 alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist"
 
+# anaconda stuff
+alias coython="conda activate && ipython && conda deactivate"
+
 # Youtube audio get
-alias ytaudio="youtube-dl --extract-audio --audio-format=mp3 "
+alias ytaudio="youtube-dl --extract-audio --audio-format=mp3"
 
 
 alias logdate='date +%d-%m-%Y_%H:%M:%S'
 
 alias duse="du -h --max-depth=1"
 
-
 alias expath='cd $(readlink . -e )'
 
 # For my private aliases 
 source ~/.private_aliases
-
-
-
 

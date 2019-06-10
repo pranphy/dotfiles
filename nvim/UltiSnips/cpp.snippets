@@ -1,9 +1,73 @@
-snippet mnbl
+global  !p
+import time
+def get_header():
+    date = time.strftime("%Y-%m-%d %H:%M")
+    header = (
+        "// -*- coding: utf-8 -*-\n"
+        "// vim: ai ts=4 sts=4 et sw=4 ft=cpp\n"
+         "\n"
+        "// author : Prakash [प्रकाश]\n"
+    )
+    header += "// date   : {}".format(date)
+    return header
+
+endglobal
+
+snippet main
+`!p snip.rv = get_header()`
+
+#include<iostream>
 
 int main(int* argc, int* argv)
 {
 	$1
+	std::cout<<"Hello World"<<std::endl;
 	return 0;
 }
 $0
 endsnippet
+
+snippet class "begin" iA
+`!p snip.rv = get_header()`
+
+#include<iostream>
+
+class ${1:Class}`!p snip.rv = ' : ' if t[2] != '' else ''` ${2:public}${3:`!p snip.rv='ParentClass' if t[2] !='' else ''`}
+{
+private:
+	int a;
+
+protected:
+	int b;
+
+public:
+	$1();
+	~$1();
+
+	int c;
+};
+endsnippet
+
+snippet cpphead "head" iA
+`!p snip.rv = get_header()`
+endsnippet
+
+snippet [ "bra complete " iA
+[$1]
+endsnippet
+
+snippet ( "paren complete " iA
+($1)
+endsnippet
+
+snippet { "brace complete " iA
+{$1}
+endsnippet
+
+priority 1000 
+snippet { "brace complete " bA
+{
+	$1
+}
+endsnippet
+

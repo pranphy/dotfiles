@@ -1,4 +1,24 @@
 \tikzfeynmanset{
+  anti fermion/.style={
+    line width=0.8pt,
+    /tikz/postaction={
+      /tikz/decoration={
+        markings,
+        mark=at position 0.5 with {
+          \node[
+            transform shape,
+            xshift=-0.9mm,
+            fill,
+            dart tail angle=120,
+            inner sep=0.9pt,
+            draw=none,
+            dart
+          ] { };
+        },
+      },
+      /tikz/decorate=true,
+    },
+  },
   fermion/.style={
     line width=0.8pt,
     /tikz/postaction={

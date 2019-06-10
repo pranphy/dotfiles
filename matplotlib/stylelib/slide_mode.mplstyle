@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=config
+
+# author : Prakash [प्रकाश]
+# date   : 2019-06-09 02:38
+
+axes.titlesize : 22
+axes.labelsize : 20
+xtick.labelsize : 20 
+ytick.labelsize : 20 
+
+lines.linewidth : 4
+lines.color: r
+lines.markersize : 10
+
+# Legend
+legend.fontsize: 16 
+legend.handlelength: 2 
+
+# Latex stuffs
+mathtext.fontset: cm
+mathtext.rm : serif
+
+# vim: ft=config
+

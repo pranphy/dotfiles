@@ -14,6 +14,8 @@
 %    1/29/88    (OP&HWT) Updated for BibTeX version 0.99a, Oren Patashnik;
 %                       THIS `ieeetr' VERSION DOES NOT WORK WITH BIBTEX 0.98i.
 %   12/ 8/10    (OP&HWT) Clarify license.
+%   12/06/19    (Prakash) Updated name list to becomes 3 names et.al if more than 5 authors.
+%                           otherwise keep all four or belwo (as is).
 
 ENTRY
   { address

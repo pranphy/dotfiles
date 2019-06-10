@@ -35,16 +35,19 @@ call vundle#begin()
     Plugin 'tpope/vim-fugitive'
     Plugin 'hsanson/vim-android'
 
-
+    Plugin 'rickhowe/diffchar.vim'
 
     " All of the Plugins are to be added before this
 call vundle#end()            " required
-filetype plugin indent on    " required
 "Vundle bro, thanks for the job.
+
+filetype plugin indent on    " required
+syntax on
+
 
 " Monokai has been my favourite for some time now
 " alternatives are always welcome though
-"colorscheme monokai  " kinda sucks for latex
+colorscheme monokai  " kinda sucks for latex
 
 
 "Setting tab and indentation stuffs
@@ -52,7 +55,6 @@ set ts=4
 set sw=4
 set expandtab
 set cindent
-syntax on
 
 " To make modelines in file work
 set modeline
@@ -61,7 +63,7 @@ set modelines=5
 "To make smart wrap
 set nowrap
 set breakindent
-set clipboard=unnamedplus
+set clipboard+=unnamedplus
 
 
 "The default right and down split
@@ -82,7 +84,7 @@ vnoremap > >gv
 "Terminal Navigations
 "The esc to go to normal mode
 if has ('nvim')
-    let g:python3_host_prog = '/usr/local/bin/python3.7'
+    let g:python3_host_prog = '/usr/bin/python3'
     tnoremap jk <C-\><C-n>
     tnoremap jK <C-\><C-n>
     tnoremap <A-h> <C-\><C-n><C-w>h
@@ -128,6 +130,7 @@ set fileformats=unix,dos
 "let g:loaded_youcompleteme = 1
 let g:ycm_global_ycm_extra_conf='~/.config/nvim/ycm/ycm_extra_conf.py'
 let g:ycm_key_list_select_completion = ["jj","<down>"]
+let g:ycm_confirm_extra_conf=0
 let g:cpp_class_scope_highlight=1
 
 " YCM Support for latex family language
@@ -141,6 +144,15 @@ let g:ycm_register_as_syntastic_checker=1
 
 " Vimtex configuration
 let g:vimtex_view_method = 'zathura'
+let g:vimtex_syntax_enabled = 0
+let g:vimtex_matchparen_enabled=0
+"""let g:matchup_override_vimtex=1
+"let g:matchup_matchparen_deferred=1
+let vimtex_fild_enabled=1
+
+" Supertab configuration
+let g:SuperTabDefaultCompletionType = 'jj'
+
 
 
 " Now make ulti snippet work
@@ -152,7 +164,6 @@ let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 
 "inoremap <space><tab> <c-j>
 "
-"let g:UltiSnipsSnippetDirectories=["~/.config/nvim/UltiSnips","UltiSnips"]
 "
 ":UltiSnipsEdit to split vertically.
  let g:UltiSnipsEditSplit="vertical"
@@ -172,19 +183,34 @@ nnoremap <A-b> <C-w>-
 nnoremap <A-m> <C-w>>
 nnoremap <A-n> <C-w><
 
+nnoremap <tab> gt
+nnoremap <s-tab> gT
+
 
 
 nnoremap <space> :nohl<cr>
-nnoremap ev :vsplit $MYVIMRC<cr>
-nnoremap sv :source $MYVIMRC<cr>
+"nnoremap ev :vsplit $MYVIMRC<cr>
+"nnoremap sv :source $MYVIMRC<cr>
 
 
 " Crazhy thing to do
 " air-line
-"let g:airline_powerline_fonts = 1
-"let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 let g:airline_extensions = []
+"
+"Nepali map
+inoremap वप <esc>
+nmap ष i
+nmap ब a
+nmap द्ध $
+nmap ० 0
+nmap थ y
+nmap म d
+nmap उ p
 
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
+nmap ज h
+nmap व j
+nmap प k
+nmap ि l
+

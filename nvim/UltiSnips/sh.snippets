@@ -1,0 +1,18 @@
+global  !p
+import time
+def get_header():
+    date = time.strftime("%Y-%m-%d %H:%M")
+    header = (
+        "#!/usr/bin/env bash\n"
+        "# -*- coding: utf-8 -*-\n"
+        "# vim: ai ts=4 sts=4 et sw=4 ft=sh\n"
+         "\n"
+        "# author : Prakash [प्रकाश]\n"
+    )
+    header += "# date   : {}".format(date)
+    return header
+endglobal
+
+snippet template "begin" iA
+`!p snip.rv = get_header()`
+endsnippet

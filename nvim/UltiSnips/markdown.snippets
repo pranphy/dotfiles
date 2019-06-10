@@ -2,56 +2,57 @@ priority -50
 extends texmath
 global !p
 
-_tokenize = re.compile(r'[\\$()\[\]]').finditer
+_tokenize = re.compile(r'[\\$]').finditer
 _math_environment_pairs = {
     # keys are opening characters, values matching closing characters
     # each is a tuple of char (string), escaped (boolean)
-    ('$', False): ('$', False),
-    ('(', True): (')', True),
-    ('[', True): (']', True),
+    ('$', False): ('$', False)
 }
 
 # This function comes from https://goo.gl/o6hss5
 def is_maths(s, pos):
-    """Determines if pos in s is within a LaTeX maths environment"""
-    opener = None  # (opener_char, escaped) if within $...$ or \(...\)
-    opener_pos = None  # position of last opener character
-    prev_pos = -1  # position of preceding token
-    escaped = False  # True if the most recent token was an escaping backslash
+	"""Determines if pos in s is within a LaTeX maths environment"""
+	return False
+	opener = None  # (opener_char, escaped) if within $...$ or \(...\)
+	opener_pos = None  # position of last opener character
+	prev_pos = -1  # position of preceding token
+	escaped = False  # True if the most recent token was an escaping backslash
+	
+	#raise Exception(s)
 
-    for token in _tokenize(s):
-        token_pos = token.start()
-        char = token[0]
+	for token in _tokenize(s):
+		token_pos = token.start()
+		char = token[0]
 
-        if opener is None and token_pos > pos:
-            # we are past the desired position, it'll never be within a
-            # maths environment.
-            return False
+		if opener is None and token_pos > pos:
+			# we are past the desired position, it'll never be within a
+			# maths environment.
+			return False
 
-        # if there was more text between the current token and the last
-        # backslash, then that backslash applied to something else.
-        if escaped and token_pos > prev_pos + 1:
-            escaped = False
+		# if there was more text between the current token and the last
+		# backslash, then that backslash applied to something else.
+		if escaped and token_pos > prev_pos + 1:
+			escaped = False
 
-        if char == '\\':
-            # toggle the escaped flag; doubled escapes negate
-            escaped = not escaped
-        elif opener is not None:
-            if (char, escaped) == _math_environment_pairs[opener]:
-                if opener_pos < pos < token_pos:
-                    # position is after the opener, before the closer
-                    return True
-            # Could potentially be malformed LaTeX, if (char, escaped)
-            # is itself not a key in _math_environment_pairs. Ignored
-            # here.
-            opener = None
-        elif (char, escaped) in _math_environment_pairs:
-            opener = (char, escaped)
-            opener_pos = token_pos
+		if char == '\\':
+			# toggle the escaped flag; doubled escapes negate
+			escaped = not escaped
+		elif opener is not None:
+			if (char, escaped) == _math_environment_pairs[opener]:
+				if opener_pos < pos < token_pos:
+					# position is after the opener, before the closer
+					return True
+			# Could potentially be malformed LaTeX, if (char, escaped)
+			# is itself not a key in _math_environment_pairs. Ignored
+			# here.
+			opener = None
+		elif (char, escaped) in _math_environment_pairs:
+			opener = (char, escaped)
+			opener_pos = token_pos
 
-        prev_pos = token_pos
+		prev_pos = token_pos
 
-    return False
+	return False
 
 
 def check_math(document,lineno,col=0):
@@ -59,7 +60,7 @@ def check_math(document,lineno,col=0):
 		return True
 	math_envs = ['equation','align']
 	false_envs = ['table','tabular','figure','enumerate','description']
-	true_start = [r'\[',r'$$',r'\(']
+	true_start = [r'\[',r'\(']
 	false_start = [r'\item',r'\section',r'\subsection',r'\chapter']
 	for lin in range(lineno,0,-1):
 		cur_tex = document[lin].strip()
@@ -98,7 +99,7 @@ def math_funcs():
 	return ['sin','cos','tan','csc','cot','ket','bra','bar','hat']
 
 def greek_process(letter):
-	greek = ['theta','beta','gamma','sigma','delta','pi','psi','lambda','phi','xi','tau','rho']
+	greek = ['theta','beta','gamma','sigma','alpha','delta','pi','psi','lambda','phi','xi','tau','rho']
 	if not letter.startswith('var') and letter.startswith('v'):
 		letter = letter.replace('v','var')
 	if letter in greek in greek or letter.replace('var','') in greek:
@@ -150,44 +151,6 @@ def create_matrix(snip):
 
 	snip.expand_anon(final_str)
 
-def create_table(snip):
-	rows = snip.buffer[snip.line].split('x')[0]
-	cols = snip.buffer[snip.line].split('x')[1]
-
-	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
-	
-	rows = int_val(rows)
-	cols = int_val(cols)
-
-	offset = cols + 1
-	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
-	
-	snip.buffer[snip.line] = ''
-	
-	final_str = old_spacing + "\\begin{tabular}{|" + "|".join(['$' + str(i + 1) for i in range(cols)]) + "|}\n"
-
-	for i in range(rows):
-		final_str += old_spacing + '\t'
-		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
-
-		final_str += " \\\\\\\n"
-
-	final_str += old_spacing + "\\end{tabular}\n$0"
-
-	snip.expand_anon(final_str)
-
-def add_row(snip):
-	row_len = int(''.join(s for s in snip.buffer[snip.line] if s.isdigit()))
-	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
-
-	snip.buffer[snip.line] = ''
-	
-	final_str = old_spacing
-	final_str += " & ".join(['$' + str(j + 1) for j in range(row_len)])
-	final_str += " \\\\\\"
-
-	snip.expand_anon(final_str)
-
 endglobal
 
 
@@ -196,186 +159,45 @@ priority 0
 # General latex stuffs
 #==================================================
 snippet template "Basic template" b
-% Author : Prakash Gautam
-% Date   : `date +%d-%m-%Y` `date +%H:%M:%S`
-%
-\documentclass[a4paper]{article}
+---
+author : Prakash Gautam
+Date   : `date +%d-%m-%Y` `date +%H:%M:%S`
+---
 
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{physics}
-\usepackage{graphicx}
 
-\author{Prakash Gautam}
-
-\begin{document}
-	$0
-\end{document}
+[//]: # (this is some comment)
 endsnippet
 
-snippet "b(egin)?" "begin{} / end{}" br
-\begin{${1:something}}
-	${0:${VISUAL}}
-\end{$1}
-endsnippet
 
-snippet tab "tabular / array environment" b
-\begin{${1:t}${1/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${2:c}}
-$0${2/(?<=.)(c|l|r)|./(?1: & )/g}
-\end{$1${1/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
-endsnippet
-
-pre_expand "create_table(snip)"
-snippet "gentbl(\d+)x(\d+)" "Generate table of *width* by *height*" r  
+snippet // "Comments " bA
+[//]: # (${0:Comment here})
 endsnippet
 
 pre_expand "create_matrix(snip)"
 snippet "([pvb])matrix(\d+)x(\d+)" "Generate a matrix " r
 endsnippet
 
-pre_expand "add_row(snip)"
-snippet "tr(\d+)" "Add table row of dimension ..." r
-endsnippet
 
 
-snippet table "Table environment" b
-\begin{table}[${1:htpb}]
-	\centering
-	\caption{${2:caption}}
-	\label{tab:${3:label}}
-	\begin{${4:t}${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${5:c}}
-	$0${5/(?<=.)(c|l|r)|./(?1: & )/g}
-	\end{$4${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
-\end{table}
-endsnippet
+snippet align "align " "not check_math(snip.buffer,snip.line,snip.column)" ebA
 
-snippet fig "Figure environment" b
-\begin{figure}[${2:htpb}]
-	\centering
-	\includegraphics[width=${3:0.8}\linewidth]{${4:name.ext}}
-	\caption{${4/(\w+)\.\w+/\u$1/}$0}
-	\label{fig:${4/(\w+)\.\w+/$1/}}
-\end{figure}
-endsnippet
-
-snippet twoFig "Two figures" b
-\begin{figure}[t!]
-	\centering
-	\begin{subfigure}[t]{0.5\textwidth}
-		\centering
-		%\includegraphics[width=1.0\linewidth]{\curdir/images/img.jpg}
-		\input{\curdir/images/onbb.tex}
-		\caption{Caption }
-		\label{fig:}
-	\end{subfigure}%
-	~ 
-	\begin{subfigure}[t]{0.5\textwidth}
-		\centering
-		\input{images/inbb.tex}
-		\caption{ }
-		\label{fig:}
-	\end{subfigure}
-	\caption{.}
-\end{figure}
-endsnippet
-
-snippet enum "Enumerate" b
-\begin{enumerate}
-	\item $0
-\end{enumerate}
-endsnippet
-
-snippet item "Itemize" b
-\begin{itemize}
-	\item $0
-\end{itemize}
-endsnippet
-
-snippet desc "Description" b
-\begin{description}
-	\item[$1] $0
-\end{description}
-endsnippet
-
-snippet it "Individual item" b
-\item $0
-endsnippet
-
-snippet part "Part" b
-\part{${1:part name}} \label{prt:${2:${1/(\w+)|\W+/(?1:\L$0\E:_)/ga}}}
-$0
-endsnippet
-
-snippet cha "Chapter" b
-\chapter{${1:chapter name}} \label{cha:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	$0
-endsnippet
-
-snippet sec "Section" b
-\section{${1:section name}} \label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	$0
-endsnippet
-
-snippet sec* "Section" b
-\section*{${1:section name}} \label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	${0}
-endsnippet
-
-
-snippet sub "Subsection" b
-\subsection{${1:subsection name}} \label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	$0
-endsnippet
-
-snippet sub* "Subsection" b
-\subsection*{${1:subsection name}} \label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	${0}
-endsnippet
-
-snippet ssub "Subsubsection" b
-\subsubsection{${1:subsubsection name}} \label{ssub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	$0
-endsnippet
-
-snippet ssub* "Subsubsection" b
-\subsubsection*{${1:subsubsection name}} \label{ssub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	${0}
-endsnippet
-
-snippet par "Paragraph" b
-\paragraph{${1:paragraph name}} \label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	$0
-endsnippet
-
-snippet subp "Subparagraph" b
-\subparagraph{${1:subparagraph name}} \label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-	$0
-endsnippet
-
-
-snippet pac "Package" b
-\usepackage`!p snip.rv='[' if t[1] else ""`${1:options}`!p snip.rv = ']' if t[1] else ""`{${2:package}}$0
-endsnippet
-
-
-snippet align "align " "not check_math(snip.buffer,snip.line,snip.column)" eb
+$$
 \begin{align} \label{eq:${1:only}}
 	$2 
 \end{align}
 $0
-endsnippet
+$$
 
-snippet soln " align asterisk " bA
-\begin{solution}
-	$1
-\end{solution} $0
 endsnippet
 
 
 snippet alins " align asterisk " bA
+
+$$
 \begin{align*}
 	$1
 \end{align*}
+$$
 $0
 endsnippet
 
@@ -387,13 +209,6 @@ snippet cases "cases from ams math" b
 \end{cases}
 endsnippet
 
-
-snippet "mint(ed)?( (\S+))?" "Minted code typeset" br
-\begin{minted}{${1:`!p
-snip.rv = match.group(3) if match.group(2) is not None else "language"`}}
-${2:${VISUAL:code}}
-\end{minted}$0
-endsnippet
 
 ###################################################
 ############# Praksh Snippet start here ###########
@@ -656,12 +471,8 @@ endsnippet
 #endsnippet
 
 
-snippet pm "Plus sign inside math mode" "check_math(snip.buffer,snip.line,snip.column)" ieA
-\pm 
-endsnippet
 
-
-snippet == "equals" "check_math(snip.buffer,snip.line,snip.column)" eiA
+snippet == "align helper " "check_math(snip.buffer,snip.line,snip.column)" eiA
 &=$1\\\\
 endsnippet
 
@@ -845,10 +656,6 @@ snippet "mcl(\w)" "mathcal" "check_math(snip.buffer,snip.line,snip.column)" erA
 \mathcal{`!p snip.rv = match.group(1).upper() `}
 endsnippet
 
-snippet "tld(\w)" "mathcal" "check_math(snip.buffer,snip.line,snip.column)" erA
-\tilde{`!p snip.rv = match.group(1)`}
-endsnippet
-
 snippet "mbb(\w)" "mathbb" "check_math(snip.buffer,snip.line,snip.column)" erA
 \mathbb{`!p snip.rv = match.group(1).upper() `}
 endsnippet
@@ -887,27 +694,19 @@ endsnippet
 #`{$1}$0
 #endsnippet
 
-
-priority -105
-snippet sympy "sympyblock " "check_math(snip.buffer,snip.line,snip.column)" ew
-sympy $1 sympy$0
-endsnippet
-
-priority -100
-snippet 'sympy(.*)sympy' "sympy" "check_math(snip.buffer,snip.line,snip.column)" ewr
-`!p
-from sympy import *
-x, y, z, t = symbols('x y z t')
-k, m, n = symbols('k m n', integer=True)
-f, g, h = symbols('f g h', cls=Function)
-init_printing()
-snip.rv = eval('latex(' + match.group(1).replace('\\', '').replace('^', '**').replace('{', '(').replace('}', ')') + ')')
-`
-endsnippet
-
 #==================================================
 #======= New Experimental Stuffs ==================
 #==================================================
+
+
+snippet "sup" "Superscript " "not check_math(snip.buffer,snip.line,snip.column)" reA
+<sup>$1</sup>
+endsnippet
+
+
+snippet "^^" "Superscript " "not check_math(snip.buffer,snip.line,snip.column)" eA
+<sup>$1</sup>
+endsnippet
 
 snippet "gls(\w+) " "Glossary entry" "not check_math(snip.buffer,snip.line,snip.column)" wreA
 \gls{`!p snip.rv=match.group(1)`} 
@@ -931,152 +730,27 @@ endsnippet
 #$`!p snip.rv=match.group(1)+match.group(2)`$ 
 #endsnippet
 
+
 snippet mm "Inline math mode" "not check_math(snip.buffer,snip.line,snip.column)" weA
 $$1$ 
 endsnippet
+
+snippet uu "Inline math mode" "not check_math(snip.buffer,snip.line,snip.column)" weA
+&ouml;
+endsnippet
+
+snippet "[sS]chrodinger"  "Comment" wrA
+Schr&ouml;dinger
+endsnippet
+
+snippet plink "Link to a post" wiA
+[${1:this post}]({% post_url  ${2:2019-06-21-post-name-without-markdown-extension}  %}).
+endsnippet
+
+
+
 priority 50000
 
-snippet slip "Inline math mode" iA
-$$1$ 
-endsnippet
-
-
-
-
-###################################
-########## Beamer ##################
-
-snippet sltc "Two columns slide" wA
-\begin{frame}{${1:Title}}
-	\begin{columns}
-		\begin{column}{${2:0.49}\textwidth}
-			\begin{itemize}
-				\item $3
-			\end{itemize}
-		\end{column}
-		\begin{column}{`!p snip.rv= '{:.2}'.format(0.98-float(t[2]))`\textwidth}
-			%
-		\end{column}
-	\end{columns}
-\end{frame} 
-$0
-endsnippet
-
-snippet sloc "Two columns slide" wA
-\begin{frame}{${1:Title}}
-	$1
-\end{frame} 
-$0
-endsnippet
-
-
-########################################      SLIDE ##################
-######################################################################
-
-snippet beamp "Create A Beamer Presentation" wA
-\documentclass[aspectratio=169]{beamer}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{hyperref}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{fontspec}
-\usepackage{pgfpages}
-\usepackage{glossaries}
-\usepackage{listings}
-
-%\renewcommand\mathfamilydefault{\rmdefault}
-%\newcommand{\code}[1]{{\tiny\texttt{#1}}}
-
-\setmainfont[Scale=1.1,Script=Devanagari]{Eczar}
-
-\usetheme{CambridgeUS}
-%\usetheme{Drexel}
-\setbeamertemplate{navigation symbols}[default]
-\usefonttheme{serif}
-
-
-%\useinnertheme{rectangles}
-
-%\pgfpagesuselayout{4 on 1}[letterpaper,landscape,border shrink=5mm]
-%\usecolortheme{beaver}
-
-\input{ListingColour.tex}
-\input{DrexelColour.tex}
-\input{DrexelStyle.tex}
-%\usefonttheme{professionalfonts} %mkes math fonts original
-
-\makeglossaries
-\input{EXOAcronyms.tex}
-
-
-\author{Prakash Gautam}
-\title{LightMap Corrections with ${}^{222}\!$Rn alphas.}
-%\date{\today \\ असार १२, २०७४}
-
-%\setbeamercovered{transparent}
-
-\titlegraphic{%
-	%\hfill
-	\includegraphics[height=0.7cm]{Drexel_horizontal_black.pdf}%
-	%\hfill%
-	%\includegraphics[height=1cm]{EXO_logo.pdf}%
-}
-
-\date{\today} 
-\subject{Physics} 
-
-\begin{document}
-
-\begin{frame}
-\titlepage
-\phantom{\gls{tpc} \gls{pdf}}\vspace*{-1cm}
-\end{frame}
-
-%\begin{frame}
-%\frametitle{Outline}
-%\tableofcontents
-%\end{frame}
-
-\section{Lightmap}
-%
-\begin{frame}{Data Selection}
-	\begin{columns}
-		\begin{column}{0.49\textwidth}
-			\begin{itemize}
-				\item <1-> Phase II Runs 9870 - 9880 are used. 
-			\end{itemize}
-		\end{column}
-		\begin{column}{0.49\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[width=1.0\linewidth]{RN222_nocut_9870-9880_alpha_energy_hist.png}
-			\end{figure}
-		\end{column}
-	\end{columns}
-\end{frame}
-%
-%
-%
-%
-%
-\section{Backup}
-%
-%
-\section{Backup}
-\begin{frame}
-	\begin{ptopic}
-		Backup
-	\end{ptopic}
-\end{frame}
-%
-%
-\bibliographystyle{ieeetr85}
-\bibliography{EXOReferences.bib}
-\end{document}
-
-endsnippet
 
 
 # vim:ft=snippets:
