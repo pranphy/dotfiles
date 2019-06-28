@@ -14,7 +14,7 @@ HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
+HISTSIZE=20000
 HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
@@ -144,6 +144,7 @@ export PATH="$HOME/MyRoot/usr/bin:$PATH"
 export LD_LIBRARY_PATH=$HOME/MyRoot/usr/lib:$LD_LIBRARY_PATH
 # export my functions
 source $HOME/MyRoot/usr/bin/Functions
+source $HOME/MyRoot/usr/bin/Functions_ne
 
 #ANDROID_HOME
 export ANDROID_HOME="/opt/android-sdk"
@@ -186,22 +187,4 @@ export PATH=${HOME}/node_modules/.bin:${PATH}
 
 # Update latex 2018 
 export PATH="/usr/local/texlive/2018/bin/x86_64-linux:$PATH"
-
-
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/pranphy/MyRoot/opt/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/pranphy/MyRoot/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/pranphy/MyRoot/opt/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/pranphy/MyRoot/opt/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-conda deactivate
-# <<< conda initialize <<<
 

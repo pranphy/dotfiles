@@ -1,0 +1,6 @@
+bind Down next
+bind Up prev
+bind Right nextOverlay
+bind Left prevOverlay
+bind Return nextOverlay
+
