@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+alias िक="ls"
+alias िबज="ls -lah"
+alias अिभबच="clear"
+alias खष="vi"
+alias भहषत="exit"
+alias उथतजयल="python"
+alias अबत="cat"
+
+declare -A en_ne=(\
+    ["बमम"]="add"\
+    ["अय‌‌षत"]="commit"\
+    ["‌"]="m"\
+    ["कतबतगक"]="status"\
+    ["ियन"]="log"\
+    ["उगकज"]="push"\
+    ["यचषनषल"]="origin"\
+    ["नषतजगद"]="github"\
+    ["ाभतअज"]="fetch"\
+)
+function process_command()
+{
+    command=$1
+    for var in "${@:3}"
+    do
+        var_en=${en_ne[${var}]}
+        if [[ "${var_en}" = '' ]]
+        then
+            var_en=${var}
+        fi
+        command=${command}" ${var_en}"
+    done
+    echo ${command}
+}
+function नषत()
+{
+    tr=$(process_command "git" "$@")
+    echo ${command}" ${tr}"
+}
+
+

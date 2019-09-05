@@ -1,0 +1,244 @@
+#!/usr/bin/env bash
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+function SlacDB()
+{
+    host="mysql-node03.slac.stanford.edu"
+    user='rd_exo_u'
+    password='ex#P45$m2q'
+    db="rd_exo"
+
+
+    slacdb="/opt/lampp/bin/mysql -u"${user}" -p'"${password}"' -h${host} -D${db}"
+    echo "executing "$slacdb
+    $slacdb
+}
+
+function CopySlac()
+{
+    BASE=/nfs/slac/g/exo/pgphoton
+
+    declare -A locations=(\
+        ["PreProc"]="${BASE}/RootOutDir/PreProc"\
+        ["ignore_plot"]="${BASE}/Sabthok/PhaseI/ignore_plot"\
+        ["workspaces"]="${BASE}/Sabthok/PhaseI/FitPlot/MuonCut/workspaces"\
+        ["PhaseII"]="${BASE}/Sabthok/PhaseII"\
+        ["recon"]="/nfs/slac/g/exo_data3/exo_data/data/WIPP/recon"\
+        ['LightMap']="${BASE}/Sabthok/LightMap"
+    )
+
+    from=${locations[$1]}
+
+    fname=$2
+    to=$3
+
+    if ["$2" == '']
+    then
+        fname='*'
+    fi
+
+    if ["$3" == '']
+    then
+        to="."
+    fi
+    cmd="scp -r pgphoton@rhel6-64.slac.stanford.edu:${from}/${fname} ${to}"
+    echo $cmd
+    $cmd
+}
+
+
+function RootLs()
+{
+    fname=$1
+    echo " now excuting the command"
+    python -c 'import ROOT; TT=ROOT.TFile("'$fname'"); dt = TT.Get("dataTree"); dt.ls()'
+}
+
+function RepString()
+{   
+    path=$1
+    from=$2
+    to=$3
+    wildcard=$4
+
+    cmd="find "${path}" -name '"${wildcard}"' -exec sed -i -e 's#"${from}"#"${to}"#g' {} ;"
+    echo $cmd
+    exec $cmd;
+}
+
+function PyCalc()
+{
+    python -c 'print('$@')'
+}
+
+
+function PyVersion()
+{
+    for pac in $@
+    do
+        python -c 'import '$pac' as pkg; print("'$pac' :: {} ".format(pkg.__version__))'
+    done
+}
+
+function PipShow()
+{
+    pip="pip"$1
+    echo "Listing packages for "$pip
+    $pip list --format freeze|awk -F = {'print $1'}| xargs $pip show | grep -E 'Location:|Name:' | cut -d ' ' -f 2 | paste -d ' ' - - | awk '{print $2 "/" tolower($1)}' | xargs du -sh 2> /dev/null|sort -h
+}
+
+
+# Mount my disks by name "
+function Mount()
+{
+    drive=$@
+    for dr in $drive
+    do
+        if  [[ "${dr,,}" == "study"  ]]; then
+            udisksctl mount -b  /dev/sda3
+        elif [[ "${dr,,}" == "backup" ]]; then 
+            udisksctl mount -b  /dev/sda4
+        else
+            printf "Unknown parameter: $drive \n\tusage :: Mount disk_label1 [,disk_label2, ... ]\n"
+        fi
+    done
+}
+
+
+# UnMount my disks by name "
+function UnMount()
+{
+    drive=$@
+    for dr in $drive
+    do
+        if  [[ "${dr,,}" == "study"  ]]; then
+            udisksctl unmount -b  /dev/sda3
+        elif [[ "${dr,,}" == "backup" ]]; then 
+            udisksctl unmount -b  /dev/sda4
+        else
+            printf "Unknown parameter(s) $drive \n\t usage :: UnMount disk_label1 [,disk_label2, ... ]\n"
+        fi
+    done
+}
+# Create jekyll post
+function CreateJekyllPost()
+{
+    slug=$1
+    date=`date '+%Y-%m-%d'`
+    extension='md'
+    fname="$date-$slug.$extension"
+cat > $fname << EOF
+---
+date: `date`
+author: Prakash
+title : Test Title 
+----
+
+EOF
+    }
+
+
+
+function CreateGitRepo()
+{
+    name=$1
+    desc=$2
+    command='curl -u pranphy https://api.github.com/user/repos -d {"name":"'$name'"}'
+    echo $command
+    $command
+}
+
+function DelExcept()
+{
+    cmd="find . -type f "
+    for pattern in "$@"; do
+        cmd=$cmd"-not -name '"$pattern"' "
+    done
+    cmd=$cmd" | parallel rm"
+    echo $cmd
+    $cmd
+
+}
+
+function MakeGrayscale()
+{
+    infil=${1}
+    outfil=${2}
+    gs \
+    -sOutputFile=${outfil} \
+    -sDEVICE=pdfwrite \
+    -sColorConversionStrategy=Gray \
+    -dProcessColorModel=/DeviceGray \
+    -dCompatibilityLevel=1.4 \
+    -dNOPAUSE \
+    -dBATCH \
+    ${infil}
+}
+
+function ResetLocal()
+{
+    FNAME=${1}
+    rm ${FNAME}
+    git checkout ${FNAME}
+}
+
+
+function MakeDiary()
+{
+    path=$1
+    date=`date +%Y-%m-%d`
+    date_AD=`date +%Y.%m.%d`
+    date_BS=`nepaliconv -bs ${date_AD} -f 'y M d W' -u` 
+    touch $path/$date.md
+    
+cat > ${path}/${date}.md<< EOF
+---
+मिति: ${date_BS} [${date}]
+लेखक: प्रकाश [Prakash]
+---
+[//]: # (केही टिप्पणी लेख्नुहोस्)
+EOF
+}
+
+function MakeHW()
+{
+    CRN=${1}
+    SUBJECT=${2}
+    HWN=${3}
+
+
+    HWDIR=HW${HWN}
+
+    echo " Making files in " ${HWDIR}
+
+    mkdir ${HWDIR}
+
+cat > ${HWDIR}/PHYS${CRN}HW${HWN}.tex << EOF
+% Autohr : Prakash Gautam
+% Date   : `date +%d-%m-%Y` `date +%H:%M:%S`
+\documentclass[10pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{pgmath}
+%
+\newcommand{\curdir}{.}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\author{Prakash Gautam}
+\title{PHYS ${CRN}: ${SUBJECT}\\\\ {\large Homework \#${HWN}}}
+%\title{New title}
+
+\begin{document}
+    \maketitle
+    \input{PHYS${CRN}HW${HWN}_Done.tex}
+\end{document}
+EOF
+
+cat > ${HWDIR}/PHYS${CRN}HW${HWN}_Done.tex << EOF
+\begin{questions}
+\question [Book 1.1] %
+    %
+\end{questions}
+EOF
+}
