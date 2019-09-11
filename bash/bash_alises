@@ -27,6 +27,7 @@ alias :q="exit"
 
 #  Clean tex
 alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist"
+alias cleanpyc='for file in `find . -name '*.pyc'` do; echo $file; rm $file; done'
 
 # Youtube audio get
 alias ytaudio="youtube-dl --extract-audio --audio-format=mp3"
