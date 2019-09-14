@@ -48,7 +48,7 @@ syntax on
 " Monokai has been my favourite for some time now
 " alternatives are always welcome though
 "colorscheme monokai  " kinda sucks for latex
-colorscheme materialbox
+colorscheme gruvbox
 
 
 "Setting tab and indentation stuffs

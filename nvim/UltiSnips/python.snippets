@@ -12,45 +12,80 @@ def get_header():
     header += "# date   : {}".format(date)
     return header
 
+def make_doc(snip):
+
+
+	line = snip.buffer[snip.line-1]
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind(' ') + 1]
+	snippet = snip.buffer[snip.line]
+
+	if line.strip().startswith('def'):
+		snip.buffer[snip.line] = ''
+		line = line[:line.find('#')] # strip all the comments if there are
+		paren_cont = line[line.find('(')+1:line.find(')')]
+		params = paren_cont.split(',')
+		id_params = []
+		for param in params:
+			if param.strip().startswith('self'):
+				continue
+			else:
+				param = param.split('=')[0]
+				id_params.append(param.strip())
+		docstr = f'{old_spacing}"""\n{old_spacing}${{1: This function does  something}}'
+		j = 2
+		param_doc = ''
+		for param in id_params:
+			param_doc += '\n'
+			param_doc += f'{old_spacing}:type    {param}: ${{{j}:str}}\n'
+			j += 1
+			param_doc += f'{old_spacing}:param   {param}: ${{{j}:the string required for such}}\n'
+			j += 1
+		
+		docstr += f'\n{param_doc}\n{old_spacing}"""'
+		snip.expand_anon(docstr)
+	elif line.strip().startswith('class'):
+		snip.buffer[snip.line] = ''
+		docstr = f'{old_spacing}"""\n{old_spacing}${{1: This class does  something}}\n\n{old_spacing}"""'
+		snip.expand_anon(docstr)
+	else:
+		snip.expand_anon(' ')
+
 endglobal
 
-snippet pyprog "begin" iA
-`!p snip.rv = get_header()`
+pre_expand "make_doc(snip)"
+snippet indoc "Insert documentation" bA
+$0
+endsnippet
 
+snippet class "Make a new python class " bA
 class ${1:MakePlot}(${2:ParentClass}):
 	def __init__(self):
 		pass
 	
 	def ${3:make_plot}(self`!p snip.rv = ',' if t[4] != '' else ''`${4:other_params}):
 		pass
-
-if __name__ == '__main__':
-	${5:MP = $1}()
-	MP.$3(`!p snip.rv = t[4].strip()`)
 endsnippet
 
-snippet pyhead "head" iA
+snippet pyhead "head" bA
 `!p snip.rv = get_header()`
 
 endsnippet
 
-
-snippet main "main block " i
+snippet main "main block " bA
 if __name__ == '__main__':
-    $0
+	$0
 endsnippet
 
-snippet try "Try / Except" b
+snippet try "Try / Except" bA
 try:
 	${1:pass}
 except ${2:Exception}:
-    ${3:pass}
+	${3:pass}
 $0
 endsnippet
 
-snippet def " function " iA
+snippet def " function " bA
 def ${1:__str__}:
 	${2:pass}
 endsnippet
-
 
