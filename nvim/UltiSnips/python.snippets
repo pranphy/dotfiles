@@ -13,8 +13,6 @@ def get_header():
     return header
 
 def make_doc(snip):
-
-
 	line = snip.buffer[snip.line-1]
 	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind(' ') + 1]
 	snippet = snip.buffer[snip.line]
@@ -85,7 +83,7 @@ $0
 endsnippet
 
 snippet def " function " bA
-def ${1:__str__}:
-	${2:pass}
+def ${1:func_name}(${2:param1}):
+	${3:pass}
 endsnippet
 
