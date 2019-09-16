@@ -1,0 +1,31 @@
+snippet template "Template" iA
+<html>
+<head>
+	<title>
+		${1: This is awesome title}
+	</title>
+	<link rel="stylesheet" type="text/css" href="${2:css/style.css}">
+</head>
+<body>
+	${3:<div> </div>}
+</body>
+</html>
+endsnippet
+
+snippet css "Insert css line" iA
+<link rel="stylesheet" type="text/css" href="${1:css/style.css}">
+endsnippet
+snippet script "Insert script line" iA
+<script>
+	$1 
+</script> 
+$0 
+endsnippet
+
+snippet <div "div insert" iA
+<div class="${1:classname}">
+	$2
+</div>
+endsnippet
+
+

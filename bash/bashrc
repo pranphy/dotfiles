@@ -8,14 +8,21 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoredups:erasedups
-shopt -s histappend
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=10000
+HISTFILESIZE=10000
+
+
+### History duplicate fix
+alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c8- > ~/.tmp$$ && history -c && history -r ~/.tmp$$ && history -w && rm ~/.tmp$$'
+HISTCONTROL=ignorespace
+shopt -s histappend
+shopt -s extglob
 HISTSIZE=1000
 HISTFILESIZE=2000
+export HISTIGNORE="!(+(*\ *))"
+PROMPT_COMMAND="hfix; $PROMPT_COMMAND"
+####### Fix upto here
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -126,6 +133,8 @@ export PATH="/usr/local/heroku/bin:$PATH"
 #export ANT_HOME="/opt/ant"
 #export PATH="$ANT_HOME/bin:$PATH"
 
+MYROOT=/home/pranphy/MyRoot
+
 #Set vi mode in terminal
 EDITOR=vi
 set -o vi
@@ -141,9 +150,10 @@ export PATH="$JAVA_HOME/bin:$PATH"
 
 # AddMyRoot bin alias
 export PATH="$HOME/MyRoot/usr/bin:$PATH"
-export LD_LIBRARY_PATH=$HOME/MyRoot/usr/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$MYROOT/usr/lib:$LD_LIBRARY_PATH
 # export my functions
-source $HOME/MyRoot/usr/bin/Functions
+source $MYROOT/usr/bin/Functions
+source $MYROOT/usr/bin/Functions_ne
 
 #ANDROID_HOME
 export ANDROID_HOME="/opt/android-sdk"
@@ -165,21 +175,23 @@ export PATH="$PATH:$ZOTERO_HOME"
 export MUPDF_HOME="/opt/mupdf"
 export PATH="$PATH:$MUPDF_HOME/bin"
 
-#export ROOTSYS=/opt/root614
-export ROOTSYS=/opt/ROOT7
+export ROOTSYS=/opt/root614
+#export ROOTSYS=/opt/ROOT7
 export PATH=$ROOTSYS/bin:$PATH
 export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
 
 export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
 
 #GEANT and CLHEP
-export CLHEP_BASE_DIR="/opt/CLHEP"
-export G4INSTALL="/opt/GEANT4"
-export PATH="$CLHEP_BASE_DIR/bin:$G4INSTALL/bin:$PATH"
+#export CLHEP_BASE_DIR="/opt/CLHEP"
+export G4INSTALL="$MYROOT/opt/GEANT4"
+export NEST_DIR=$MYROOT/opt/nest #TODO see if this is really required
+#export PATH="$CLHEP_BASE_DIR/bin:$G4INSTALL/bin:$PATH"
+export PATH="$G4INSTALL/bin:$PATH"
 #export BOOST_ROOT=${HOME}/MyRoot/usr
 #export BOOST_LIBRARYDIR=${HOME}/MyRoot/usr/lib
 # setup boost, cuz why not
-GCC_INCLUDE_DIR="$HOME/MyRoot/usr/include:$GCC_INCLUDE_DIR"
+GCC_INCLUDE_DIR="$MYROOT/usr/include:$GCC_INCLUDE_DIR"
 
 
 export PATH=${HOME}/node_modules/.bin:${PATH}
@@ -188,20 +200,19 @@ export PATH=${HOME}/node_modules/.bin:${PATH}
 export PATH="/usr/local/texlive/2018/bin/x86_64-linux:$PATH"
 
 
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/pranphy/MyRoot/opt/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/pranphy/MyRoot/opt/mic3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/pranphy/MyRoot/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/pranphy/MyRoot/opt/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh" ]; then
+        . "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/pranphy/MyRoot/opt/miniconda3/bin:$PATH"
+        export PATH="/home/pranphy/MyRoot/opt/mic3/bin:$PATH"
     fi
 fi
 unset __conda_setup
-conda deactivate
 # <<< conda initialize <<<
+conda deactivate
 

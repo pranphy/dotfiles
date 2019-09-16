@@ -6,6 +6,9 @@ alias unstage="git reset"
 alias lh='ls -lh'
 alias lah='ls -lah'
 
+# image display stuff
+alias feh='feh --scale-down --auto-zoom'
+
 #Its high time now that I use python3 by default
 #alias ipython="ipython3.7"
 #alias pip="python3.7 -m pip"
@@ -24,9 +27,7 @@ alias :q="exit"
 
 #  Clean tex
 alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist"
-
-# anaconda stuff
-alias coython="conda activate && ipython && conda deactivate"
+alias cleanpyc='for file in `find . -name '*.pyc'` do; echo $file; rm $file; done'
 
 # Youtube audio get
 alias ytaudio="youtube-dl --extract-audio --audio-format=mp3"
@@ -38,6 +39,9 @@ alias duse="du -h --max-depth=1"
 
 alias expath='cd $(readlink . -e )'
 
+alias screenres="xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/'"
+
 # For my private aliases 
 source ~/.private_aliases
+
 

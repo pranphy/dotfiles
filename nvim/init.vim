@@ -47,7 +47,8 @@ syntax on
 
 " Monokai has been my favourite for some time now
 " alternatives are always welcome though
-colorscheme monokai  " kinda sucks for latex
+"colorscheme monokai  " kinda sucks for latex
+colorscheme gruvbox
 
 
 "Setting tab and indentation stuffs
@@ -140,7 +141,6 @@ endif
 let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
 let g:ycm_register_as_syntastic_checker=1
 
-"let g:loaded_youcompleteme = 1
 
 " Vimtex configuration
 let g:vimtex_view_method = 'zathura'
