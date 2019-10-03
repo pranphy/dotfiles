@@ -8,7 +8,7 @@ filetype off
 
 
 "Vundle bro, its all your's now, enjoy the stint
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.config/nvim/bundle/Vundle.vim
 call vundle#begin()
 
     Bundle 'ervandew/supertab'
@@ -47,7 +47,8 @@ syntax on
 
 " Monokai has been my favourite for some time now
 " alternatives are always welcome though
-colorscheme monokai  " kinda sucks for latex
+"colorscheme monokai  " kinda sucks for latex
+colorscheme gruvbox 
 
 
 "Setting tab and indentation stuffs
@@ -84,7 +85,14 @@ vnoremap > >gv
 "Terminal Navigations
 "The esc to go to normal mode
 if has ('nvim')
-    let g:python3_host_prog = '/usr/bin/python3'
+    if $HOSTNAME =~ "borax"
+        let g:python3_host_prog = '~/MySlash/usr/bin/python3'
+    elseif $HOSTNAME =~ "rhel6-64"
+        let g:python3_host_prog = '~/MySlash/usr/bin/python3'
+    elseif $HOSTNAME =~ "Prakash"
+        let g:python3_host_prog = '~/MyRoot/usr/bin/python3'
+    endif
+
     tnoremap jk <C-\><C-n>
     tnoremap jK <C-\><C-n>
     tnoremap <A-h> <C-\><C-n><C-w>h
@@ -201,6 +209,7 @@ let g:airline_extensions = []
 "Nepali map
 inoremap वप <esc>
 nmap ष i
+nmap य o
 nmap ब a
 nmap द्ध $
 nmap ० 0
