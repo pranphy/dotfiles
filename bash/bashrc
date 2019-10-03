@@ -8,14 +8,21 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoredups:erasedups
-shopt -s histappend
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=20000
+HISTSIZE=10000
+HISTFILESIZE=10000
+
+
+### History duplicate fix
+alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c8- > ~/.tmp$$ && history -c && history -r ~/.tmp$$ && history -w && rm ~/.tmp$$'
+HISTCONTROL=ignorespace
+shopt -s histappend
+shopt -s extglob
+HISTSIZE=1000
 HISTFILESIZE=2000
+export HISTIGNORE="!(+(*\ *))"
+PROMPT_COMMAND="hfix; $PROMPT_COMMAND"
+####### Fix upto here
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
