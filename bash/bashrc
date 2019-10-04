@@ -121,8 +121,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
 
 # Add wxPython support
 #export WXPYTHON2="/opt/wxPython"
@@ -132,8 +130,12 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 #export ANT_HOME="/opt/ant"
 #export PATH="$ANT_HOME/bin:$PATH"
-
-MYROOT=/home/pranphy/MyRoot
+if [[ ${HOSTNAME} == "Prakash" ]]
+then
+    MYROOT=${HOME}/MyRoot
+else
+    MYROOT=${HOME}/MySlash
+fi
 
 #Set vi mode in terminal
 EDITOR=vi
@@ -143,79 +145,87 @@ bind '"jk":vi-movement-mode'
 #XDG Env variables 
 export XDG_CONFIG_HOME=$HOME/.config
 
-#Setup JAVA
-#export JAVA_HOME="/opt/jdk1.8.0_121"
-export JAVA_HOME=/opt/jdk-12.0.1
-export PATH="$JAVA_HOME/bin:$PATH"
-
 # AddMyRoot bin alias
-export PATH="$HOME/MyRoot/usr/bin:$PATH"
+export PATH="${MYROOT}/usr/bin:$PATH"
 export LD_LIBRARY_PATH=$MYROOT/usr/lib:$LD_LIBRARY_PATH
 # export my functions
 source $MYROOT/usr/bin/Functions
 source $MYROOT/usr/bin/Functions_ne
 
-#ANDROID_HOME
-export ANDROID_HOME="/opt/android-sdk"
-export PATH="$ANDROID_HOME/tools:$PATH"
+if [[ ${HOSTNAME} == "Prakash" ]]
+then
+    #Setup JAVA
+    #export JAVA_HOME="/opt/jdk1.8.0_121"
+    export JAVA_HOME=/opt/jdk-12.0.1
+    export PATH="$JAVA_HOME/bin:$PATH"
 
-#ANDROID_HOME
-export ANDROID_PLATFORM_TOOLS="$ANDROID_HOME/platform-tools"
-export PATH="$ANDROID_PLATFORM_TOOLS:$PATH"
-export GRADLE_HOME=/opt/gradle-5.6.2
-export GRADLE_USER_HOME=${XDG_CONFIG_HOME}/gradle
-export PATH=${GRADLE_HOME}/bin:${PATH}
+    ### Added by the Heroku Toolbelt
+    export PATH="/usr/local/heroku/bin:$PATH"
+    #ANDROID_HOME
+    export ANDROID_HOME="/opt/android-sdk"
+    export PATH="$ANDROID_HOME/tools:$PATH"
 
-#RCLONE HOME
-export RCLONE_HOME="/opt/rclone"
-export PATH="$RCLONE_HOME:$PATH"
+    #ANDROID_HOME
+    export ANDROID_PLATFORM_TOOLS="$ANDROID_HOME/platform-tools"
+    export PATH="$ANDROID_PLATFORM_TOOLS:$PATH"
+    export GRADLE_HOME=/opt/gradle-5.6.2
+    export GRADLE_USER_HOME=${XDG_CONFIG_HOME}/gradle
+    export PATH=${GRADLE_HOME}/bin:${PATH}
 
-#Zotero home
-export ZOTERO_HOME="/opt/Zotero"
-export PATH="$PATH:$ZOTERO_HOME"
+    #RCLONE HOME
+    export RCLONE_HOME="/opt/rclone"
+    export PATH="$RCLONE_HOME:$PATH"
 
-#mupdf home
-export MUPDF_HOME="/opt/mupdf"
-export PATH="$PATH:$MUPDF_HOME/bin"
+    #Zotero home
+    export ZOTERO_HOME="/opt/Zotero"
+    export PATH="$PATH:$ZOTERO_HOME"
 
-export ROOTSYS=/opt/root614
-#export ROOTSYS=/opt/ROOT7
-export PATH=$ROOTSYS/bin:$PATH
-export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
+    #mupdf home
+    export MUPDF_HOME="/opt/mupdf"
+    export PATH="$PATH:$MUPDF_HOME/bin"
 
-export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
+    export ROOTSYS=/opt/root614
+    #export ROOTSYS=/opt/ROOT7
+    export PATH=$ROOTSYS/bin:$PATH
+    export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
 
-#GEANT and CLHEP
-#export CLHEP_BASE_DIR="/opt/CLHEP"
-export G4INSTALL="$MYROOT/opt/GEANT4"
-export NEST_DIR=$MYROOT/opt/nest #TODO see if this is really required
-#export PATH="$CLHEP_BASE_DIR/bin:$G4INSTALL/bin:$PATH"
-export PATH="$G4INSTALL/bin:$PATH"
-#export BOOST_ROOT=${HOME}/MyRoot/usr
-#export BOOST_LIBRARYDIR=${HOME}/MyRoot/usr/lib
-# setup boost, cuz why not
-GCC_INCLUDE_DIR="$MYROOT/usr/include:$GCC_INCLUDE_DIR"
+    export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
 
-
-export PATH=${HOME}/node_modules/.bin:${PATH}
-
-# Update latex 2018 
-export PATH="/usr/local/texlive/2018/bin/x86_64-linux:$PATH"
+    #GEANT and CLHEP
+    #export CLHEP_BASE_DIR="/opt/CLHEP"
+    export G4INSTALL="$MYROOT/opt/GEANT4"
+    export NEST_DIR=$MYROOT/opt/nest #TODO see if this is really required
+    #export PATH="$CLHEP_BASE_DIR/bin:$G4INSTALL/bin:$PATH"
+    export PATH="$G4INSTALL/bin:$PATH"
+    #export BOOST_ROOT=${HOME}/MyRoot/usr
+    #export BOOST_LIBRARYDIR=${HOME}/MyRoot/usr/lib
+    # setup boost, cuz why not
+    GCC_INCLUDE_DIR="$MYROOT/usr/include:$GCC_INCLUDE_DIR"
 
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/pranphy/MyRoot/opt/mic3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh" ]; then
-        . "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh"
+    export PATH=${HOME}/node_modules/.bin:${PATH}
+
+    # Update latex 2018 
+    export PATH="/usr/local/texlive/2018/bin/x86_64-linux:$PATH"
+
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/home/pranphy/MyRoot/opt/mic3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
     else
-        export PATH="/home/pranphy/MyRoot/opt/mic3/bin:$PATH"
+        if [ -f "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh" ]; then
+            . "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh"
+        else
+            export PATH="/home/pranphy/MyRoot/opt/mic3/bin:$PATH"
+        fi
     fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+    conda deactivate
+elif [[ ${HOSTNAME} =~ "borax" ]]
+then
+    source ~/setupapps.sh
 fi
-unset __conda_setup
-# <<< conda initialize <<<
-conda deactivate
 
