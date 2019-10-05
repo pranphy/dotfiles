@@ -76,7 +76,6 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-
 " retain selection
 vnoremap < <gv
 vnoremap > >gv
@@ -106,21 +105,23 @@ endif
 set mouse=n
 
 
-"Enable folding
+"Enable foldin
 set foldmethod=indent
 set foldlevel=1
 
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Monaco\ 9
+    set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Regular:h12
+    "set guifont=Monaco\ 9
   elseif has("gui_win32")
     set guifont=Consolas:h9:cANSI
   else
-      set guifont=Monaco\ 9
+      set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Regular:h12
   endif
 else
     set guifont=Monaco\ 9
 endif
+set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Regular:h12
 
 " force LF in line ending
 set fileformat=unix
@@ -221,4 +222,23 @@ nmap ज h
 nmap व j
 nmap प k
 nmap ि l
+
+
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+
+let g:firenvim_config = {
+    \ 'localSettings': {
+        \ '.*': {
+            \ 'selector': 'textarea',
+            \ 'priority': 0,
+        \ }
+    \ }
+\ }
 
