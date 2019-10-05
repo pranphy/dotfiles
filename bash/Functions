@@ -45,7 +45,23 @@ function CopySlac()
     echo $cmd
     $cmd
 }
+function LJlab()
+{
+    port=${2}
+    if [[ "${port}" == '' ]]; then
+        port="8181"
+    fi
 
+    fname=$(mktemp)
+    jupyter lab --port=${port}> $fname 2>&1 &
+    token=''
+    while [ "$token" == '' ]
+    do
+        token=$(cat $fname | grep "localhost:${port}")
+    done
+
+    echo "Token :"${token}
+}
 
 function RootLs()
 {
