@@ -1,6 +1,7 @@
 alias tree="tree --dirsfirst"
 # I always forget git reset
 alias unstage="git reset"
+alias gpom="git push origin master"
 
 #Some more ls alises
 alias lh='ls -lh'
@@ -43,5 +44,4 @@ alias screenres="xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).
 
 # For my private aliases 
 source ~/.private_aliases
-
 
