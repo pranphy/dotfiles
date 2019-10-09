@@ -1,5 +1,7 @@
 
+"color gruvbox 
 color badwolf 
+highlight Normal guibg=NONE ctermbg=NONE
 "
 
 "inoremap <buffer> aln \begin{align*}<esc>o\end{align*}<esc>O

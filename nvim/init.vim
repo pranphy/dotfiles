@@ -49,6 +49,7 @@ syntax on
 " alternatives are always welcome though
 "colorscheme monokai  " kinda sucks for latex
 colorscheme gruvbox
+highlight Normal guibg=NONE ctermbg=NONE
 
 
 "Setting tab and indentation stuffs
@@ -152,7 +153,7 @@ let g:ycm_register_as_syntastic_checker=1
 
 " Vimtex configuration
 let g:vimtex_view_method = 'zathura'
-let g:vimtex_syntax_enabled = 0
+let g:vimtex_syntax_enabled = 1
 let g:vimtex_matchparen_enabled=0
 """let g:matchup_override_vimtex=1
 "let g:matchup_matchparen_deferred=1
