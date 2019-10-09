@@ -15,6 +15,9 @@ lines.markersize : 10
 legend.fontsize: 16 
 legend.handlelength: 2 
 
+# error bars
+errorbar.capsize : 5             ## length of end cap on error bars in pixels
+
 # Latex stuffs
 #mathtext.fontset: cm
 #mathtext.rm : serif
