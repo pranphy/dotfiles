@@ -146,13 +146,6 @@ bind '"jk":vi-movement-mode'
 #XDG Env variables 
 export XDG_CONFIG_HOME=${HOME}/.config
 
-# AddMyRoot bin alias
-export PATH="${MYROOT}/usr/bin:$PATH"
-export LD_LIBRARY_PATH=${MYROOT}/usr/lib:$LD_LIBRARY_PATH
-# export my functions
-source ${MYROOT}/usr/bin/Functions
-source ${MYROOT}/usr/bin/Functions_ne
-
 if [[ ${HOSTNAME} == "Prakash" ]]
 then
     #Setup JAVA
@@ -229,4 +222,11 @@ elif [[ ${HOSTNAME} =~ "borax" ]]
 then
     source ~/setupapps.sh
 fi
+
+# AddMyRoot bin alias
+export PATH="${MYROOT}/usr/bin:$PATH"
+export LD_LIBRARY_PATH=$MYROOT/usr/lib:$LD_LIBRARY_PATH
+# export my functions
+source $MYROOT/usr/bin/Functions
+source $MYROOT/usr/bin/Functions_ne
 
