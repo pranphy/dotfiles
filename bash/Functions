@@ -191,6 +191,14 @@ function MakeGrayscale()
     ${infil}
 }
 
+function FetchLyrics()
+{
+    artist=${1}
+    title=${2}
+    curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title"
+}
+
+
 function ResetLocal()
 {
     FNAME=${1}
