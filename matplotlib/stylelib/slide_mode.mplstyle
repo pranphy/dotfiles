@@ -3,6 +3,7 @@
 # author : Prakash 
 # date   : 2019-06-09 02:38
 
+figure.titlesize: 22
 axes.titlesize : 22
 axes.labelsize : 20
 xtick.labelsize : 20 

@@ -19,6 +19,7 @@ call vundle#begin()
     Plugin 'scrooloose/nerdtree'
     " BEtter highlighting for c++
     Plugin 'octol/vim-cpp-enhanced-highlight' 
+    Plugin 'glacambre/firenvim'
 
     "Now status line also
     Plugin 'vim-airline/vim-airline'
@@ -36,6 +37,11 @@ call vundle#begin()
     Plugin 'hsanson/vim-android'
 
     Plugin 'rickhowe/diffchar.vim'
+
+    " Finally start using julia
+    Plugin 'JuliaEditorSupport/julia-vim'
+
+    "Plugin 'dense-analysis/ale'
 
     " All of the Plugins are to be added before this
 call vundle#end()            " required
@@ -126,7 +132,7 @@ set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Regular:h12
 
 " force LF in line ending
 set fileformat=unix
-set fileformats=unix,dos
+"set fileformats=unix,dos
 
 
 "let &colorcolumn=join(range(81,999),",")
@@ -137,10 +143,10 @@ set fileformats=unix,dos
 
 " YCM support for C Language family
 "
-"let g:loaded_youcompleteme = 1
+"let g:loaded_youcompleteme = 0
 let g:ycm_global_ycm_extra_conf='~/.config/nvim/ycm/ycm_extra_conf.py'
 let g:ycm_key_list_select_completion = ["jj","<down>"]
-let g:ycm_confirm_extra_conf=0
+let g:ycm_confirm_extra_conf=1
 let g:cpp_class_scope_highlight=1
 
 " YCM Support for latex family language
@@ -238,7 +244,7 @@ let g:firenvim_config = {
     \ 'localSettings': {
         \ '.*': {
             \ 'selector': 'textarea',
-            \ 'priority': 0,
+            \ 'priority': 1,
         \ }
     \ }
 \ }

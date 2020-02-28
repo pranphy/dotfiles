@@ -14,6 +14,7 @@ HISTFILESIZE=10000
 
 
 ### History duplicate fix
+# https://unix.stackexchange.com/questions/18212/bash-history-ignoredups-and-erasedups-setting-conflict-with-common-history/79439#79439
 alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c8- > ~/.tmp$$ && history -c && history -r ~/.tmp$$ && history -w && rm ~/.tmp$$'
 HISTCONTROL=ignorespace
 shopt -s histappend
@@ -61,12 +62,18 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+# Add git branch if its present to PS1
+parse_git_branch() {
+ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] $(parse_git_branch)\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w $(parse_git_branch)\$ '
 fi
 unset color_prompt force_color_prompt
+
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -180,8 +187,8 @@ then
     export MUPDF_HOME="/opt/mupdf"
     export PATH="$PATH:$MUPDF_HOME/bin"
 
-    export ROOTSYS=/opt/root614
-    #export ROOTSYS=/opt/ROOT7
+    #export ROOTSYS=/opt/root614
+    export ROOTSYS=/opt/ROOT7
     export PATH=$ROOTSYS/bin:$PATH
     export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
 
@@ -196,30 +203,31 @@ then
     #export BOOST_ROOT=${HOME}/MyRoot/usr
     #export BOOST_LIBRARYDIR=${HOME}/MyRoot/usr/lib
     # setup boost, cuz why not
-    GCC_INCLUDE_DIR="${MYROOT}/usr/include:$GCC_INCLUDE_DIR"
-
+    GCC_INCLUDE_DIR="${MYROOT}/usr/include:${MYROOT}/usr/include/python3.8:$GCC_INCLUDE_DIR"
 
     export PATH=${HOME}/node_modules/.bin:${PATH}
 
     # Update latex 2018 
     export PATH="/usr/local/texlive/2018/bin/x86_64-linux:$PATH"
 
-
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('${MYROOT}/opt/mic3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    __conda_setup="$('/home/pranphy/MyRoot/opt/mic3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
     else
-        if [ -f "${MYROOT}/opt/mic3/etc/profile.d/conda.sh" ]; then
-            . "${MYROOT}/opt/mic3/etc/profile.d/conda.sh"
+        if [ -f "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh" ]; then
+            . "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh"
         else
-            export PATH="${MYROOT}/opt/mic3/bin:$PATH"
+            export PATH="/home/pranphy/MyRoot/opt/mic3/bin:$PATH"
         fi
     fi
     unset __conda_setup
-    # <<< conda initialize <<<
     conda deactivate
+    # <<< conda initialize <<<
+
+    #LD_LIBRARY_PATH=${MYROOT}/usr/share/jupyter/kernels:${LD_LIBRARY_PATH}
+    PYTHONPATH=${MYROOT}/usr/share/cling/Jupyter/kernel:${PYTHONPATH}
 elif [[ ${HOSTNAME} =~ "borax" ]]
 then
     source ~/setupapps.sh

@@ -24,7 +24,8 @@ function CopySlac()
         ["workspaces"]="${BASE}/Sabthok/PhaseI/FitPlot/MuonCut/workspaces"\
         ["PhaseII"]="${BASE}/Sabthok/PhaseII"\
         ["recon"]="/nfs/slac/g/exo_data3/exo_data/data/WIPP/recon"\
-        ['LightMap']="${BASE}/Sabthok/LightMap"
+        ['LightMap']="${BASE}/Sabthok/LightMap"\
+        ["GitRepos"]="${BASE}/GitRepos"
     )
 
     from=${locations[$1]}
@@ -136,24 +137,6 @@ function UnMount()
         fi
     done
 }
-# Create jekyll post
-function CreateJekyllPost()
-{
-    slug=$1
-    date=`date '+%Y-%m-%d'`
-    extension='md'
-    fname="$date-$slug.$extension"
-cat > $fname << EOF
----
-date: `date`
-author: Prakash
-title : Test Title 
-----
-
-EOF
-    }
-
-
 
 function CreateGitRepo()
 {
@@ -223,6 +206,43 @@ cat > ${path}/${date}.md<< EOF
 [//]: # (केही टिप्पणी लेख्नुहोस्)
 EOF
 }
+
+
+
+function JekyllPost()
+{
+    if [[ $1 == "-h" ]]
+    then
+        echo "Creates Jekyll post"
+        echo "JekyllPost <path> <title space separated>"
+        return 
+    fi
+    path=$1
+    title=$2
+    
+    title_slug=$(echo "${title}" | sed 's/\s\+/-/g' | tr '[:upper:]' '[:lower:]' )
+    
+    date=`date +%Y-%m-%d`
+    date_AD=`date +%Y.%m.%d`
+    date_BS=`nepaliconv -bs ${date_AD} -f 'y M d W' -u` 
+    filepath=${path}/${date}-${title_slug}.md
+    
+cat > ${filepath}<< EOF
+---
+title: ${title}
+author: प्रकाश
+date : ${date} 
+मिति : ${date_BS}
+tags :
+categories:
+description: 
+---
+
+[//]: # (केही टिप्पणी लेख्नुहोस्)
+EOF
+echo "${filepath} created"
+}
+ 
 
 function MakeHW()
 {
