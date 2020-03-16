@@ -9,8 +9,8 @@ case $- in
 esac
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=10000
-HISTFILESIZE=10000
+#HISTSIZE=10000
+#HISTFILESIZE=10000
 
 
 ### History duplicate fix
@@ -19,8 +19,8 @@ alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c
 HISTCONTROL=ignorespace
 shopt -s histappend
 shopt -s extglob
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 export HISTIGNORE="!(+(*\ *))"
 PROMPT_COMMAND="hfix; $PROMPT_COMMAND"
 ####### Fix upto here
