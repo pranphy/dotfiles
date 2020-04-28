@@ -25,7 +25,10 @@ function CopySlac()
         ["PhaseII"]="${BASE}/Sabthok/PhaseII"\
         ["recon"]="/nfs/slac/g/exo_data3/exo_data/data/WIPP/recon"\
         ['LightMap']="${BASE}/Sabthok/LightMap"\
-        ["GitRepos"]="${BASE}/GitRepos"
+        ["GitRepos"]="${BASE}/GitRepos"\
+        ["other"]="${BASE}"\
+        ["home"]="~pgphoton"
+
     )
 
     from=${locations[$1]}
@@ -33,19 +36,22 @@ function CopySlac()
     fname=$2
     to=$3
 
-    if ["$2" == '']
+    if [[ "$2" == '' ]]
     then
         fname='*'
     fi
 
-    if ["$3" == '']
+    if [[ "$3" == '' ]]
     then
         to="."
     fi
+    #alias noslacpass='SLACP=$(head -n 1 ~/.slacp) && sshpass -p $SLACP ssh rhel'
     cmd="scp -r pgphoton@rhel6-64.slac.stanford.edu:${from}/${fname} ${to}"
     echo $cmd
     $cmd
+    echo "Done copying "
 }
+
 function LJlab()
 {
     port=${2}
@@ -56,7 +62,7 @@ function LJlab()
     fname=$(mktemp)
     jupyter lab --port=${port}> $fname 2>&1 &
     token=''
-    while [ "$token" == '' ]
+    while [[ "$token" == '' ]]
     do
         token=$(cat $fname | grep "localhost:${port}")
     done
