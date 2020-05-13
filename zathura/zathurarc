@@ -11,4 +11,5 @@ map <C-i> recolor
 # enable incremental search
 set incremental-search true
 
-#feh window-icon "/home/pranphy/.icons/pdf_circle.svg"
+#feh window-icon "/home/pranphy/.icons/pdf_circle.svg" 
+

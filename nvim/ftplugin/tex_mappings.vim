@@ -1,6 +1,6 @@
 
-"color gruvbox 
-color badwolf 
+color gruvbox 
+"color badwolf 
 highlight Normal guibg=NONE ctermbg=NONE
 "
 

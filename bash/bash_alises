@@ -27,7 +27,7 @@ alias vim8="/opt/vim8/bin/vim"
 alias :q="exit"
 
 #  Clean tex
-alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist"
+alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist *.gls *.glg *.acr *.alg"
 alias cleanpyc='for file in `find . -name '*.pyc'` do; echo $file; rm $file; done'
 
 # Youtube audio get
@@ -41,6 +41,14 @@ alias duse="du -h --max-depth=1"
 alias expath='cd $(readlink . -e )'
 
 alias screenres="xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/'"
+
+# Git aliases
+alias gs="git status"
+
+alias gsu="git status -u"
+alias gcm="git commit -m"
+
+alias gpom="git push origin master"
 
 # For my private aliases 
 source ~/.private_aliases

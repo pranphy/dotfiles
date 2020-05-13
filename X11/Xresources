@@ -17,7 +17,7 @@ URxvt.geometry: 109x39
 !URxvt.font: xft:Monaco:size=8
 !URxvt.font: xft:Monaco for powerline:size=8
 !URxvt.font: xft:Ubuntu Mono derivative Powerline:size=10
-URxvt.font: xft:Ubuntu Mono derivative Powerline:size=10, xft:Lohit Devanagari:size=15:antialias=true
+URxvt.font: xft:Ubuntu Mono derivative Powerline:size=10, xft:Noto Sans Devanagari:size=15:antialias=true
 URxvt.allow_bold: false
 URxvt.letterSpace: -2
 
@@ -138,5 +138,4 @@ URxvt.color15: #EEEEEC
 
 !! Transparency stuffs
 urxvt*depth: 32
-urxvt*background: rgba:0000/0000/0200/af00
-
+urxvt*background: rgba:0000/0200/0200/a300
