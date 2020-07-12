@@ -146,7 +146,7 @@ set fileformat=unix
 "let g:loaded_youcompleteme = 0
 let g:ycm_global_ycm_extra_conf='~/.config/nvim/ycm/ycm_extra_conf.py'
 let g:ycm_key_list_select_completion = ["jj","<down>"]
-let g:ycm_confirm_extra_conf=1
+let g:ycm_confirm_extra_conf=0
 let g:cpp_class_scope_highlight=1
 
 " YCM Support for latex family language
