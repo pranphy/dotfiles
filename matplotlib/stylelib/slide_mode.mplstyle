@@ -9,6 +9,8 @@ axes.labelsize : 20
 xtick.labelsize : 20 
 ytick.labelsize : 20 
 
+axes.formatter.limits : -7, 7 ## use scientific notation if log10
+
 lines.linewidth : 4
 lines.markersize : 10
 
