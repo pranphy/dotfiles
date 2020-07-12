@@ -29,7 +29,7 @@ def make_doc(snip):
 			else:
 				param = param.split('=')[0]
 				id_params.append(param.strip())
-		docstr = f'{old_spacing}"""\n{old_spacing}${{1: This function does  something}}'
+		docstr = f'{old_spacing}"""${{1: This function does  something}}'
 		j = 2
 		param_doc = ''
 		for param in id_params:
@@ -82,8 +82,8 @@ except ${2:Exception}:
 $0
 endsnippet
 
-snippet def " function " bA
-def ${1:func_name}(${2:param1}):
+snippet fun "create a new function" bA
+dfe ${1:hunc_name}(${2:param}):
 	${3:pass}
 endsnippet
 

@@ -3,12 +3,12 @@ import time
 def get_header():
     date = time.strftime("%Y-%m-%d %H:%M")
     header = (
-        "// -*- coding: utf-8 -*-\n"
-        "// vim: ai ts=4 sts=4 et sw=4 ft=cpp\n"
+        "/* -*- coding: utf-8 -*-\n"
+        " * vim: ai ts=4 sts=4 et sw=4 ft=cpp\n"
          "\n"
-        "// author : Prakash [प्रकाश]\n"
+        " * author : Prakash [प्रकाश]\n"
     )
-    header += "// date   : {}".format(date)
+    header += " * date   : {} \n */\n".format(date)
     return header
 
 endglobal
@@ -18,7 +18,7 @@ snippet main
 
 #include<iostream>
 
-int main(int* argc, int* argv)
+int main(int argc, char** argv)
 {
 	$1
 	std::cout<<"Hello World"<<std::endl;
@@ -28,8 +28,6 @@ $0
 endsnippet
 
 snippet class "begin" iA
-`!p snip.rv = get_header()`
-
 #include<iostream>
 
 class ${1:Class}`!p snip.rv = ' : ' if t[2] != '' else ''` ${2:public}${3:`!p snip.rv='ParentClass' if t[2] !='' else ''`}

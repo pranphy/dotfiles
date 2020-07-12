@@ -908,9 +908,17 @@ endsnippet
 #======= New Experimental Stuffs ==================
 #==================================================
 
+priority 100
+snippet "pgls(\w+) " "Glossary entry" "not check_math(snip.buffer,snip.line,snip.column)" wreA
+\glspl{`!p snip.rv=match.group(1)`} 
+endsnippet
+
+priority -100
+
 snippet "gls(\w+) " "Glossary entry" "not check_math(snip.buffer,snip.line,snip.column)" wreA
 \gls{`!p snip.rv=match.group(1)`} 
 endsnippet
+
 
 snippet "(\w+)" "Glossary entry" "not check_math(snip.buffer,snip.line,snip.column)" wreA
 \textbf{`!p snip.rv=match.group(1)`} 
@@ -1076,6 +1084,12 @@ snippet beamp "Create A Beamer Presentation" wA
 \end{document}
 
 endsnippet
+
+snippet igfx "Include graphics line" b
+\includegraphics[width=${1:0.99}\linewidth]{${2:imagepath}}
+$0
+endsnippet
+
 
 
 # vim:ft=snippets:
