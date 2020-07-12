@@ -129,14 +129,6 @@ if ! shopt -oq posix; then
 fi
 
 
-# Add wxPython support
-#export WXPYTHON2="/opt/wxPython"
-#export WXPHOENIX="/opt/Phoenix"
-#export PYTHONPATH=$WXPHOENIX
-#export LD_LIBRARY_PATH=$PYTHONPATH/lib:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-
-#export ANT_HOME="/opt/ant"
-#export PATH="$ANT_HOME/bin:$PATH"
 if [[ ${HOSTNAME} == "Prakash" ]]
 then
     MYROOT=${HOME}/MyRoot
@@ -158,25 +150,6 @@ export XDG_DATA_DIRS=${HOME}/.local/share:${XDG_DATA_DIRS}
 
 if [[ ${HOSTNAME} == "Prakash" ]]
 then
-    #Setup JAVA
-    #export JAVA_HOME="/opt/jdk1.8.0_121"
-    export JAVA_HOME=/opt/jdk-12.0.1
-    export PATH="$JAVA_HOME/bin:$PATH"
-
-    ### Added by the Heroku Toolbelt
-    export PATH="/usr/local/heroku/bin:$PATH"
-    #ANDROID_HOME
-    export ANDROID_HOME="/opt/android-sdk"
-    export PATH="$ANDROID_HOME/tools:$PATH"
-
-    #ANDROID_HOME
-    export ANDROID_PLATFORM_TOOLS="$ANDROID_HOME/platform-tools"
-    export PATH="$ANDROID_PLATFORM_TOOLS:$PATH"
-    export GRADLE_HOME=/opt/gradle-5.6.2
-    export GRADLE_USER_HOME=${XDG_CONFIG_HOME}/gradle
-    export PATH=${GRADLE_HOME}/bin:${PATH}
-
-    #RCLONE HOME
     export RCLONE_HOME="/opt/rclone"
     export PATH="$RCLONE_HOME:$PATH"
 
@@ -184,54 +157,7 @@ then
     export ZOTERO_HOME="/opt/Zotero"
     export PATH="$PATH:$ZOTERO_HOME"
 
-    #mupdf home
-    export MUPDF_HOME="/opt/mupdf"
-    export PATH="$PATH:$MUPDF_HOME/bin"
 
-    #export ROOTSYS=/opt/root614
-    export ROOTSYS=/opt/ROOT7
-    export PATH=$ROOTSYS/bin:$PATH
-    export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
-
-    export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH
-
-    #GEANT and CLHEP
-    #export CLHEP_BASE_DIR="/opt/CLHEP"
-    export G4INSTALL="${MYROOT}/opt/GEANT4"
-    export NEST_DIR=${MYROOT}/opt/nest #TODO see if this is really required
-    #export PATH="$CLHEP_BASE_DIR/bin:$G4INSTALL/bin:$PATH"
-    export PATH="$G4INSTALL/bin:$PATH"
-    #export BOOST_ROOT=${HOME}/MyRoot/usr
-    #export BOOST_LIBRARYDIR=${HOME}/MyRoot/usr/lib
-    # setup boost, cuz why not
-    GCC_INCLUDE_DIR="${MYROOT}/usr/include:${MYROOT}/usr/include/python3.8:$GCC_INCLUDE_DIR"
-
-    export PATH=${HOME}/node_modules/.bin:${PATH}
-
-    # Update latex 2018 
-    export PATH="/usr/local/texlive/2018/bin/x86_64-linux:$PATH"
-
-    # >>> conda initialize >>>
-    # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('/home/pranphy/MyRoot/opt/mic3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh" ]; then
-            . "/home/pranphy/MyRoot/opt/mic3/etc/profile.d/conda.sh"
-        else
-            export PATH="/home/pranphy/MyRoot/opt/mic3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-    if [[ -f $(which conda) ]]
-    then
-        conda deactivate
-    fi
-    # <<< conda initialize <<<
-
-    #LD_LIBRARY_PATH=${MYROOT}/usr/share/jupyter/kernels:${LD_LIBRARY_PATH}
-    PYTHONPATH=${MYROOT}/usr/share/cling/Jupyter/kernel:${PYTHONPATH}
 elif [[ ${HOSTNAME} =~ "borax" ]]
 then
     source ~/setupapps.sh
