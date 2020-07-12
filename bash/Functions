@@ -91,7 +91,7 @@ function RepString()
 
 function PyCalc()
 {
-    python -c 'print('$@')'
+    python -c "print("$@")"
 }
 
 
