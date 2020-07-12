@@ -27,7 +27,7 @@ alias vim8="/opt/vim8/bin/vim"
 alias :q="exit"
 
 #  Clean tex
-alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist *.gls *.glg *.acr *.alg"
+alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist *.gls *.glg *.acr *.alg *.run.xml"
 alias cleanpyc='for file in `find . -name '*.pyc'` do; echo $file; rm $file; done'
 
 # Youtube audio get
