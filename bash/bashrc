@@ -154,6 +154,7 @@ bind '"jk":vi-movement-mode'
 
 #XDG Env variables 
 export XDG_CONFIG_HOME=${HOME}/.config
+export XDG_DATA_DIRS=${HOME}/.local/share:${XDG_DATA_DIRS}
 
 if [[ ${HOSTNAME} == "Prakash" ]]
 then
@@ -223,7 +224,10 @@ then
         fi
     fi
     unset __conda_setup
-    conda deactivate
+    if [[ -f $(which conda) ]]
+    then
+        conda deactivate
+    fi
     # <<< conda initialize <<<
 
     #LD_LIBRARY_PATH=${MYROOT}/usr/share/jupyter/kernels:${LD_LIBRARY_PATH}
@@ -239,4 +243,9 @@ export LD_LIBRARY_PATH=${MYROOT}/usr/lib:$LD_LIBRARY_PATH
 # export my functions
 source ${MYROOT}/usr/bin/Functions
 source ${MYROOT}/usr/bin/Functions_ne
+
+if [ -f "${HOME}/.Rough/GitPrompt/gitprompt.sh" ]; then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source ${HOME}/.Rough/GitPrompt/gitprompt.sh
+fi
 
