@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+# author : Prakash [प्रकाश]
+# date   : 2020-07-21 18:47
+
+FILE=${1:?No file}
+DESTDIR=${2}
+VIEW=${3}
+
+OPDIR=$(mktemp -d -t latex_view-XXXXXXXXXX)
+mkdir -p ${OPDIR}
+
+
+FILENAME=$(basename -- "$FILE")
+FILEPATH="${FILE%$FILENAME}"
+EXTENSION="${FILENAME##*.}"
+FILEBASE="${FILENAME%.*}"
+
+DESTDIR=${DESTDIR:-${FILEPATH}}
+LATEXPATH=${OPDIR}/${FILEBASE}.tex
+PDFPATH=${OPDIR}/${FILEBASE}.pdf
+PNGPATH=${OPDIR}/${FILEBASE}.png
+
+
+TIKZCONTENT=$(<${FILE})
+
+#echo "${TIKZCONTENT}"
+
+cat > ${LATEXPATH} << EOF
+\documentclass[10pt]{standalone}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{
+    decorations.markings,
+    decorations.text,
+    decorations.pathreplacing,
+    arrows.meta,
+    calligraphy,
+    calc,
+    mindmap,
+    shapes,
+    fit,
+    positioning,
+    backgrounds,
+    math
+}
+\pgfplotsset{compat=1.7}
+\begin{document}
+    ${TIKZCONTENT}
+\end{document}
+EOF
+
+
+#cat ${LATEXPATH}
+
+lualatex --shell-escape  -output-directory=${OPDIR} ${LATEXPATH}
+if [[ -x $(which convert) ]]
+then
+    cmd="convert -density 150 -transparent white ${PDFPATH} ${PNGPATH}"
+    #cmd="pdftoppm ${PDFPATH} ${OPDIR}/${FILENAME} -png -f 1 -singlefile"
+    echo ${cmd}
+    ${cmd}
+fi
+
+if [[ "${VIEW}" == "" ]]
+then
+    zathura ${PDFPATH}
+fi
+
+if [[ ${DESTDIR} != "" ]]
+then
+    echo "Copying ${PNGPATH} to ${DESTDIR}"
+    cp ${PNGPATH} ${DESTDIR} 
+fi
+
