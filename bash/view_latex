@@ -32,23 +32,28 @@ cat > ${LATEXPATH} << EOF
 \documentclass[10pt]{standalone}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{tikz-feynman}
 \usetikzlibrary{
-    decorations.markings,
-    decorations.text,
-    decorations.pathreplacing,
     arrows.meta,
-    calligraphy,
-    calc,
-    mindmap,
-    shapes,
-    fit,
-    positioning,
     backgrounds,
-    math
+    calc,
+    calligraphy,
+    decorations.fractals,
+    decorations.markings,
+    decorations.pathmorphing,
+    decorations.pathreplacing,
+    decorations.shapes,
+    decorations.text,
+    fit,
+    math,
+    matrix,
+    mindmap,
+    positioning,
+    quotes,
+    shapes
 }
-\pgfplotsset{compat=1.7}
 \begin{document}
     ${TIKZCONTENT}
 \end{document}
@@ -68,7 +73,8 @@ fi
 
 if [[ "${VIEW}" == "" ]]
 then
-    zathura ${PDFPATH}
+    #zathura ${PDFPATH}
+    echo pass
 fi
 
 if [[ ${DESTDIR} != "" ]]
