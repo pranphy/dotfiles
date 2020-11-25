@@ -129,14 +129,6 @@ if ! shopt -oq posix; then
 fi
 
 
-if [[ ${HOSTNAME} == "Prakash" ]]
-then
-    MYROOT=${HOME}/MyRoot
-elif [[ ${HOSTNAME} == "photon-drexel" ]]; then
-    MYROOT=${HOME}/MyRoot
-else
-    MYROOT=${HOME}/MySlash
-fi
 
 #Set vi mode in terminal
 EDITOR=vi
@@ -148,30 +140,11 @@ bind '"jk":vi-movement-mode'
 export XDG_CONFIG_HOME=${HOME}/.config
 export XDG_DATA_DIRS=${HOME}/.local/share:${XDG_DATA_DIRS}
 
-if [[ ${HOSTNAME} == "Prakash" ]]
+if [[ -f ".${HOSTNAME}_env.sh" ]]
 then
-    export RCLONE_HOME="/opt/rclone"
-    export PATH="$RCLONE_HOME:$PATH"
-
-    #Zotero home
-    export ZOTERO_HOME="/opt/Zotero"
-    export PATH="$PATH:$ZOTERO_HOME"
-
-
-elif [[ ${HOSTNAME} =~ "borax" ]]
-then
-    source ~/setupapps.sh
+    source .${HOSTNAME}_env.sh
+    if [[ ${MYROOT} != "" ]]
+    then
+        source ${MYROOT}/enable.sh
+    fi
 fi
-
-# AddMyRoot bin alias
-export PATH="${MYROOT}/usr/bin:$PATH"
-export LD_LIBRARY_PATH=${MYROOT}/usr/lib:$LD_LIBRARY_PATH
-# export my functions
-source ${MYROOT}/usr/bin/Functions
-source ${MYROOT}/usr/bin/Functions_ne
-
-if [ -f "${HOME}/.Rough/GitPrompt/gitprompt.sh" ]; then
-    GIT_PROMPT_ONLY_IN_REPO=1
-    source ${HOME}/.Rough/GitPrompt/gitprompt.sh
-fi
-
