@@ -1,90 +1,99 @@
 {
-    "window.zoomLevel": -2,
+    /*Standard stuffs*/
+    "window.zoomLevel": 1,
+    "editor.lineNumbers": "off",
     "editor.fontFamily": "'Fira Code','Monaco', 'Noto Serif Devanagari','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'zero', 'onum'",
     "editor.fontSize": 20,
+    "editor.minimap.enabled": false,
+    "editor.columnSelection": true,
+    "editor.emptySelectionClipboard": false,
+    "editor.smoothScrolling": true,
+    "editor.formatOnPaste": true,
+
+    "diffEditor.codeLens": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+
+    "files.watcherExclude": {
+        "**/__pycache__/**": true
+    },
+    "files.trimTrailingWhitespace": true,
+
+    "workbench.startupEditor": "readme",
     "workbench.colorCustomizations": {
         "statusBar.background" : "#1A1A1A",
         "statusBar.noFolderBackground" : "#212121",
         "statusBar.debuggingBackground": "#263238"
     },
-    "vscode-neovim.neovimPath": "/home/pranphy/MyRoot/usr/bin/nvim",
-    "diffEditor.ignoreTrimWhitespace": false,
-    "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'zero', 'onum'",
-    "python.dataScience.askForKernelRestart": false,
-    "sqltools.connections": [
+    "workbench.editorAssociations": [
         {
-            "askForPassword": false,
-            "database": "shabdakosh",
-            "driver": "PostgreSQL",
-            "name": "Prakash_PSQL",
-            "password": "P@ssw0rd",
-            "port": 5432,
-            "previewLimit": 50,
-            "server": "localhost",
-            "username": "prakash"
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
         }
     ],
-    "python.insidersChannel": "off",
-    "C_Cpp.updateChannel": "Insiders",
-    "editor.minimap.enabled": false,
-    "workbench.colorTheme": "Visual Studio Dark",
+    "terminal.integrated.commandsToSkipShell": [
+        "language-julia.interrupt"
+    ],
+
+
+    /*Neovim real embed plugin*/
+    "vscode-neovim.neovimExecutablePaths.linux": "/home/pranphy/MyRoot/usr/bin/nvim",
+    "vscode-neovim.mouseSelectionStartVisualMode": true,
+
+    /*git stuffs*/
+    "git.confirmSync": false,
+
+    /*Python stuffs*/
+    "python.dataScience.askForKernelRestart": false,
+    "python.insidersChannel": "daily",
+
+
+    /*Foam Section*/
+    "foam.edit.linkReferenceDefinitions": "off",
+
+    /*Makrdown links plugin*/
+    "markdown-links.graphType": "obsidian",
+
+    /*Markdown preview plugin*/
+    "markdown.preview.fontSize": 22,
+    "markdown.preview.fontFamily": "'Noto Serif Devanagari', BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",
+
+    /*Markdown preview enhanced plugin*/
     "markdown-preview-enhanced.latexEngine": "lualatex",
     "markdown-preview-enhanced.mermaidTheme": "dark",
     "markdown-preview-enhanced.previewTheme": "github-dark.css",
-    "markdown-preview-enhanced.frontMatterRenderingOption": "table",
+    "markdown-preview-enhanced.frontMatterRenderingOption": "code block",
     "markdown-preview-enhanced.codeBlockTheme": "atom-dark.css",
-    "markdown.preview.fontSize": 22,
     "markdown-preview-enhanced.mathRenderingOption": "MathJax",
-    "markdown.preview.fontFamily": "'Noto Serif Devanagari', BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",
-    "markdown-preview-enhanced.configPath": "~/.config/mume/",
+    "markdown-preview-enhanced.revealjsTheme": "night.css",
+
+    /*Julia extension*/
+    "julia.executablePath": "/home/pranphy/MyRoot/usr/bin/julia",
+    "julia.execution.resultType": "both",
+
+    "markdown-image.local.path": "/Attachments/images",
+    "markdown-image.base.fileNameFormat": "${YY}-${MM}-${DD}-${HH}-${mss}-${rand,100}",
+
+
+    /*Snippet Stuffs*/
+    "[markdown]": {
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": {"strings":true},
+    },
+
+
+    /*Latex Workshop plugin*/
     "latex-workshop.view.pdf.viewer": "tab",
     "latex-workshop.latex.recipes":[
         {
-            "name": "latexmk 🔃",
-            "tools": [
-                "latexmk"
-            ]
-        },
-        {
-            "name": "latexmk (latexmkrc)",
-            "tools": [
-                "latexmk_rconly"
-            ]
-        },
-        {
-            "name": "xelatex 🔃",
+            "name": "xelatex",
             "tools": [
                 "xelatex"
             ]
         },
         {
-            "name": "latexmk (lualatex)",
-            "tools": [
-                "lualatexmk"
-            ]
-        },
-        {
-            "name": "pdflatex ➞ bibtex ➞ pdflatex × 2",
-            "tools": [
-                "pdflatex",
-                "bibtex",
-                "pdflatex",
-                "pdflatex"
-            ]
-        },
-        {
-            "name": "Compile Rnw files",
-            "tools": [
-                "rnw2tex",
-                "latexmk"
-            ]
-        },
-        {
-            "name": "Compile Jnw files",
-            "tools": [
-                "jnw2tex",
-                "latexmk"
-            ]
+            "name": "latexmk",
+            "tools": ["latexmk" ],
         }
     ],
     "latex-workshop.latex.tools":[
@@ -95,11 +104,22 @@
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
                 "-pdf",
                 "-outdir=%OUTDIR%",
                 "%DOC%"
             ],
             "env": {}
-        },
+        }
     ]
 }
