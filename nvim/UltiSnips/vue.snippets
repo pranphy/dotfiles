@@ -1,0 +1,30 @@
+global !p
+
+def split_class(string):
+	return string.replace('.',' ')
+
+endglobal
+
+snippet "#([\w-]+)" "Make div with given id " ir
+<div id="`!p snip.rv=match.group(0)`">$1</div> $0
+endsnippet
+
+snippet "\.(.*)" "Make div with given class" ir
+<div class="`!p snip.rv=split_class(match.group(0))`${1}">$0</div>
+endsnippet
+
+snippet "</div> " "Reformat div" bA
+	${1:content}
+</div> 
+endsnippet
+
+snippet ul "Unodered list" iA
+<ul class="$1">
+	<li class="$2">$3</li>
+</ul>
+$0 
+endsnippet
+
+snippet li "Unodered list" iA
+<li class="$1">$2</li>$0
+endsnippet
