@@ -45,7 +45,6 @@ function CopySlac()
     then
         to="."
     fi
-    #alias noslacpass='SLACP=$(head -n 1 ~/.slacp) && sshpass -p $SLACP ssh rhel'
     cmd="scp -r pgphoton@rhel6-64.slac.stanford.edu:${from}/${fname} ${to}"
     echo $cmd
     $cmd
@@ -79,6 +78,14 @@ function RootLs()
 
 function RepString()
 {   
+    if [[ ${1} == "-h" ]]
+    then
+        echo "RepString <path_to_files> <from_regex> <to_regex> <filewildcard>"
+        echo "   replaces string in all file matching <filewildcard>  for  all"
+        echo "   occurances of <from_regex> to <to_regex>. Use with caution as"
+        echo "   it might damage files"
+    fi
+
     path=$1
     from=$2
     to=$3
@@ -92,6 +99,13 @@ function RepString()
 function PyCalc()
 {
     python -c "print("$@")"
+}
+
+function jc()
+{
+    command='julia -E  "'$@'"'
+    echo ${command}
+    julia -E "${@}"
 }
 
 
@@ -154,12 +168,12 @@ function CreateGitRepo()
 }
 
 function DelExcept()
-{
-    cmd="find . -type f "
+{ cmd="find . -type f "
     for pattern in "$@"; do
         cmd=$cmd"-not -name '"$pattern"' "
     done
-    cmd=$cmd" | parallel rm"
+    #cmd=$cmd" | parallel rm"
+    cmd=$cmd" -exec mv {} .Trash +"
     echo $cmd
     $cmd
 
@@ -292,3 +306,47 @@ cat > ${HWDIR}/PHYS${CRN}HW${HWN}_Done.tex << EOF
 \end{questions}
 EOF
 }
+
+function TimeAv()
+{
+    rm -f /tmp/mtime.$$
+
+    for x in {1..10}
+    do
+      /usr/bin/time -f "real %e user %U sys %S" -a -o /tmp/mtime.$$ $@
+      tail -1 /tmp/mtime.$$
+    done
+
+    awk '{ et += $2; ut += $4; st += $6; count++ } END {  printf "Average:\nreal %.3f user %.3f sys %.3f\n", et/count, ut/count, st/count }' /tmp/mtime.$$
+}
+
+function fed()
+{
+    if [[ ${1} == "-h"  || ${1} == "--help" ]]
+    then
+        echo "Finds a file with fzf and edits with nvim "
+    fi
+
+    given_path="$(readlink -f $(fzf))"
+    root_path="${given_path}"
+    if [[ -d ${root_path} ]]
+    then
+        cd ${root_path}
+    else
+        found=false
+        while [[ ("${found}" == "false") && ("${root_path}" != "") ]]
+        do
+            root_path="$(dirname -- "$(readlink -f -- "$root_path")")"
+            if [[ -d "${root_path}"/.git ]]
+            then
+                found=true
+                pushd . &> /dev/null
+                cd "${root_path}"
+                nvim "${given_path}"
+                popd &> /dev/null
+                return 0
+            fi
+        done
+    fi
+}
+
