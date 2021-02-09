@@ -16,11 +16,10 @@ esac
 ### History duplicate fix
 # https://unix.stackexchange.com/questions/18212/bash-history-ignoredups-and-erasedups-setting-conflict-with-common-history/79439#79439
 alias hfix='history -n && history | sort -k2 -k1nr | uniq -f1 | sort -n | cut -c8- > ~/.tmp$$ && history -c && history -r ~/.tmp$$ && history -w && rm ~/.tmp$$'
-HISTCONTROL=ignorespace
-shopt -s histappend
+HISTCONTROL=ignorespace shopt -s histappend
 shopt -s extglob
-HISTSIZE=10000
-HISTFILESIZE=20000
+HISTSIZE=20000
+HISTFILESIZE=30000
 export HISTIGNORE="!(+(*\ *))"
 PROMPT_COMMAND="hfix; $PROMPT_COMMAND"
 ####### Fix upto here
@@ -131,7 +130,7 @@ fi
 
 
 #Set vi mode in terminal
-EDITOR=vi
+export EDITOR=vim
 
 set -o vi
 bind '"jk":vi-movement-mode'
@@ -143,8 +142,4 @@ export XDG_DATA_DIRS=${HOME}/.local/share:${XDG_DATA_DIRS}
 if [[ -f ".${HOSTNAME}_env.sh" ]]
 then
     source .${HOSTNAME}_env.sh
-    if [[ ${MYROOT} != "" ]]
-    then
-        source ${MYROOT}/enable.sh
-    fi
 fi
