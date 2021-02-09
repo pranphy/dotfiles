@@ -18,6 +18,7 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'JuliaEditorSupport/julia-vim'
     Plug 'ervandew/supertab'
     Plug 'oberblastmeister/neuron.nvim'
+    Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
