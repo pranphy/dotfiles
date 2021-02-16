@@ -6,12 +6,12 @@
 set nocompatible
 filetype off
 
-
 call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'Valloric/YouCompleteMe'
     Plug 'scrooloose/nerdtree'
     Plug 'vim-airline/vim-airline'
     Plug 'lervag/vimtex'
+    Plug 'KeitaNakamura/tex-conceal.vim'
     Plug 'SirVer/ultisnips'
     Plug 'tpope/vim-fugitive'
     Plug 'hsanson/vim-android'
@@ -29,6 +29,8 @@ filetype plugin indent on
 syntax on
 
 colorscheme gruvbox
+
+
 highlight Normal guibg=NONE ctermbg=NONE
 
 
@@ -50,6 +52,11 @@ set foldmethod=indent
 set foldlevel=1
 set fileformat=unix
 set nohlsearch
+set incsearch
+set inccommand=split
+set guifont=Iosevka\ Term:h12
+
+let mapleader=' '
 
 
 inoremap jk <esc>
@@ -74,6 +81,16 @@ nnoremap <C-H> <C-W><C-H>
 vnoremap < <gv
 vnoremap > >gv
 
+nnoremap <leader>nt :NERDTreeToggle<cr>
+nnoremap <leader>nm :NERDTreeMirror<cr>
+
+nnoremap <leader>gs :vertical Gstatus<cr>
+nnoremap <leader>gt :tab Gstatus<cr>
+
+nnoremap <silent> <left> :bp<cr>
+nnoremap <silent> <right> :bn<cr>
+
+
 if has ('nvim')
     tnoremap jk <C-\><C-n>
     tnoremap jK <C-\><C-n>
@@ -94,6 +111,8 @@ let g:cpp_class_scope_highlight=1
 if !exists('g:ycm_semantic_triggers')
   let g:ycm_semantic_triggers = {}
 endif
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
 let g:ycm_register_as_syntastic_checker=1
 
@@ -105,6 +124,11 @@ let g:vimtex_matchparen_enabled=0
 "let g:matchup_override_vimtex=1
 "let g:matchup_matchparen_deferred=1
 let vimtex_fild_enabled=1
+
+
+set conceallevel=1
+let g:tex_conceal='abdmg'
+hi Conceal ctermbg=none
 
 let g:SuperTabDefaultCompletionType = 'jj'
 
@@ -118,5 +142,5 @@ let g:UltiSnipsEditSplit="vertical"
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_extensions = []
+"let g:airline_extensions = []
 
