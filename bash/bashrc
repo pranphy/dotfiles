@@ -130,7 +130,7 @@ fi
 
 
 #Set vi mode in terminal
-export EDITOR=vim
+export EDITOR=nvim
 
 set -o vi
 bind '"jk":vi-movement-mode'
@@ -139,7 +139,7 @@ bind '"jk":vi-movement-mode'
 export XDG_CONFIG_HOME=${HOME}/.config
 export XDG_DATA_DIRS=${HOME}/.local/share:${XDG_DATA_DIRS}
 
-if [[ -f ".${HOSTNAME}_env.sh" ]]
+if [[ -f ".this_host_env.sh" ]]
 then
-    source .${HOSTNAME}_env.sh
+    source .this_host_env.sh
 fi
