@@ -1,0 +1,79 @@
+env:
+  TERM: xterm-256color
+
+window:
+  padding:
+    x: 4
+    y: 1
+  decorations: none
+  title: Alacritty
+  dynamic_title: true
+
+scrolling:
+  history: 10000
+  #multiplier: 3
+
+# Font configuration
+font:
+  normal:
+    family: Iosevka Term
+    style: Regular
+  size: 9.0
+
+cursor:
+  style: Underline
+  unfocused_hollow: true
+  vi_mode_style: Block
+
+draw_bold_text_with_bright_colors: true
+colors:
+  # Default colors
+  primary:
+    background: '#000000'
+    foreground: '#FFFFFF'
+
+    dim_foreground: '#EFF0F1'
+    bright_foreground: '#FFFFFF'
+    dim_background: '#31363b'
+    bright_background: '#000000'
+
+  # Normal colors
+  normal:
+    black: '#232627'
+    red: '#ED1515'
+    green: '#11D116'
+    yellow: '#F67400'
+    blue: '#1D99F3'
+    magenta: '#9B59B6'
+    cyan: '#1ABC9C'
+    white: '#FCFCFC'
+
+# Bright colors
+  bright:
+    black: '#000000'
+    red: '#ED1515'
+    green: '#11D116'
+    yellow: '#F67400'
+    blue: '#AAAAFF'
+    magenta: '#9B59B6'
+    cyan: '#34E2E2'
+    white: '#FCFCFC'
+  
+  # Dim colors
+  dim:
+    black: '#31363B'
+    red: '#783228'
+    green: '#17A262'
+    yellow: '#B65619'
+    blue: '#1B668F'
+    magenta: '#614A73'
+    cyan: '#186C60'
+    white: '#63686D'
+  
+
+background_opacity: 0.8
+
+debug:
+  # Display the time it takes to redraw each frame.
+  render_timer: false
+
