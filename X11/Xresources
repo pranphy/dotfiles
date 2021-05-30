@@ -14,11 +14,8 @@ URxvt.geometry: 95x30
 
 ! Fonts
 ! =====
-!URxvt.font: xft:Monaco:size=8
-!URxvt.font: xft:Monaco for powerline:size=8;xft:Noto Sans Devanagari:size=15:antialias=true
-!URxvt.font: xft:Ubuntu Mono derivative Powerline:size=10
-!URxvt.font: xft:Ubuntu Mono derivative Powerline:size=11, xft:Noto Sans Devanagari:size=15:antialias=true
-URxvt.font: xft:Iosevka Term:size=13,xft:Fira Code:size=10, xft:Noto Sans Devanagari:size=15:antialias=false
+
+URxvt.font: xft:Iosevka Term:size=9,xft:Fira Code:size=10,xft:Iosevka Nerd Font:size=9,xft:Noto Sans Devanagari:size=15:antialias=false
 URxvt.allow_bold: true
 !URxvt.letterSpace: -1
 
@@ -140,3 +137,7 @@ URxvt.color15: #EEEEEC
 !! Transparency stuffs
 urxvt*depth: 32
 urxvt*background: rgba:0000/0200/0200/cf00
+
+!# Dmenu Stuffs
+!#dmenu.background : rgba:0000/0200/0200/cf00
+dmenu.foreground : #AB0DEF
