@@ -7,14 +7,14 @@ class Maps:
     num = {
         '0': '०',
         '1': '१',
-	'2': '२',
-	'3': '३',
-	'4': '४',
-	'5': '५',
-	'6': '६',
-	'7': '७',
-	'8': '८',
-	'9': '९'
+        '2': '२',
+        '3': '३',
+        '4': '४',
+        '5': '५',
+        '6': '६',
+        '7': '७',
+        '8': '८',
+        '9': '९'
     }
     small_char = {
         'w': 'ध',
@@ -56,7 +56,7 @@ class Maps:
         'C': 'ऋ',
         'V': 'ॐ',
         'B': 'ौ',
-        'M': 'ः' 
+        'M': 'ः'
     }
     symbols = {
         '@': 'ई',
@@ -80,23 +80,23 @@ class Maps:
         ';': 'स'
     }
     multi_char = {
-        'q':['त','्','र',], 
-        'Q':['त','्','त',], 
-        'W':['ध','्',], 
-        'R':['च','्',], 
-        'T':['त','्',], 
-        'Y':['थ','्',], 
-        'I':['क','्','ष',], 
-        'A':['क','्',], 
-        'D':['म','्',], 
-        'G':['न','्',], 
-        ':':['स','्',], 
-        'Z':['श','्',], 
-        'X':['ह','्',], 
-        'N':['ल','्',], 
-        '>':['श','्','र',], 
-        '!':['ज','्','ञ',], 
-        '$':['द','्','ध',], 
+        'q':['त','्','र',],
+        'Q':['त','्','त',],
+        'W':['ध','्',],
+        'R':['च','्',],
+        'T':['त','्',],
+        'Y':['थ','्',],
+        'I':['क','्','ष',],
+        'A':['क','्',],
+        'D':['म','्',],
+        'G':['न','्',],
+        ':':['स','्',],
+        'Z':['श','्',],
+        'X':['ह','्',],
+        'N':['ल','्',],
+        '>':['श','्','र',],
+        '!':['ज','्','ञ',],
+        '$':['द','्','ध',],
     }
 
 
@@ -108,12 +108,22 @@ def get_nepali(eng_chars,mapping=Maps.complete):
 
 def make_map(ne,en):
         return {ne[i]:en[i] for i in range(len(ne)) }
-    
+
 def vscode_map(combined_map):
     insert_keymaps = ''
     for key,value in combined_map.items():
         insert_keymaps += fr'{{"before":["{value}"],"after":["{key}"]}},'
     return insert_keymaps
+
+def vim_map(keys=None,mapping=Maps.complete):
+    if keys:
+        for key in keys:
+            vl = mapping[key]
+            print(f"nnoremap {''.join(vl)} {key}")
+    else:
+        for (key,value) in mapping.items():
+            print(f"nnoremap {''.join(value)} {key}")
+
 
 
 MapName = Maps.complete

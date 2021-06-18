@@ -1,12 +1,10 @@
 {
-    /*Standard stuffs*/
-    "window.zoomLevel": 1,
     "editor.lineNumbers": "off",
-    "editor.fontFamily": "'Fira Code','Monaco', 'Noto Serif Devanagari','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontFamily": "'Iosevka Term','Iosevka Nerd Font','Monaco', 'Noto Serif Devanagari','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'zero', 'onum'",
-    "editor.fontSize": 20,
+    "editor.fontSize": 18,
     "editor.minimap.enabled": false,
-    "editor.columnSelection": true,
+    /*"editor.columnSelection": true,*/
     "editor.emptySelectionClipboard": false,
     "editor.smoothScrolling": true,
     "editor.formatOnPaste": true,
@@ -17,7 +15,7 @@
     "files.watcherExclude": {
         "**/__pycache__/**": true
     },
-    "files.trimTrailingWhitespace": true,
+    "files.trimTrailingWhitespace": false,
 
     "workbench.startupEditor": "readme",
     "workbench.colorCustomizations": {
@@ -37,7 +35,7 @@
 
 
     /*Neovim real embed plugin*/
-    "vscode-neovim.neovimExecutablePaths.linux": "/home/pranphy/MyRoot/usr/bin/nvim",
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
     "vscode-neovim.mouseSelectionStartVisualMode": true,
 
     /*git stuffs*/
@@ -50,6 +48,23 @@
 
     /*Foam Section*/
     "foam.edit.linkReferenceDefinitions": "off",
+    "foam.openDailyNote.directory": "",
+    "foam.graph.style": {
+        "background": "#202020",
+        "fontSize": 17,
+        "lineColor": "#277da1",
+        "lineWidth": 2.7,
+        "particleWidth": 2.0,
+        "nodeSize": 6.0,
+        "highlightedForeground": "#f9c74f",
+        "node": {
+            "note": "#277da1",
+            "placeholder": "#545454",
+            "feature": "red",
+            "book review": "green",
+            "talk":"purple"
+        }
+    },
 
     /*Makrdown links plugin*/
     "markdown-links.graphType": "obsidian",
@@ -66,9 +81,10 @@
     "markdown-preview-enhanced.codeBlockTheme": "atom-dark.css",
     "markdown-preview-enhanced.mathRenderingOption": "MathJax",
     "markdown-preview-enhanced.revealjsTheme": "night.css",
+    "markdown-preview-enhanced.configPath": "/home/pranphy/.mume",
 
     /*Julia extension*/
-    "julia.executablePath": "/home/pranphy/MyRoot/usr/bin/julia",
+    "julia.executablePath": "/usr/bin/julia",
     "julia.execution.resultType": "both",
 
     "markdown-image.local.path": "/Attachments/images",
@@ -80,7 +96,31 @@
         "editor.wordWrap": "on",
         "editor.quickSuggestions": {"strings":true},
     },
+    
+    /* Java Stuffs*/
+    "java.configuration.runtimes": [
 
+        {
+            "name": "JavaSE-15",
+            "path": "/home/pranphy/MyRoot/opt/jdk-15.0.1/",
+            "default": true
+        },
+    ],
+
+    /*Database connection stuffs*/
+    "sqltools.connections": [
+        {
+            "askForPassword": false,
+            "database": "shabdakosh",
+            "driver": "PostgreSQL",
+            "name": "Prakash_PSQL",
+            "password": "P@ssw0rd",
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "prakash"
+        }
+    ],
 
     /*Latex Workshop plugin*/
     "latex-workshop.view.pdf.viewer": "tab",
@@ -121,5 +161,24 @@
             ],
             "env": {}
         }
+    ],
+    "hediet.vscode-drawio.local-storage": "eyIuZHJhd2lvLWNvbmZpZyI6IntcImxhbmd1YWdlXCI6XCJcIixcImN1c3RvbUZvbnRzXCI6W10sXCJsaWJyYXJpZXNcIjpcImdlbmVyYWxcIixcImN1c3RvbUxpYnJhcmllc1wiOltcIkwuc2NyYXRjaHBhZFwiXSxcInBsdWdpbnNcIjpbXSxcInJlY2VudENvbG9yc1wiOltdLFwiZm9ybWF0V2lkdGhcIjpcIjI0MFwiLFwiY3JlYXRlVGFyZ2V0XCI6ZmFsc2UsXCJwYWdlRm9ybWF0XCI6e1wieFwiOjAsXCJ5XCI6MCxcIndpZHRoXCI6ODUwLFwiaGVpZ2h0XCI6MTEwMH0sXCJzZWFyY2hcIjp0cnVlLFwic2hvd1N0YXJ0U2NyZWVuXCI6dHJ1ZSxcImdyaWRDb2xvclwiOlwiI2QwZDBkMFwiLFwiZGFya0dyaWRDb2xvclwiOlwiIzZlNmU2ZVwiLFwiYXV0b3NhdmVcIjp0cnVlLFwicmVzaXplSW1hZ2VzXCI6bnVsbCxcIm9wZW5Db3VudGVyXCI6MCxcInZlcnNpb25cIjoxOCxcInVuaXRcIjoxLFwiaXNSdWxlck9uXCI6ZmFsc2UsXCJ1aVwiOlwiXCJ9In0=",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "C_Cpp.updateChannel": "Insiders",
+    "julia.enableTelemetry": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "window.zoomLevel": -1,
+    "colorize.languages": [
+        "javascript",
+        // ...
+        "yaml",
+        ".Xresources"
     ]
 }
