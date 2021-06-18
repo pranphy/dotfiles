@@ -388,10 +388,10 @@ priority 0
 #================= Non Math Stuffs ================
 #==================================================
 
-context "nomath()"
-snippet "\\(\w+) " "quick math in regular  mode"  erwA
-$`!p snip.rv = match.group(1)`$ $0
-endsnippet
+#context "nomath()"
+#snippet "\\(\w+) " "quick math in regular  mode"  erwA
+#$`!p snip.rv = match.group(1)`$ $0
+#endsnippet
 
 
 #==================================================
@@ -1027,6 +1027,11 @@ snippet igfx "Include graphics line" b
 \includegraphics[width=${1:0.99}\linewidth]{${2:imagepath}}
 $0
 endsnippet
+
+snippet onbb "Neutrinoless double beta decay" wA
+$ 0\nu\beta\beta$
+endsnippet
+
 
 # vim:ft=snippets:
 
