@@ -22,18 +22,21 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'nvim-treesitter/playground'
+    "Plug 'nvim-treesitter/playground'
+    Plug 'godlygeek/tabular'
+    Plug 'plasticboy/vim-markdown'
+    Plug 'vimwiki/vimwiki'
+    Plug 'APZelos/blamer.nvim'
 call plug#end()
 
 filetype plugin indent on
 syntax on
 
 colorscheme gruvbox
-
-
 highlight Normal guibg=NONE ctermbg=NONE
 
 
+set hidden
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -82,14 +85,11 @@ vnoremap < <gv
 vnoremap > >gv
 
 nnoremap <leader>nt :NERDTreeToggle<cr>
+nnoremap <leader>nc :NERDTreeClose<cr>
 nnoremap <leader>nm :NERDTreeMirror<cr>
 
 nnoremap <leader>gs :vertical Gstatus<cr>
 nnoremap <leader>gt :tab Gstatus<cr>
-
-nnoremap <silent> <left> :bp<cr>
-nnoremap <silent> <right> :bn<cr>
-
 
 if has ('nvim')
     tnoremap jk <C-\><C-n>
