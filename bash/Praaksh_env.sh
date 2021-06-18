@@ -5,19 +5,9 @@
 # author : Prakash [प्रकाश]
 # date   : 2020-11-25 00:40
 
-if [[ ${HOSTNAME} == "Prakash" ]]
+if [[ ${HOSTNAME} == "photon" ]]
 then
     export CDPATH=.:~:~/GitRepos:~/Sabthok/Education/Graduate/Drexel:~/Sabthok/Programming/Projects:~/.Rough
-    export RCLONE_HOME="/opt/rclone"
-    export PATH="$RCLONE_HOME:${PATH}"
-
-    #Zotero home
-    export ZOTERO_HOME="/opt/Zotero"
-    export PATH="$ZOTERO_HOME:${PATH}"
-
-    LAMPP=/opt/lampp
-    export PATH=${LAMPP}/bin:${PATH}
-
 
     export PATH="${HOME}/.local/bin:$PATH"
 
@@ -30,10 +20,15 @@ then
         export FZF_DEFAULT_COMMAND='rg --ignore-file ~/.rgignore --files --hidden'
     fi
     export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
+    LF_ICONS=$(sed ~/.config/lf/diricons \
+            -e '/^[ \t]*#/d'       \
+            -e '/^[ \t]*$/d'       \
+            -e 's/[ \t]\+/=/g'     \
+        )
+        #-e 's/$/ /')
+LF_ICONS=${LF_ICONS//$'\n'/:}
+export LF_ICONS
 
-    export MYROOT="${HOME}/MyRoot"
-    if [[ ${MYROOT} != "" ]]
-    then
-        source ${MYROOT}/enable.sh
-    fi
+    export MYROOT="${HOME}/st"
+    [[ ${MYROOT} != "" ]] && source ${MYROOT}/enable.sh
 fi
