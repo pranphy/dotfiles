@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+# author : Prakash [प्रकाश]
+# date   : 2021-05-25 00:54
+
+killall -q polybar
+while pgrep -u ${UID} -x polybar > /dev/null; do sleep 1; done
+
+if type "xrandr"; then
+  for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+    MONITOR=$m polybar --reload example &
+  done
+else
+  polybar --reload example &
+fi
+
+#polybar example &

@@ -1,0 +1,14 @@
+# vim: ft=conf
+# original file: /usr/share/doc/ncmpcpp/config
+ncmpcpp_directory = ~/.config/ncmpcpp
+mpd_host = localhost
+mpd_port = 6600
+#
+
+## Visualizer ##
+visualizer_fifo_path = "/tmp/mpd.fifo"
+visualizer_output_name = "my_fifo"
+visualizer_sync_interval = "60"
+visualizer_type = "spectrum"
+#visualizer_type = "wave"
+visualizer_in_stereo = "yes"
