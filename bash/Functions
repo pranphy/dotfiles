@@ -348,7 +348,7 @@ function fed()
     help="Finds a file with fzf and opens with xdg-open"
     [[ ${1} == "-h"  || ${1} == "--help" ]] && echo ${help} && return 0
 
-    given_path="$(readlink -f $(fzf))"
+    given_path="$(readlink -f $(find . -type f | fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'))"
     root_path="${given_path}"
     if [[ -d ${root_path} ]]
     then
