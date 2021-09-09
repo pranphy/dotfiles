@@ -78,6 +78,6 @@ bind '"jk":vi-movement-mode'
 
 #XDG Env variables 
 export XDG_CONFIG_HOME=${HOME}/.config
-export XDG_DATA_DIRS=${HOME}/.local/share:${XDG_DATA_DIRS}
 
-[[ -f "~.this_host_env.sh" ]] && ~/.this_host_env.sh
+[[ -f ~/.this_host_env.sh ]] && source ~/.this_host_env.sh
+
