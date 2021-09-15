@@ -372,3 +372,9 @@ function fed()
     fi
 }
 
+function cheat()
+{
+    CMD=${@}
+    curl cheat.sh/${CMD} | less -R
+}
+

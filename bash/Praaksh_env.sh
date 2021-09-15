@@ -26,9 +26,9 @@ then
             -e 's/[ \t]\+/=/g'     \
         )
         #-e 's/$/ /')
-LF_ICONS=${LF_ICONS//$'\n'/:}
-export LF_ICONS
+    LF_ICONS=${LF_ICONS//$'\n'/:}
+    export LF_ICONS
 
     export MYROOT="${HOME}/st"
-    [[ ${MYROOT} != "" ]] && source ${MYROOT}/enable.sh
+    [[ -f ${MYROOT}/enable.sh ]] && source ${MYROOT}/enable.sh
 fi
