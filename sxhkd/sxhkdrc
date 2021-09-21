@@ -1,6 +1,4 @@
 #
-# wm independent hotkeys
-#
 
 # terminal emulator
 super + Return
@@ -12,7 +10,7 @@ super + @space
 
 # program launcher
 super + r
-    rofi -show run	
+    rofi -opacity "85" -show run
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -24,7 +22,7 @@ super + Escape
 
 # quit/restart bspwm
 super + alt + {q,r}
-	bspc {quit,wm -r}
+	bspc {quit,wm -r} && systemctl --user restart sxhkd
 
 # close and kill
 super + {_,shift + }w
@@ -42,6 +40,11 @@ super + y
 super + g
 	bspc node -s biggest.window
 
+Print
+    maim -s ~/Pictures/Screenshots/maim/maim-grab-$(date +%Y-%m-%d-%H-%m-%s).png
+
+shift + Print
+    maim -s | xclip -selection clipboard -t image/png
 #
 # state/flags
 #
@@ -124,8 +127,42 @@ super + alt + shift + {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
+
 alt + shift + l
     /home/pranphy/st/usr/bin/betterlockscreen --lock blur
 
-alt + shift + p 
+XF86Audio{RaiseVolume,LowerVolume}
+    pactl set-sink-volume @DEFAULT_SINK@ {+5%,-5%}
+
+
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+XF86AudioMicMute
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+XF86Audio{Prev,Next,Play}
+    mpc -q {prev,next,toggle}
+
+# This is a hack to shift the audio sink
+shift + XF86Audio{Prev,Next}
+    pactl set-default-sink {$(pactl list short sinks | grep hdmi | cut -b 1-2),$(pactl list short sinks | grep analog | cut -b 1-2)}
+
+XF86Calendar
+    kitty -e bash ~/wait
+
+XF86Calculator
+    kitty -e python3
+
+alt + shift + p
     passmenu
+
+alt + shift + y
+    kitty -e opndc
+
+alt + shift + s
+    bspc node -g sticky
+
+alt + p
+    bspc window -t floating; \
+    bspc window -t sticky
