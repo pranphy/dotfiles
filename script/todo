@@ -5,11 +5,6 @@
 # author : Prakash [प्रकाश]
 # date   : 2021-09-09 01:06
 
-import click
-
-"""
-"""
-
 todo = {
     'title':'this is title',
     'date': '2021-09-09',
@@ -62,89 +57,152 @@ todo = {
     ],
 }
 
-def save_to_md(tasks,filename):
-    tmp = '/tmp/hello.md'
-    with open(tmp,'w') as wf:
-        wf.write(f"---\n"
-                f"title:{tasks['title']}\n"
-                f"date:{tasks['date']}\n"
-                "---\n")
-        wf.write("\n\n")
-        print(tasks['comments'],file=wf)
-        wf.write("\n")
-        topics = tasks['topics']
-        for topic in topics:
-            name = topic['name']
-            print(f"# {name} ",file=wf)
-            tasks = topic['tasks']
-            for task in tasks:
-                added = task['added']
-                updated = task['updated']
-                tags = task["tags"]
+import click
+from enum import Enum, unique, auto
 
-                mark = 'x' if task['flag'] == 'done' else ' '
-                print(f"  - [{mark}] {task['task']} #{task['added']} {task['updated']}",file=wf)
+@unique
+class RegStat(Enum):
+    FMSTART  = auto()
+    FMEND    = auto()
+    FMREG    = auto()
+    COMMENT  = auto()
+    TOPIC    = auto()
+    TASK     = auto()
+    FILSTART = auto()
+
+class Todo(object):
+    _frontmatter = dict()
+    _topiclist = list()
+    _topic = dict()
+    _tasklist = list()
+    _gstatus = RegStat.FILSTART
+    _filename = '/tmp/hellos.md'
+    _id = 1
+    def __init__(self,filename):
+        self._filename = filename
+
+    def add_fm(self,line):
+        try:
+            spl = line.split(':')
+            key = spl[0]
+            if key.upper() == 'DATE':
+                val = dt.datetime.strptime(spl[1],'%Y-%m-%d')
+                self._frontmatter[key] = val
+            else:
+                self._frontmatter[key] = spl[1]
+        except Exception as e:
+            print(f"There was a error {e}")
+
+
+    def add_topic(self,line):
+        if self._topic:
+            self._topic['tasks'] : self._tasklist
+            self._tasklist = list()
+            self._topiclist.append(self._topic)
+            self._topic = dict()
+
+        topicname = line.lstrip('## ').strip()
+        self._topic['name'] = topicname
+
+    def add_task(self,line):
+        task = dict()
+        flag = line.startswith('- [x] ')
+        taskstr = line.lstrip('- [x] ') if flag else line.lstrip('- [ ] ')
+        task['id'] = self._id; self._id += 1
+        task['flag'] = 'done' if flag else 'pend'
+        task['added'] = 161162223
+        task['updated'] = 161162223
+        task['task'] = taskstr
+        self._tasklist.append(task)
+
+
+
+    def get_type(self,line):
+        oline = line
+        line = line.strip()
+        if self._gstatus == RegStat.FILSTART:
+            if (len(line) < 0 ):
+                return 'empty'
+            elif line == '---':
+                self._gstatus = RegStat.FMSTART
+                return 'fmstart'
+            else:
+                return 'error'
+        elif self._gstatus in [RegStat.FMSTART, RegStat.FMREG]:
+            spl = line.split(':')
+            if len(spl) == 2:
+                self.add_fm(oline)
+                self._gstatus = RegStat.FMREG
+                return 'fmkeyvalue'
+            elif line.startswith('#'):
+                self._gstatus = RegStat.FMREG
+                return 'fmcomment'
+            elif line == '---':
+                self._gstatus = RegStat.COMMENT
+                return 'fmend'
+            elif len(line) < 1:
+                return 'error fm'
+            else:
+                print(' Error hare ', end='')
+                return 'error'
+        elif self._gstatus in [RegStat.COMMENT]:
+            if line.startswith('## '):
+                self.add_topic(oline)
+                self._gstatus = RegStat.TOPIC
+                return 'topic'
+            else:
+                return 'comment'
+        elif self._gstatus == RegStat.TOPIC:
+            if (line.startswith('- [ ] ') or line.startswith('- [x] ') ):
+                self.add_task(oline)
+                return 'task'
+            if (line.startswith('## ')):
+                self.add_topic(oline)
+                self._gstatus = RegStat.TOPIC
+                return 'topic'
+            else:
+                return 'empty'
+        else:
+            return 'unknown'
+
+    def save_to_md(tasks,filename):
+        tmp = '/tmp/hello.md'
+        with open(tmp,'w') as wf:
+            wf.write(f"---\n"
+                    f"title:{tasks['title']}\n"
+                    f"date:{tasks['date']}\n"
+                    "---\n")
             wf.write("\n\n")
+            print(tasks['comments'],file=wf)
+            wf.write("\n")
+            topics = tasks['topics']
+            for topic in topics:
+                name = topic['name']
+                print(f"## {name} ",file=wf)
+                tasks = topic['tasks']
+                for task in tasks:
+                    added = task['added']
+                    updated = task['updated']
+                    tags = task["tags"]
+
+                    mark = 'x' if task['flag'] == 'done' else ' '
+                    print(f"  - [{mark}] {task['task']} #{task['added']} {task['updated']}",file=wf)
+                wf.write("\n\n")
 
 
-#def parse_frontmatter(lines,cnt=0):
-#    mylines = lines[cnt:]
-#    completed = False
-#    i = 0
-#    date = ''
-#    title = ''
-#    #while date is not None and title is not None:
-#    while not completed:
-#        curline = mylines[i].strip()
-#        if curline.startswith('date'):
-#            date = curline.split(':')[1].strip()
-#        elif curline.startswith()
-#
+    def annotate_file(self,filename=None):
+        filename = filename or self._filename
+        with open(filename, 'r') as infile:
+            for line in infile:
+                typ = self.get_type(line)
+                line = line.strip()
+                typ = typ if typ is not None else 'None'
+                print(f"{typ:>10}  : {line}")
+
+        print(f"Now printing")
+        print(f"Topic list is \n {self._topiclist}")
 
 
-
-
-def read_from_md(filename):
-    id = 1;
-    curtasks = dict()
-    topics = []
-    tasks = []
-    with open(filename,'r') as infile:
-        lines = infile.readlines()
-        done = False
-        i = 0
-        while not done:
-            line = lines[i].strip() ; i += 1
-            topic = dict()
-            tfound = False
-            if line.startswith('#'):
-                name = line.lstrip('# ').strip()
-                comments = ''
-                topic['name'] = name
-                topic['comments'] = comments
-                continue
-                
-
-            elif line.startswith('- [x] ') or line.startswith('- [ ] '):
-                flag = line.startswith('- [x] ')
-
-                task, date = line.split('#')
-                cudate = date.split(' ')
-                cdate = cudate
-                udate =  ''
-                if len(cudate) > 1:
-                    cdate = cudate[0]
-                    udate = cudate[1]
-
-                dtask = dict(id=str(id),flag=str(flag),added=cdate,updated=udate,task=task,tags=[])
-                tasks.append(dtask)
-                tfound = True
-
-            topic['tasks'] = tasks
-            topics.append(topic)
-            tasks = []
-            topic = dict()
-    return topics
 
 
 @click.command()
@@ -152,12 +210,15 @@ def read_from_md(filename):
 @click.argument("argument",default='all',type=str)
 def main(action,argument):
     """Helps with things """
+    filename = '/tmp/hello.md'
+    TD = Todo(filename)
+    print(f"Status is {TD._gstatus}")
     print(f"{action}ing {argument}")
-    save_to_md(todo,"hello")
-    tasks = read_from_md('/tmp/hello.md')
-    print(tasks)
+    #save_to_md(todo,"hello")
+    #tasks = read_from_md('/tmp/hello.md')
+    TD.annotate_file()
 
-    
 
 if __name__ == '__main__':
+
     main()
