@@ -219,9 +219,16 @@ function MakeGrayscale()
 
 function FetchLyrics()
 {
-    artist=${1}
-    title=${2}
-    curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title"
+
+    title=${@}
+    [[ ${title} == "-h" ]] && echo "FetchLyrics <song title>, <artist>"
+    artist=""
+    IFS=',' read -ra ADDR <<< "${title}"
+    title=${ADDR[0]}
+    artist=${ADDR[1]}
+    #echo "Artist : ${artist} and title: ${title}"
+
+    curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | less
 }
 
 
