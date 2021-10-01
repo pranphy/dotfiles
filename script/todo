@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=python
+
+# author : Prakash [प्रकाश]
+# date   : 2021-09-09 01:06
+
+import click
+
+"""
+"""
+
+todo = {
+    'title':'this is title',
+    'date': '2021-09-09',
+    'comments': 'I have few things for you to do.\nThis might be a time to test',
+    'topics': [
+        {
+            'name': 'Physics',
+            'comments': '',
+            'tasks': [
+                    {
+                        'id': '01',
+                        'flag': 'done',
+                        'added': 161162223,
+                        'updated': 1611162224,
+                        'task' : "Hello, there I need to work on this ",
+                        'tags':['late','learn','through']
+                    },
+                    {
+                        'id': '02',
+                        'flag': 'pending',
+                        'added': 161162223,
+                        'updated': 1611162224,
+                        'task' : "Hello I have done something to work on this ",
+                        'tags':['late','learn','through']
+                    },
+            ],
+        },
+        {
+            'name': 'Mathematics',
+            'comments': '',
+            'tasks': [
+                {
+                    'id': '03',
+                    'flag': 'done',
+                    'added': 161162223,
+                    'updated': 1611162224,
+                    'task' : "Clear Hello I need to work on this is that clear ",
+                    'tags':['late','learn','through']
+                },
+                {
+                    'id':'04',
+                    'flag': 'done',
+                    'added': 161162223,
+                    'updated': 1611162224,
+                    'task' : "This Hello I need to work on this ",
+                    'tags':['late','learn','through']
+                },
+            ],
+        }
+    ],
+}
+
+def save_to_md(tasks,filename):
+    tmp = '/tmp/hello.md'
+    with open(tmp,'w') as wf:
+        wf.write(f"---\n"
+                f"title:{tasks['title']}\n"
+                f"date:{tasks['date']}\n"
+                "---\n")
+        wf.write("\n\n")
+        print(tasks['comments'],file=wf)
+        wf.write("\n")
+        topics = tasks['topics']
+        for topic in topics:
+            name = topic['name']
+            print(f"# {name} ",file=wf)
+            tasks = topic['tasks']
+            for task in tasks:
+                added = task['added']
+                updated = task['updated']
+                tags = task["tags"]
+
+                mark = 'x' if task['flag'] == 'done' else ' '
+                print(f"  - [{mark}] {task['task']} #{task['added']} {task['updated']}",file=wf)
+            wf.write("\n\n")
+
+
+#def parse_frontmatter(lines,cnt=0):
+#    mylines = lines[cnt:]
+#    completed = False
+#    i = 0
+#    date = ''
+#    title = ''
+#    #while date is not None and title is not None:
+#    while not completed:
+#        curline = mylines[i].strip()
+#        if curline.startswith('date'):
+#            date = curline.split(':')[1].strip()
+#        elif curline.startswith()
+#
+
+
+
+
+def read_from_md(filename):
+    id = 1;
+    curtasks = dict()
+    topics = []
+    tasks = []
+    with open(filename,'r') as infile:
+        lines = infile.readlines()
+        done = False
+        i = 0
+        while not done:
+            line = lines[i].strip() ; i += 1
+            topic = dict()
+            tfound = False
+            if line.startswith('#'):
+                name = line.lstrip('# ').strip()
+                comments = ''
+                topic['name'] = name
+                topic['comments'] = comments
+                continue
+                
+
+            elif line.startswith('- [x] ') or line.startswith('- [ ] '):
+                flag = line.startswith('- [x] ')
+
+                task, date = line.split('#')
+                cudate = date.split(' ')
+                cdate = cudate
+                udate =  ''
+                if len(cudate) > 1:
+                    cdate = cudate[0]
+                    udate = cudate[1]
+
+                dtask = dict(id=str(id),flag=str(flag),added=cdate,updated=udate,task=task,tags=[])
+                tasks.append(dtask)
+                tfound = True
+
+            topic['tasks'] = tasks
+            topics.append(topic)
+            tasks = []
+            topic = dict()
+    return topics
+
+
+@click.command()
+@click.argument("action",type=click.Choice(['add','done','delete','show']))
+@click.argument("argument",default='all',type=str)
+def main(action,argument):
+    """Helps with things """
+    print(f"{action}ing {argument}")
+    save_to_md(todo,"hello")
+    tasks = read_from_md('/tmp/hello.md')
+    print(tasks)
+
+    
+
+if __name__ == '__main__':
+    main()
