@@ -1,33 +1,24 @@
-# vim: ft=sh
-
+set ratios 1:2:3
 # interpreter for shell commands
-set shell bash
+# original /usr/share/doc/lf-git/lfrc.example
 
-# set '-eu' options for shell commands
-# These options are used to have safer shell commands. Option '-e' is used to
-# exit on error and option '-u' is used to give error for unset variables.
-# Option '-f' disables pathname expansion which can be useful when $f, $fs, and
-# $fx variables contain names with '*' or '?' characters. However, this option
-# is used selectively within individual commands as it can be limiting at
-# times.
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
+
+set hidden true
+set color256 true
+set drawbox true
+set icons true
+set ignorecase true
+set incsearch true
+
+set shell sh
 set shellopts '-eu'
-
-# set internal field separator (IFS) to "\n" for shell commands
-# This is useful to automatically split file names in $fs and $fx properly
-# since default file separator used in these variables (i.e. 'filesep' option)
-# is newline. You need to consider the value of these options and create your
-# commands accordingly.
 set ifs "\n"
 
-map gp cd ~/Pictures
+set scrolloff 10  # leave some space at the top and the bottom of the screen
+map <enter> shell # execute current file (must be executable)
 
-# leave some space at the top and the bottom of the screen
-set scrolloff 10
-
-# use enter for shell commands
-map <enter> shell
-
-# execute current file (must be executable)
 map x $$f
 map X !$f
 
@@ -35,14 +26,12 @@ map X !$f
 map o &mimeopen $f
 map O $mimeopen --ask $f
 
-# define a custom 'open' command
-# This command is called when current file is not a directory. You may want to
-# use either file extensions and/or mime types here. Below uses an editor for
-# text files and a file opener for the rest.
 cmd open ${{
+    test -L $f && f=$(readlink -f $f)
     case $(file --mime-type $f -b) in
+        application/x-pie-executable) printf "Execute  [y/N]?: "; read ans; [[ ans == 'y' ]] && exec $fx;;
+        inode/x-empty)  $EDITOR $fx;;
         text/*) $EDITOR $fx;;
-        image/*) sxiv $fx;;
         *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
     esac
 }}
@@ -51,25 +40,21 @@ cmd open ${{
 # cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 # map r push :rename<space>
 
-# make sure trash folder exists
-# %mkdir -p ~/.trash
-
-# move current file or selected files to trash folder
-# (also see 'man mv' for backup/overwrite options)
+%mkdir -p ~/.trash
 cmd trash %set -f; mv $fx ~/.trash
 
 # define a custom 'delete' command
-# cmd delete ${{
-#     set -f
-#     printf "$fx\n"
-#     printf "delete?[y/n]"
-#     read ans
-#     [ $ans = "y" ] && rm -rf $fx
-# }}
+#cmd delete ${{
+#    set -f
+#    printf "$fx\n"
+#    printf "delete?[y/n]"
+#    read ans
+#    [ $ans = "y" ] && rm -rf $fx
+#}}
 
 # use '<delete>' key for either 'trash' or 'delete' command
-# map <delete> trash
-# map <delete> delete
+map <delete> trash
+map D delete
 
 # extract the current file with the right command
 # (xkcd link: https://xkcd.com/1168/)
@@ -103,6 +88,16 @@ cmd zip ${{
     rm -rf $1
 }}
 
+map gR cd ~/GitRepos/Research
+map gW cd ~/GitRepos/Writing
+map gP cd ~/Sabthok/Programming/Projects
+map gp cd ~/Pictures
+map gr cd ~/.Rough
+map gk cd ~/Sabthok/Programming/Projects/wxKitty
 
-map gkr for f in $fx; do chmod 644 $f &> /dev/null & done
+# Create mapping
+map m
+map md %printf "Enter directory name: "; read ans; mkdir $ans
+map mf %printf "Enter file name: "; read ans; touch $ans
 
+# vim: filetype=sh
