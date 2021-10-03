@@ -222,11 +222,15 @@ class Todo(object):
 
 
 @click.command()
-@click.argument("action",type=click.Choice(['add','done','delete','show','toggle']))
+@click.argument("action",type=click.Choice(['add','delete','show','toggle']))
 @click.argument("argument",default='all',type=str)
 @click.option("-t","--topic","topic", default=None,help="Topic to constrain to")
 def main(action,argument,topic):
-    """Helps with things """
+    """A very lean TODO management app written in python. This
+    basically meets my need of saving the todo items into a md
+    file that can live among my other notes and stuffs.   This
+    can then be managed by version control for maintaining the
+    different version"""
     TD = Todo('/tmp/hellos.md')
     Log(f"{action}ing {argument}")
     TD.read_file()
