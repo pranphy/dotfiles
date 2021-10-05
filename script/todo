@@ -19,7 +19,7 @@ class LogLevel(Enum):
     ERROR = 3
 
 def strike(text):
-    return ''.join([u'\u0336{}'.format(c) for c in text])
+    return ''.join([f'{c}\u0336' for c in text])
     #return text
 
 now = dt.datetime.now
@@ -154,10 +154,9 @@ class Todo(object):
             wf.write("\n")
             topics = tasks['topics'].keys()
 
-            for topic in topics:
-                name = topic
+            for name in topics:
                 print(f"## {name} ",file=wf)
-                ttasks = tasks['topics'][topic]['tasks']
+                ttasks = tasks['topics'][name]['tasks']
                 for task in ttasks:
                     added = task['added']
                     updated = task['updated']
@@ -192,7 +191,7 @@ class Todo(object):
                 for task in self._todo['topics'][topic]['tasks']:
                     tick = '✔' if task['flag'] else ' '
                     taskstr = strike(task['task']) if task['flag'] else task['task']
-                    print(f"  {tick} {task['id']:>3}   {taskstr}")
+                    print(f"  {tick} {task['id']:>3}. {taskstr}")
                 print("")
 
     def delete_task(self,taskid,topic=None):
@@ -208,6 +207,7 @@ class Todo(object):
                         del self._todo['topics'][topic]               # also delete the topic entirely
                     return
                 i +=1
+
     def toggle_task(self,taskid,topic):
         topics = [topic] if topic  else  self._todo['topics'].keys()
         for topic in topics:
@@ -231,11 +231,14 @@ def main(action,argument,topic):
     file that can live among my other notes and stuffs.   This
     can then be managed by version control for maintaining the
     different version"""
-    TD = Todo('/tmp/hellos.md')
+    fpath = Path.home()/".local/share/stodo/TODO.md"
+    fpath.parent.mkdir(parents=True,exist_ok=True)
+    TD = Todo(fpath)
     Log(f"{action}ing {argument}")
     TD.read_file()
     if action == 'show':
         TD.list_tasks(argument)
+        return
     elif action == 'add':
         TD.add_task(argument,done=False,topic=topic)
         TD.list_tasks()
