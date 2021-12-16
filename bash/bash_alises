@@ -39,6 +39,10 @@ alias gcm="git commit -m"
 alias gpom="git push origin master"
 alias dscam="gphoto2 --stdout --capture-movie | ffmpeg -i - -vcodec rawvideo -pix_fmt yuv420p -threads 0 -f v4l2 /dev/video2"
 
+# tree aliases
+alias treenode='tree -I "node_modules"'
+alias treejekyll='tree -I "vendor|_site"'
+
 # For my private aliases 
 source ~/.private_aliases
 
