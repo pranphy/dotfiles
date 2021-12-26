@@ -1,14 +1,19 @@
 # vim: ft=conf
 # original file: /usr/share/doc/ncmpcpp/config
+#
+
+mpd_music_dir = "/media/pranphy/backup/Data/Multimedia/Audio/Music"
+#mpd_music_dir = "~/Music"
+
 ncmpcpp_directory = ~/.config/ncmpcpp
 mpd_host = localhost
 mpd_port = 6600
 #
 
 ## Visualizer ##
-visualizer_fifo_path = "/tmp/mpd.fifo"
+visualizer_data_source= "/tmp/mpd.fifo"
 visualizer_output_name = "my_fifo"
-visualizer_sync_interval = "60"
 visualizer_type = "spectrum"
 #visualizer_type = "wave"
 visualizer_in_stereo = "yes"
+
