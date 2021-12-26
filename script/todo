@@ -185,7 +185,7 @@ class Todo(object):
 
     def list_tasks(self,ftopic='all'):
         for topic in self._todo['topics'].keys():
-            if ftopic in ['all', topic]:
+            if ftopic.lower() in ['all', topic.lower()]:
                 print(f"{topic}")
                 print('-'*len(topic))
                 for task in self._todo['topics'][topic]['tasks']:
@@ -209,6 +209,13 @@ class Todo(object):
                 i +=1
 
     def toggle_task(self,taskid,topic):
+        """Toggles a task by <taskid>
+        :type    taskid: int
+        :param   taskid: the id of task as displayed in the list
+
+        :type    topic: str
+        :param   topic: the category to constrain the taskid search
+        """
         topics = [topic] if topic  else  self._todo['topics'].keys()
         for topic in topics:
             i = 0
@@ -237,6 +244,9 @@ def main(action,argument,topic):
     Log(f"{action}ing {argument}")
     TD.read_file()
     if action == 'show':
+        if argument == 'path':
+            print(f"{fpath}")
+            return
         TD.list_tasks(argument)
         return
     elif action == 'add':
