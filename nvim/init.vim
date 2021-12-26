@@ -25,6 +25,10 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
+
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+
 call plug#end()
 
 filetype plugin indent on
@@ -86,8 +90,6 @@ nnoremap <leader>nt :NERDTreeToggle<cr>
 nnoremap <leader>nc :NERDTreeClose<cr>
 nnoremap <leader>nm :NERDTreeMirror<cr>
 
-nnoremap <leader>gs :vertical Gstatus<cr>
-nnoremap <leader>gt :tab Gstatus<cr>
 
 if has ('nvim')
     tnoremap jk <C-\><C-n>
