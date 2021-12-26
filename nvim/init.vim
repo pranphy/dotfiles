@@ -14,19 +14,17 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'KeitaNakamura/tex-conceal.vim'
     Plug 'SirVer/ultisnips'
     Plug 'tpope/vim-fugitive'
-    Plug 'hsanson/vim-android'
+    Plug 'junegunn/gv.vim'
     Plug 'JuliaEditorSupport/julia-vim'
     Plug 'ervandew/supertab'
-    Plug 'oberblastmeister/neuron.nvim'
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    "Plug 'nvim-treesitter/playground'
     Plug 'godlygeek/tabular'
     Plug 'plasticboy/vim-markdown'
     Plug 'vimwiki/vimwiki'
     Plug 'APZelos/blamer.nvim'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
 
 filetype plugin indent on
@@ -119,7 +117,7 @@ let g:ycm_register_as_syntastic_checker=1
 
 " Vimtex configuration
 let g:vimtex_view_method = 'zathura'
-let g:vimtex_syntax_enabled = 1
+"let g:vimtex_syntax_enabled = 0
 let g:vimtex_matchparen_enabled=0
 "let g:matchup_override_vimtex=1
 "let g:matchup_matchparen_deferred=1
@@ -141,6 +139,6 @@ let g:UltiSnipsEditSplit="vertical"
 "
 
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#enabled = 1
 "let g:airline_extensions = []
 
