@@ -20,6 +20,12 @@ then
         export FZF_DEFAULT_COMMAND='rg --ignore-file ~/.rgignore --files --hidden'
     fi
     export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
+    export FZF_COMPLETION_OPTS='--border --info=inline'
+    FZF_COMPLETION_FILE=/usr/share/bash-completion/completions/fzf
+    [[ -f ${FZF_COMPLETION_FILE} ]] && source ${FZF_COMPLETION_FILE}
+    FZF_KEY_BINDING_FILE="/etc/profile.d/fzf.bash"
+    [[ -f ${FZF_KEY_BINDING_FILE} ]] && source ${FZF_KEY_BINDING_FILE}
+
     LF_ICONS=$(sed ~/.config/lf/diricons \
             -e '/^[ \t]*#/d'       \
             -e '/^[ \t]*$/d'       \
