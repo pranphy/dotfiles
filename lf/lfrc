@@ -89,11 +89,14 @@ cmd zip ${{
 }}
 
 map gR cd ~/GitRepos/Research
+map gn cd ~/GitRepos/nEXOLightReport
 map gW cd ~/GitRepos/Writing
+map gD cd ~/GitRepos/Dimag
 map gP cd ~/Sabthok/Programming/Projects
 map gp cd ~/Pictures
 map gr cd ~/.Rough
 map gk cd ~/Sabthok/Programming/Projects/wxKitty
+map gc cd ~/.config/
 
 # Create mapping
 map m

@@ -1,8 +1,8 @@
 {
-    "editor.lineNumbers": "off",
+    "editor.lineNumbers": "relative",
     "editor.fontFamily": "'Iosevka Term','Iosevka Nerd Font','Monaco', 'Noto Serif Devanagari','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'zero', 'onum'",
-    "editor.fontSize": 18,
+    "editor.fontSize": 17,
     "editor.minimap.enabled": false,
     /*"editor.columnSelection": true,*/
     "editor.emptySelectionClipboard": false,
@@ -53,9 +53,8 @@
         "background": "#202020",
         "fontSize": 17,
         "lineColor": "#277da1",
-        "lineWidth": 2.7,
-        "particleWidth": 2.0,
-        "nodeSize": 6.0,
+        "lineWidth": 1.0,
+        "particleWidth": 4.0,
         "highlightedForeground": "#f9c74f",
         "node": {
             "note": "#277da1",
@@ -81,7 +80,6 @@
     "markdown-preview-enhanced.codeBlockTheme": "atom-dark.css",
     "markdown-preview-enhanced.mathRenderingOption": "MathJax",
     "markdown-preview-enhanced.revealjsTheme": "night.css",
-    "markdown-preview-enhanced.configPath": "/home/pranphy/.mume",
 
     /*Julia extension*/
     "julia.executablePath": "/usr/bin/julia",
@@ -97,16 +95,6 @@
         "editor.quickSuggestions": {"strings":true},
     },
     
-    /* Java Stuffs*/
-    "java.configuration.runtimes": [
-
-        {
-            "name": "JavaSE-15",
-            "path": "/home/pranphy/MyRoot/opt/jdk-15.0.1/",
-            "default": true
-        },
-    ],
-
     /*Database connection stuffs*/
     "sqltools.connections": [
         {
@@ -174,11 +162,13 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
-    "window.zoomLevel": -1,
     "colorize.languages": [
         "javascript",
         // ...
         "yaml",
         ".Xresources"
-    ]
+    ],
+    "window.zoomLevel": -1,
+    "explorer.confirmDragAndDrop": false,
+    "redhat.telemetry.enabled": false
 }

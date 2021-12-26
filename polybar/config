@@ -101,6 +101,8 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
+#mount-1 = /media/pranphy/backup
+#mount-2 = /media/pranphy/study
 
 label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
@@ -130,7 +132,7 @@ label-empty-padding = 1
 
 [module/mpd]
 type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+format-online = <icon-prev> <icon-stop> <toggle> <icon-next> <label-song>  
 #format-online = <label-song>
 #format-online = <icon-prev> <icon-stop> <toggle> <icon-next>
 
@@ -183,11 +185,13 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp2s0
+#interface = wlp2s0
+interface = wlan0
 interval = 10.0
 format-prefix = '直'
 
-format-connected = <ramp-signal> <label-connected>
+#format-connected = <ramp-signal> # <label-connected>
+format-connected = <ramp-signal>
 format-connected-underline = #9f78e1
 ;label-connected = %essid%
 label-connected = ""
@@ -225,7 +229,7 @@ format-disconnected =
 type = internal/date
 interval = 5
 
-date = " %Y-%m-%d"
+date = " %Y-%m-%d %a"
 date-alt =
 
 time = %H:%M
