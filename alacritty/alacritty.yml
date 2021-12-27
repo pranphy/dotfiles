@@ -26,54 +26,35 @@ cursor:
   vi_mode_style: Block
 
 draw_bold_text_with_bright_colors: true
+
+# Colors (Gruvbox dark)
 colors:
-  # Default colors
   primary:
-    background: '#000000'
-    foreground: '#FFFFFF'
+    background: '0x000000'
+    foreground: '0xFFFFFF'
 
-    dim_foreground: '#EFF0F1'
-    bright_foreground: '#FFFFFF'
-    dim_background: '#31363b'
-    bright_background: '#000000'
-
-  # Normal colors
   normal:
-    black: '#232627'
-    red: '#ED1515'
-    green: '#11D116'
-    yellow: '#F67400'
-    blue: '#1D99F3'
-    magenta: '#9B59B6'
-    cyan: '#1ABC9C'
-    white: '#FCFCFC'
+    black:   '0x282828'
+    red:     '0xcc241d'
+    green:   '0x98971a'
+    yellow:  '0xd79921'
+    blue:    '0x458588'
+    magenta: '0xb16286'
+    cyan:    '0x689d6a'
+    white:   '0xa89984'
 
-# Bright colors
   bright:
-    black: '#000000'
-    red: '#ED1515'
-    green: '#11D116'
-    yellow: '#F67400'
-    blue: '#AAAAFF'
-    magenta: '#9B59B6'
-    cyan: '#34E2E2'
-    white: '#FCFCFC'
-  
-  # Dim colors
-  dim:
-    black: '#31363B'
-    red: '#783228'
-    green: '#17A262'
-    yellow: '#B65619'
-    blue: '#1B668F'
-    magenta: '#614A73'
-    cyan: '#186C60'
-    white: '#63686D'
-  
+    black:   '0x928374'
+    red:     '0xfb4934'
+    green:   '0xb8bb26'
+    yellow:  '0xfabd2f'
+    blue:    '0x83a598'
+    magenta: '0xd3869b'
+    cyan:    '0x8ec07c'
+    white:   '0xebdbb2'
 
 background_opacity: 0.8
 
 debug:
-  # Display the time it takes to redraw each frame.
   render_timer: false
 

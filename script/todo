@@ -1,0 +1,265 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=python
+
+# author : Prakash [प्रकाश]
+# date   : 2021-09-09 01:06
+
+
+import datetime as dt
+from enum import Enum, unique, auto
+from pathlib import Path
+import json
+import click
+
+@unique
+class LogLevel(Enum):
+    INFO  = 1
+    DEBUG = 2
+    ERROR = 3
+
+def strike(text):
+    return ''.join([f'{c}\u0336' for c in text])
+    #return text
+
+now = dt.datetime.now
+def Log(message="",level=LogLevel.INFO,end="\n"):
+    #print(f"[{now()}][todo][INFO]: {message}",end=end)
+    pass
+
+
+@unique
+class RegStat(Enum):
+    FMSTART  = auto()
+    FMEND    = auto()
+    FMREG    = auto()
+    COMMENT  = auto()
+    TOPIC    = auto()
+    TASK     = auto()
+    FILSTART = auto()
+
+class Todo(object):
+    _frontmatter = dict()
+    _gstatus = RegStat.FILSTART
+    _filename = '/tmp/hellos.md'
+    _taskid = 1
+    _todo = dict()
+    _todo['title'] = "My TODO managed by todo app"
+    _todo['date'] = dt.datetime.today().strftime('%Y-%m-%d')
+    _todo['topics'] = dict()
+    _default_topic = 'General'
+    _current_topic = None
+    def __init__(self,filename):
+        self._filename = filename
+        self._current_topic = self._default_topic
+
+    def add_fm(self,line):
+        try:
+            spl = line.split(':')
+            key = spl[0].strip()
+            val =spl[1].strip()
+            if key.upper() == 'DATE':
+                dval = dt.datetime.strptime(val,'%Y-%m-%d')
+                self._frontmatter[key] = dval
+                self._todo['date'] = val
+            else:
+                self._todo[key] = val
+                self._frontmatter[key] = spl[1]
+        except Exception as e:
+            Log(f"There was a error: {e}")
+
+    def add_topic(self,topicname):
+        if topicname not in self._todo['topics'].keys():
+            self._todo['topics'][topicname] = dict()
+
+
+    def add_task(self,taskstr,done=False,topic=None):
+        topic = topic or self._current_topic
+        self.add_topic(topic) # adds topic if not exists
+
+        task = dict()
+        task['id'] = self._taskid; self._taskid += 1
+        task['flag'] = done
+        task['added'] = 161162223
+        task['updated'] = 161162223
+        task['task'] = taskstr.strip()
+        if 'tasks' not in (self._todo['topics'][topic]).keys(): # if tasks key is not there
+            self._todo['topics'][topic]['tasks'] = list()   # create that key as empty list
+
+        self._todo['topics'][topic]['tasks'].append(task)
+
+    def process_line(self,line):
+        oline = line
+        line = line.strip()
+        if self._gstatus == RegStat.FILSTART:
+            if (len(line) < 0 ):
+                return 'empty'
+            elif line == '---':
+                self._gstatus = RegStat.FMSTART
+                return 'fmstart'
+            else:
+                return 'error'
+        elif self._gstatus in [RegStat.FMSTART, RegStat.FMREG]:
+            spl = line.split(':')
+            if len(spl) == 2:
+                self.add_fm(oline)
+                self._gstatus = RegStat.FMREG
+                return 'fmkeyvalue'
+            elif line.startswith('#'):
+                self._gstatus = RegStat.FMREG
+                return 'fmcomment'
+            elif line == '---':
+                self._gstatus = RegStat.COMMENT
+                return 'fmend'
+            elif len(line) < 1:
+                return 'error fm'
+            else:
+                Log(' Error hare ', end='')
+                return 'error'
+        elif self._gstatus in [RegStat.COMMENT]:
+            if line.startswith('## '):
+                topicstr = line.removeprefix('## ').strip()
+                self._current_topic = topicstr
+                self.add_topic(topicstr)
+                self._gstatus = RegStat.TOPIC
+                return 'topic'
+            else:
+                return 'comment'
+        elif self._gstatus == RegStat.TOPIC:
+            if (line.startswith('- [ ] ') or line.startswith('- [x] ') ):
+                flag = line.startswith('- [x]')
+                self.add_task(line[6:],flag)
+                return 'task'
+            if (line.startswith('## ')):
+                topicstr = line.removeprefix('## ').strip()
+                self._current_topic = topicstr
+                self.add_topic(topicstr)
+                self._gstatus = RegStat.TOPIC
+                return 'topic'
+            else:
+                return 'empty'
+        else:
+            return 'unknown'
+
+    def save_to_md(self,filename=None):
+        tasks = self._todo
+        filename = filename or self._filename
+        with open(filename,'w') as wf:
+            wf.write(f"---\n"
+                    f"title: {tasks['title']}\n"
+                    f"date: {tasks['date']}\n"
+                    "---\n")
+            wf.write("\n\n")
+            #print(tasks['comments'],file=wf)
+            wf.write("\n")
+            topics = tasks['topics'].keys()
+
+            for name in topics:
+                print(f"## {name} ",file=wf)
+                ttasks = tasks['topics'][name]['tasks']
+                for task in ttasks:
+                    added = task['added']
+                    updated = task['updated']
+                    #tags = task["tags"]
+
+                    mark = 'x' if task['flag'] else ' '
+                    #print(f"  - [{mark}] {task['task']} #{task['added']} {task['updated']}",file=wf)
+                    print(f"  - [{mark}] {task['task']}",file=wf)
+                wf.write("\n")
+
+    def read_file(self,filename=None):
+        filename = filename or self._filename
+        fpath = Path(filename)
+        if fpath.exists():
+            with open(filename, 'r') as infile:
+                for line in infile:
+                    typ = self.process_line(line)
+                    line = line.strip()
+                    typ = typ if typ is not None else 'None'
+                    Log(f"{typ:>10}  : {line}")
+
+            Log(json.dumps(self._todo,indent=2))
+        else:
+            Log("The {fpath} doesn't exist, will be created if new todo items are added")
+
+
+    def list_tasks(self,ftopic='all'):
+        for topic in self._todo['topics'].keys():
+            if ftopic.lower() in ['all', topic.lower()]:
+                print(f"{topic}")
+                print('-'*len(topic))
+                for task in self._todo['topics'][topic]['tasks']:
+                    tick = '✔' if task['flag'] else ' '
+                    taskstr = strike(task['task']) if task['flag'] else task['task']
+                    print(f"  {tick} {task['id']:>3}. {taskstr}")
+                print("")
+
+    def delete_task(self,taskid,topic=None):
+        topics = [topic] if topic  else  self._todo['topics'].keys()
+        for topic in topics:
+            i = 0
+            for task in self._todo['topics'][topic]['tasks']:
+                id = task['id']
+                if id == taskid:
+                    del self._todo['topics'][topic]['tasks'][i]
+
+                    if len(self._todo['topics'][topic]['tasks']) < 1: # If no more task on topic
+                        del self._todo['topics'][topic]               # also delete the topic entirely
+                    return
+                i +=1
+
+    def toggle_task(self,taskid,topic):
+        """Toggles a task by <taskid>
+        :type    taskid: int
+        :param   taskid: the id of task as displayed in the list
+
+        :type    topic: str
+        :param   topic: the category to constrain the taskid search
+        """
+        topics = [topic] if topic  else  self._todo['topics'].keys()
+        for topic in topics:
+            i = 0
+            for task in self._todo['topics'][topic]['tasks']:
+                id = task['id']
+                if id == taskid:
+                    self._todo['topics'][topic]['tasks'][i]['flag'] ^= 1
+
+                    return
+                i +=1
+
+
+@click.command()
+@click.argument("action",type=click.Choice(['add','delete','show','toggle']))
+@click.argument("argument",default='all',type=str)
+@click.option("-t","--topic","topic", default=None,help="Topic to constrain to")
+def main(action,argument,topic):
+    """A very lean TODO management app written in python. This
+    basically meets my need of saving the todo items into a md
+    file that can live among my other notes and stuffs.   This
+    can then be managed by version control for maintaining the
+    different version"""
+    fpath = Path.home()/".local/share/stodo/TODO.md"
+    fpath.parent.mkdir(parents=True,exist_ok=True)
+    TD = Todo(fpath)
+    Log(f"{action}ing {argument}")
+    TD.read_file()
+    if action == 'show':
+        if argument == 'path':
+            print(f"{fpath}")
+            return
+        TD.list_tasks(argument)
+        return
+    elif action == 'add':
+        TD.add_task(argument,done=False,topic=topic)
+        TD.list_tasks()
+    elif action == 'delete':
+        TD.delete_task(int(argument),topic)
+        TD.list_tasks()
+    elif action == 'toggle':
+        TD.toggle_task(int(argument),topic)
+        TD.list_tasks()
+
+    TD.save_to_md()
+
+if __name__ == '__main__':
+    main()

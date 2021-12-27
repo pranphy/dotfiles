@@ -9,7 +9,7 @@ def get_header():
          "\n"
         "# author : Prakash [प्रकाश]\n"
     )
-    header += "# date   : {}".format(date)
+    header += f"# date   : {date}"
     return header
 
 def make_doc(snip):
@@ -43,7 +43,7 @@ def make_doc(snip):
 		snip.expand_anon(docstr)
 	elif line.strip().startswith('class'):
 		snip.buffer[snip.line] = ''
-		docstr = f'{old_spacing}"""\n{old_spacing}${{1: This class does  something}}\n\n{old_spacing}"""'
+		docstr = f'{old_spacing}"""${{1: This class does  something}}"""'
 		snip.expand_anon(docstr)
 	else:
 		snip.expand_anon(' ')
@@ -55,18 +55,20 @@ snippet indoc "Insert documentation" bA
 $0
 endsnippet
 
-snippet class "Make a new python class " bA
-class ${1:MakePlot}(${2:ParentClass}):
+snippet class "Make a new python class " b
+class ${1:ClassName}(${2:object}):
 	def __init__(self):
 		pass
-	
-	def ${3:make_plot}(self`!p snip.rv = ',' if t[4] != '' else ''`${4:other_params}):
-		pass
+endsnippet
+
+snippet def "create a new function" b
+def ${1:hunc_name}(${2:param}):
+	${3:pass}
 endsnippet
 
 snippet pyhead "head" bA
 `!p snip.rv = get_header()`
-
+$0
 endsnippet
 
 snippet main "main block " bA
@@ -82,10 +84,6 @@ except ${2:Exception}:
 $0
 endsnippet
 
-snippet fun "create a new function" bA
-dfe ${1:hunc_name}(${2:param}):
-	${3:pass}
-endsnippet
 
 snippet ( "bracket" iA
 ($1)
@@ -99,9 +97,9 @@ snippet { "bracket" iA
 {$1}
 endsnippet
 
-snippet print(' "Print string with formatting" iA
-print(f'$1'
+snippet printf "Print string with formatting" i
+print(f"$1")
+$0
 endsnippet
-
 
 

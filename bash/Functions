@@ -23,6 +23,7 @@ function CopySlac()
         ["ignore_plot"]="${BASE}/Sabthok/PhaseI/ignore_plot"\
         ["workspaces"]="${BASE}/Sabthok/PhaseI/FitPlot/MuonCut/workspaces"\
         ["PhaseII"]="${BASE}/Sabthok/PhaseII"\
+        ["sdf"]="/gpfs/slac/staas/fs1/g/exo/exo_data8/exo_data/users/pgphoton/"\
         ["recon"]="/nfs/slac/g/exo_data3/exo_data/data/WIPP/recon"\
         ['LightMap']="${BASE}/Sabthok/LightMap"\
         ["GitRepos"]="${BASE}/GitRepos"\
@@ -46,6 +47,28 @@ function CopySlac()
         to="."
     fi
     cmd="scp -r pgphoton@rhel6-64.slac.stanford.edu:${from}/${fname} ${to}"
+    echo $cmd
+    $cmd
+    echo "Done copying "
+}
+function cpsdf()
+{
+    BASE=/gpfs/slac/staas/fs1/g/exo/exo_data8/exo_data/users/pgphoton/
+    declare -A locations=(\
+        ["GitRepos"]="${BASE}/GitRepos"\
+        ["other"]="${BASE}"\
+        ["home"]="~pgphoton"
+    )
+
+    from=${locations[$1]}
+
+    fname=$2
+    to=$3
+
+    [[ "$2" == '' ]] && fname='*'
+    [[ "$3" == '' ]] && to="."
+
+    cmd="scp -r pgphoton@sdf-login.slac.stanford.edu:${from}/${fname} ${to}"
     echo $cmd
     $cmd
     echo "Done copying "
@@ -196,9 +219,16 @@ function MakeGrayscale()
 
 function FetchLyrics()
 {
-    artist=${1}
-    title=${2}
-    curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title"
+
+    title=${@}
+    [[ ${title} == "-h" ]] && echo "FetchLyrics <song title>, <artist>"
+    artist=""
+    IFS=',' read -ra ADDR <<< "${title}"
+    title=${ADDR[0]}
+    artist=${ADDR[1]}
+    #echo "Artist : ${artist} and title: ${title}"
+
+    curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | less
 }
 
 
@@ -322,12 +352,10 @@ function TimeAv()
 
 function fed()
 {
-    if [[ ${1} == "-h"  || ${1} == "--help" ]]
-    then
-        echo "Finds a file with fzf and edits with nvim "
-    fi
+    help="Finds a file with fzf and opens with xdg-open"
+    [[ ${1} == "-h"  || ${1} == "--help" ]] && echo ${help} && return 0
 
-    given_path="$(readlink -f $(fzf))"
+    given_path="$(readlink -f $(find . -type f | fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'))"
     root_path="${given_path}"
     if [[ -d ${root_path} ]]
     then
@@ -342,11 +370,18 @@ function fed()
                 found=true
                 pushd . &> /dev/null
                 cd "${root_path}"
-                nvim "${given_path}"
+                #nvim "${given_path}"
+                xdg-open "${given_path}"
                 popd &> /dev/null
                 return 0
             fi
         done
     fi
+}
+
+function cheat()
+{
+    CMD=${@}
+    curl cheat.sh/${CMD} | less -R
 }
 

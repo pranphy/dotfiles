@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+# author : Prakash [प्रकाश]
+# date   : 2021-03-15 17:11
+
+tmp_path1=${HOME}/Templates/selected_channel.m3u
+tmp_path2=${HOME}/Templates/tv_channels_saugatdahal14@gmail.com_plus.m3u
+
+tmp_path=${tmp_path1}
+
+[[ ${1} == f* ]] && tmp_path=${tmp_path2}
+
+vlc ${tmp_path}
+

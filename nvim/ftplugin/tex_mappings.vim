@@ -1,11 +1,9 @@
 
-color gruvbox 
+"color gruvbox 
 "color badwolf 
-highlight Normal guibg=NONE ctermbg=NONE
-"
 
 "inoremap <buffer> aln \begin{align*}<esc>o\end{align*}<esc>O
-nnoremap  tme :split ~/.config/nvim/ftplugin/tex_mappings.vim<cr>
+nnoremap  tme :vsplit ~/.config/nvim/ftplugin/tex_mappings.vim<cr>
 nnoremap  tml :source ~/.config/nvim/ftplugin/tex_mappings.vim<cr>
 
 nnoremap <Leader>tc :!texcount %<cr>
@@ -19,4 +17,13 @@ function! EncloseMath()
 endfunction
 
 vnoremap mm s<C-R>=EncloseMath()<CR><ESC>
+
+function RemoveCurdirVimtexExpr()
+    "let v:fname = substitute(v:fname,'\curdir','\\.','g')
+    return  substitute(v:fname,'\\curdir','\\.','g')
+endfunction
+
+inoremap <C-/> <esc>maI%<esc>`a
+
+set includeexpr=vimtex#include#expr()
 

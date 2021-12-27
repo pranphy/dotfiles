@@ -1,0 +1,106 @@
+set ratios 1:2:3
+# interpreter for shell commands
+# original /usr/share/doc/lf-git/lfrc.example
+
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
+
+set hidden true
+set color256 true
+set drawbox true
+set icons true
+set ignorecase true
+set incsearch true
+
+set shell sh
+set shellopts '-eu'
+set ifs "\n"
+
+set scrolloff 10  # leave some space at the top and the bottom of the screen
+map <enter> shell # execute current file (must be executable)
+
+map x $$f
+map X !$f
+
+# dedicated keys for file opener actions
+map o &mimeopen $f
+map O $mimeopen --ask $f
+
+cmd open ${{
+    test -L $f && f=$(readlink -f $f)
+    case $(file --mime-type $f -b) in
+        application/x-pie-executable) printf "Execute  [y/N]?: "; read ans; [[ ans == 'y' ]] && exec $fx;;
+        inode/x-empty)  $EDITOR $fx;;
+        text/*) $EDITOR $fx;;
+        *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+# define a custom 'rename' command without prompt for overwrite
+# cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
+# map r push :rename<space>
+
+%mkdir -p ~/.trash
+cmd trash %set -f; mv $fx ~/.trash
+
+# define a custom 'delete' command
+#cmd delete ${{
+#    set -f
+#    printf "$fx\n"
+#    printf "delete?[y/n]"
+#    read ans
+#    [ $ans = "y" ] && rm -rf $fx
+#}}
+
+# use '<delete>' key for either 'trash' or 'delete' command
+map <delete> trash
+map D delete
+
+# extract the current file with the right command
+# (xkcd link: https://xkcd.com/1168/)
+cmd extract ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
+
+# compress current file or selected files with tar and gunzip
+cmd tar ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    tar czf $1.tar.gz $1
+    rm -rf $1
+}}
+
+# compress current file or selected files with zip
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+map gR cd ~/GitRepos/Research
+map gn cd ~/GitRepos/nEXOLightReport
+map gW cd ~/GitRepos/Writing
+map gD cd ~/GitRepos/Dimag
+map gP cd ~/Sabthok/Programming/Projects
+map gp cd ~/Pictures
+map gr cd ~/.Rough
+map gk cd ~/Sabthok/Programming/Projects/wxKitty
+map gc cd ~/.config/
+
+# Create mapping
+map m
+map md %printf "Enter directory name: "; read ans; mkdir $ans
+map mf %printf "Enter file name: "; read ans; touch $ans
+
+# vim: filetype=sh

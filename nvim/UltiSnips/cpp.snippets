@@ -11,6 +11,9 @@ def get_header():
     header += " * date   : {} \n */\n".format(date)
     return header
 
+def guard_string(filename):
+	return filename.replace(".","_").upper()
+
 endglobal
 
 snippet main
@@ -44,9 +47,17 @@ public:
 
 	int c;
 };
+
 endsnippet
 
-snippet cpphead "head" iA
+snippet guard "header guard" iA
+#pragma once
+
+$1
+
+endsnippet
+
+snippet head "head" iA
 `!p snip.rv = get_header()`
 endsnippet
 

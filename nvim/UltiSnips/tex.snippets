@@ -1,12 +1,12 @@
-priority -50
-extends texmath
+#priority -50
+#extends texmath
 global !p
 
 def math():
 	return vim.eval('vimtex#syntax#in_mathzone()') == '1'
 
 def nomath():
-	return vim.eval('vimtex#syntax#in_mathzone()') == '0'
+	return vim.eval('vimtex#syntax#in_mathzone()') != '1'
 
 def comment():
 	return vim.eval('vimtex#syntax#in_comment()') == '1'
@@ -43,7 +43,6 @@ def create_taylor(snip):
 		cnt+=1
 		rv += '+'+fr
 	snip.rv = rv+'\\ldots'
-
 
 def create_matrix(snip):
 	org = snip.buffer[snip.line]
@@ -161,6 +160,7 @@ endsnippet
 pre_expand "create_table(snip)"
 snippet "gentbl(\d+)x(\d+)" "Generate table of *width* by *height*" r
 endsnippet
+
 
 pre_expand "create_matrix(snip)"
 snippet "([pvb])matrix(\d+)x(\d+)" "Generate a matrix" r
@@ -301,29 +301,33 @@ snippet align "align "  eb
 $0
 endsnippet
 
-context "nomath()"
-snippet soln "solution" beA
-\begin{solution}
-	$1
-\end{solution} $0
+snippet TEST "Dummy" iA
+math   = `!p snip.rv=math()` nomath = `!p snip.rv=nomath()` comment = `!p snip.rv=comment()`
 endsnippet
 
 
-
 context "nomath()"
-snippet alins " align asterisk " ebA
+snippet alins "align"  eiA
 \begin{align*}
 	$1
 \end{align*}
 $0
 endsnippet
 
+snippet soln "solution" "nomath()" ebA
+math   = `!p snip.rv=math()`
+nomath = `!p snip.rv=nomath()`
+\begin{solution}
+	$1
+\end{solution} $0
+endsnippet
+
 
 context "math()"
 snippet cases "cases from ams math" ebA
 \begin{cases}
-	$1	& \text{ if } ${2: x \leq 0} \\\\
-	$3	& \text{ if } ${4: \text{otherwise}}
+	$1	& \text{ if } ${2:x \leq 0} \\\\
+	$3	& \text{ if } ${4:\text{otherwise}}
 \end{cases}
 endsnippet
 
@@ -345,7 +349,7 @@ snippet "([0-9.]+)e(-?)([0-9]+) " "Scientific notation text"  eriA
 base = match.group(1)
 sign = match.group(2)
 index = match.group(3)
-snip.rv = r'$'+base+r'\times 10^{'+sign+index+r'}$'`
+snip.rv = r'$'+base+r' \times 10^{'+sign+index+r'}$'`
 endsnippet
 
 context "math()"
@@ -354,7 +358,7 @@ snippet "([0-9.]+)e(-?)([0-9]+) " "Scientific notation math"  eriA
 base = match.group(1)
 sign = match.group(2)
 index = match.group(3)
-snip.rv = base+r'\times 10^{'+sign+index+r'}'`
+snip.rv = base+r' \times 10^{'+sign+index+r'}'`
 endsnippet
 
 priority -1000
@@ -388,10 +392,10 @@ priority 0
 #================= Non Math Stuffs ================
 #==================================================
 
-context "nomath()"
-snippet "\\(\w+) " "quick math in regular  mode"  erwA
-$`!p snip.rv = match.group(1)`$ $0
-endsnippet
+#context "nomath()"
+#snippet "\\(\w+) " "quick math in regular  mode"  erwA
+#$`!p snip.rv = match.group(1)`$ $0
+#endsnippet
 
 
 #==================================================
@@ -518,13 +522,12 @@ snippet img "imaginary part of"  ei
 \mathrm{Im}
 endsnippet
 
-#==================================================
 #=========== Script Index and Stuffs ==============
 #==================================================
 
 context "math()"
 snippet sts "Sub text"  eiA
-_\text{$1}
+_\\text\{\$1}
 endsnippet
 
 context "math()"
@@ -820,6 +823,12 @@ snippet mel "matrix element"  eiA
 \mel{$1}{$2}{${3:$1}}$0
 endsnippet
 
+context "math()"
+snippet nucl "Nucleus" iA
+\nucl {$1}{$2}{$3} $0
+endsnippet
+
+
 
 context "math()"
 snippet bra "bra QM"  eiA
@@ -967,12 +976,12 @@ snippet "gls(\w+) " "Glossary entry"  wreA
 \gls{`!p snip.rv=match.group(1)`} $0
 endsnippet
 
-context "nomath()"
+context "math()"
 snippet  "Bold  text entry"  weA
 \textbf{$1} $0
 endsnippet
 
-context "nomath()"
+context "math()"
 snippet "(\w+)" "Bold text entry"  wreA
 \textbf{`!p snip.rv=match.group(1)`} $0
 endsnippet
@@ -1012,6 +1021,8 @@ snippet sltc "Two columns slide" wA
 $0
 endsnippet
 
+
+
 snippet sloc "Two columns slide" wA
 \begin{frame}{${1:Title}}
 	$1
@@ -1027,6 +1038,11 @@ snippet igfx "Include graphics line" b
 \includegraphics[width=${1:0.99}\linewidth]{${2:imagepath}}
 $0
 endsnippet
+
+snippet onbb "Neutrinoless double beta decay" wA
+$ 0\nu\beta\beta$
+endsnippet
+
 
 # vim:ft=snippets:
 

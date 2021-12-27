@@ -1,3 +1,5 @@
+# vim: ft=bash
+
 alias tree="tree --dirsfirst"
 
 #Some more ls alises
@@ -35,10 +37,15 @@ alias screenres="xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).
 alias vfz='nvim $(fzf)'
 
 # Git aliases
-alias gs="git status"
+#alias gs="git status"
 alias gsu="git status -u"
 alias gcm="git commit -m"
 alias gpom="git push origin master"
+alias dscam="gphoto2 --stdout --capture-movie | ffmpeg -i - -vcodec rawvideo -pix_fmt yuv420p -threads 0 -f v4l2 /dev/video2"
+
+# tree aliases
+alias treenode='tree -I "node_modules"'
+alias treejekyll='tree -I "vendor|_site"'
 
 # Slurm aliases
 alias slstatus='echo "Running ::"$(squeue --user $(whoami) | awk "/R/" | wc -l) "Pending ::"$(squeue --user $(whoami) | awk "/PD/" | wc -l)'
