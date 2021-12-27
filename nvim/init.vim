@@ -29,6 +29,7 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
 
+    Plug 'neovim/nvim-lspconfig'
 call plug#end()
 
 filetype plugin indent on
