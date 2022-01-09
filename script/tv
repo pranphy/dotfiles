@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+# author : Prakash [प्रकाश]
+# date   : 2021-03-15 17:11
+
+playlistdir=${HOME}/.local/share/media/playlist/tv/
+
+filelist=$(ls ${playlistdir} )
+selectedfile=$(printf '%s\n' ${filelist} | dmenu -l 3)
+tmp_path1=${playlistdir}/${selectedfile}
+notify-send "Playing ${selectedfile}"
+
+[[ ! -f ${tmp_path1} ]] && exit
+
+
+exec 5< ${tmp_path1}
+read -r line0 <&5
+
+while IFS= read -r line1 <&5 ; do
+    read -r line2 <&5
+    title=$(echo ${line1} | sed -re 's/.*tvg-name="(.*)"\stvg-logo.*/\1/')
+    tary+=("${title}")
+    uary+=("${line2}")
+done
+
+function get_menu()
+{
+    local -n ptitles=$1
+
+    arraylen=${#ptitles[@]}
+    for (( i=0; i<${arraylen}; i++ ));
+    do
+        echo "${i}. ${ptitles[${i}]} "
+    done
+}
+selected=$(get_menu tary | dmenu  -i -l 10)
+id=$(echo ${selected} | egrep -o '^[0-9]+')
+url=$( echo ${uary[${id}]} | tr -d '\r')
+
+mpv ${url}
