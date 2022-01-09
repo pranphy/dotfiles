@@ -385,3 +385,12 @@ function cheat()
     curl cheat.sh/${CMD} | less -R
 }
 
+function vch()
+{
+    vi `which ${1}`
+}
+
+function sch()
+{
+    source `which ${1}`
+}

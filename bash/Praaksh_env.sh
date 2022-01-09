@@ -9,7 +9,7 @@ if [[ ${HOSTNAME} == "photon" ]]
 then
     export CDPATH=.:~:~/GitRepos:~/Sabthok/Education/Graduate/Drexel:~/Sabthok/Programming/Projects:~/.Rough
 
-    export PATH="${HOME}/.local/bin:${HOME}/.local/share/gem/ruby/3.0.0/bin:$PATH"
+    export PATH="${HOME}/GitRepos/MyDotFiles/script:${HOME}/.local/bin:${HOME}/.local/share/gem/ruby/3.0.0/bin:$PATH"
 
     if [ -f "${HOME}/.Rough/GitPrompt/gitprompt.sh" ]; then
         GIT_PROMPT_ONLY_IN_REPO=1

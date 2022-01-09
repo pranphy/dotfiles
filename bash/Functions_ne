@@ -22,11 +22,13 @@ declare -A en_ne=(\
 )
 function process_command()
 {
+    echo "Processing ${@}"
     command=$1
     for var in "${@:3}"
     do
+        echo "entered loop with ${var}"
         var_en=${en_ne[${var}]}
-        if [[ "${var_en}" = '' ]]
+        if [[ "${var_en}" == '' ]]
         then
             var_en=${var}
         fi
