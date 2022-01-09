@@ -19,7 +19,6 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'ervandew/supertab'
     Plug 'godlygeek/tabular'
     Plug 'plasticboy/vim-markdown'
-    Plug 'vimwiki/vimwiki'
     Plug 'APZelos/blamer.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-lua/popup.nvim'
@@ -30,6 +29,7 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'junegunn/fzf.vim'
 
     Plug 'neovim/nvim-lspconfig'
+    Plug 'renerocksai/telekasten.nvim'
 call plug#end()
 
 filetype plugin indent on
