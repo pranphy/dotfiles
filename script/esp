@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+# author : Prakash [प्रकाश]
+# date   : 2022-01-02 17:14
+
+prm=$@
+
+function spanish()
+{
+    echo $(PYTHONPATH=${HOME}/Downloads python3 -c "from spdict import * ; print(translate_word('$@'))")
+}
+
+notify-send "${@}: $(spanish $@)"

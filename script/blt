@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+# author : Prakash [प्रकाश]
+# date   : 2022-01-08 20:50
+
+tell="notify-send"
+menu="dmenu -i"
+
+
+function get_menu()
+{
+    local -n div=${1}
+    arraylen=${#div[@]}
+    for (( i=0; i<${arraylen}; i++ ));
+    do
+        name=$(echo ${div[${i}]} | awk '{$1=$2=""; print $0}' )
+        echo "${i}.${name}"
+    done
+}
+
+mapfile -t dvcs < <(bluetoothctl devices)
+
+device=$(get_menu dvcs | ${menu})
+id=$(echo ${device} | egrep -o '^[0-9]+' )
+mac=$(echo ${dvcs[${id}]} | awk '{print $2}' )
+
+status=$(systemctl status bluetooth | grep Active: | awk '{print $2}' )
+
+[[  ${status} == 'inactive' ]] && systemctl start bluetooth || ${tell} "Bluetooth already running"
+
+bluetoothctl power on
+bluetoothctl connect ${mac}
+
+${tell} "${device}: ${mac} Connected"

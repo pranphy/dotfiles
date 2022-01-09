@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+# author : Prakash [प्रकाश]
+# date   : 2021-08-12 23:50
+
+param=${1}
+docpath=~/.local/share/respra/doculist.conf
+line=$(cat ${docpath} | fzf --height 100%)
+#command=$(cat ${docpath} | grep "${param}:+:" |  cut -d' ' -f 2-)
+#command=$(echo ${line} | grep "${param}:+:" |  cut -d' ' -f 2-)
+command=$(echo ${line} |  cut -d' ' -f 2- \
+    | sed -e "s#\$HOME#${HOME}#g"\
+    | sed -e "s#\~#${HOME}#g" \
+    | sed -e "s#\$EDITOR#${EDITOR}#g" \
+    | sed -e 's|\ *#.*||' \
+    ) 
+
+if [[ -z "${command}" ]] 
+then
+    echo "Unrecognized parameter ${param}: got ${command}"
+else
+    #torun="${command} &> /dev/null & disown;"
+    torun="${command}"
+    #echo ${torun}
+    bash -c "${torun}"
+fi

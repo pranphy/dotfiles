@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# vim: ai ts=4 sts=4 et sw=4 ft=sh
+
+# author : Prakash [प्रकाश]
+# date   : 2021-08-19 23:18
+
+vidname=${1}
+url="http://www.youtube.com/watch?v=${vidname}"
+mpv ${url} &> /dev/null & disown;
+#exit
+

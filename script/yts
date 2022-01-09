@@ -1,0 +1,83 @@
+#!/bin/bash
+max_res=7
+menu="dmenu -i -l 25"
+tempfile=$(mktemp)
+
+query=$( [[ -z ${1} ]] && dmenu -p "Search Youtube " <&- || echo ${1} )
+
+youtube-dl -j "ytsearch${max_res}:$query" > $tempfile
+
+cachedir="${HOME}/.cache/youtube"
+vidir=${cachedir}/videos
+mkdir -p ${vidir}
+
+logfile="${cachedir}/ytlog.log"
+
+function hms()
+{
+    sec=${1}
+    echo $( [[ ${sec} -ge 3600 ]] &&  date -d@${sec} -u +%H:%M:%S ||  date -d@${sec} -u +%M:%S )
+}
+
+function hmsary()
+{
+    [[ "${#}" == 0 ]] && while read -r sec; do hms ${sec}; done || hms ${1}
+}
+
+
+function get_keys()
+{
+    key=$@
+    while IFS= read -r line
+    do
+        echo "${line}"
+    done < <(cat $tempfile | jq "${key}" | tr -d '"' )
+}
+
+function get_menu()
+{
+    local -n ptitles=$1
+    local -n pdurs=$2
+    local -n pupl=$3
+    local -n pupd=$4
+
+    arraylen=${#ptitles[@]}
+    for (( i=0; i<${arraylen}; i++ ));
+    do
+        echo "${i}. ${pdurs[${i}]} ${ptitles[$i]} <> ${pupl[${i}]} <> ${pupd[${i}]}"
+    done
+}
+
+mapfile -t urls < <(get_keys '.webpage_url')
+mapfile -t titles < <(get_keys '.fulltitle')
+mapfile -t uploader < <(get_keys '.uploader')
+mapfile -t update < <(get_keys '.upload_date')
+mapfile -t ids < <(get_keys '.id')
+mapfile -t duration < <(get_keys '.duration' | hmsary )
+
+selected=$(get_menu  titles duration uploader update | ${menu})
+id=$(echo ${selected} | egrep -o '^[0-9]+')
+echo "Id is ${id} "
+
+
+selurl=${urls[${id}]}
+ytid=${ids[${id}]}
+
+echo  "[$(date '+%Y-%m-%d %H:%M:%S')] [PLAY] ${selurl} ${selected} " >> ${logfile}
+
+cache=0
+
+if [[ ${cache} -gt 0 ]]
+then
+    if [[ -f ${vidir}/${ytid} ]]
+    then
+        mpv ${vidir}/${ytid}
+    else
+        youtube-dl -o - "${selurl}" | tee ${vidir}/${ytid} | mpv -
+    fi
+else
+    mpv  --ytdl-format=18 ${selurl}
+    #mpv -${selurl}
+fi
+
+
