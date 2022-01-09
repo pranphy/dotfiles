@@ -57,7 +57,7 @@ font-2 = Iosevka Nerd Font:pixelsize=10;1
 
 modules-left = bspwm 
 modules-center = mpd 
-modules-right = filesystem xbacklight pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = filesystem xbacklight pulseaudio memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 1
@@ -227,7 +227,7 @@ format-disconnected =
 
 [module/date]
 type = internal/date
-interval = 5
+interval = 60
 
 date = " %Y-%m-%d %a"
 date-alt =
@@ -289,7 +289,7 @@ format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 =  
 ramp-capacity-1 = 
-ramp-capacity-2 = 
+ramp-capacity-2 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
 
 animation-charging-0 = 
@@ -299,9 +299,7 @@ animation-charging-3 = 
 animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 750
 
-animation-discharging-0 =  
-animation-discharging-1 = 
-animation-discharging-2 =  
+animation-discharging-0 = 
 animation-discharging-foreground = ${colors.foreground-alt}
 animation-discharging-framerate = 750
 
