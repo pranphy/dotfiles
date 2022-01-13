@@ -10,7 +10,7 @@ super + @space
 
 # program launcher
 super + r
-    rofi -opacity "85" -show run
+    rofi -opacity "80" -show run
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -149,10 +149,18 @@ shift + XF86Audio{Prev,Next}
     pactl set-default-sink {$(pactl list short sinks | grep hdmi | cut -b 1-2),$(pactl list short sinks | grep analog | cut -b 1-2)}
 
 XF86Calendar
-    kitty -e bash ~/wait
+    urxvt -geometry 65x8 -e bash ~/wait
 
 XF86Calculator
     kitty -e python3
+alt + shift + c
+    urxvt -geometry 65x8 -e bash ~/wait
+
+XF86MonBrightnessUp
+    xbacklight -inc 10
+
+XF86MonBrightnessDown
+    xbacklight -dec 10
 
 alt + shift + p
     passmenu
