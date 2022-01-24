@@ -8,6 +8,7 @@ window:
   decorations: none
   title: Alacritty
   dynamic_title: true
+  opacity: 0.8
 
 scrolling:
   history: 10000
@@ -53,7 +54,6 @@ colors:
     cyan:    '0x8ec07c'
     white:   '0xebdbb2'
 
-background_opacity: 0.8
 
 debug:
   render_timer: false
