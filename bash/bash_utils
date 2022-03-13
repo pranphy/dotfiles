@@ -1,79 +1,6 @@
 #!/usr/bin/env bash
 # vim: ai ts=4 sts=4 et sw=4 ft=sh
 
-function SlacDB()
-{
-    host="mysql-node03.slac.stanford.edu"
-    user='rd_exo_u'
-    password='ex#P45$m2q'
-    db="rd_exo"
-
-
-    slacdb="/opt/lampp/bin/mysql -u"${user}" -p'"${password}"' -h${host} -D${db}"
-    echo "executing "$slacdb
-    $slacdb
-}
-
-function CopySlac()
-{
-    BASE=/nfs/slac/g/exo/pgphoton
-
-    declare -A locations=(\
-        ["PreProc"]="${BASE}/RootOutDir/PreProc"\
-        ["ignore_plot"]="${BASE}/Sabthok/PhaseI/ignore_plot"\
-        ["workspaces"]="${BASE}/Sabthok/PhaseI/FitPlot/MuonCut/workspaces"\
-        ["PhaseII"]="${BASE}/Sabthok/PhaseII"\
-        ["sdf"]="/gpfs/slac/staas/fs1/g/exo/exo_data8/exo_data/users/pgphoton/"\
-        ["recon"]="/nfs/slac/g/exo_data3/exo_data/data/WIPP/recon"\
-        ['LightMap']="${BASE}/Sabthok/LightMap"\
-        ["GitRepos"]="${BASE}/GitRepos"\
-        ["other"]="${BASE}"\
-        ["home"]="~pgphoton"
-
-    )
-
-    from=${locations[$1]}
-
-    fname=$2
-    to=$3
-
-    if [[ "$2" == '' ]]
-    then
-        fname='*'
-    fi
-
-    if [[ "$3" == '' ]]
-    then
-        to="."
-    fi
-    cmd="scp -r pgphoton@rhel6-64.slac.stanford.edu:${from}/${fname} ${to}"
-    echo $cmd
-    $cmd
-    echo "Done copying "
-}
-function cpsdf()
-{
-    BASE=/gpfs/slac/staas/fs1/g/exo/exo_data8/exo_data/users/pgphoton/
-    declare -A locations=(\
-        ["GitRepos"]="${BASE}/GitRepos"\
-        ["other"]="${BASE}"\
-        ["home"]="~pgphoton"
-    )
-
-    from=${locations[$1]}
-
-    fname=$2
-    to=$3
-
-    [[ "$2" == '' ]] && fname='*'
-    [[ "$3" == '' ]] && to="."
-
-    cmd="scp -r pgphoton@sdf-login.slac.stanford.edu:${from}/${fname} ${to}"
-    echo $cmd
-    $cmd
-    echo "Done copying "
-}
-
 function LJlab()
 {
     port=${2}
@@ -99,7 +26,7 @@ function RootLs()
     python -c 'import ROOT; TT=ROOT.TFile("'$fname'"); dt = TT.Get("dataTree"); dt.ls()'
 }
 
-function RepString()
+function rep_string()
 {   
     if [[ ${1} == "-h" ]]
     then
@@ -258,42 +185,6 @@ EOF
 }
 
 
-
-function JekyllPost()
-{
-    if [[ $1 == "-h" ]]
-    then
-        echo "Creates Jekyll post"
-        echo "JekyllPost <path> <title space separated>"
-        return 
-    fi
-    path=$1
-    title=$2
-    
-    title_slug=$(echo "${title}" | sed 's/\s\+/-/g' | tr '[:upper:]' '[:lower:]' )
-    
-    date=`date +%Y-%m-%d`
-    date_AD=`date +%Y.%m.%d`
-    date_BS=`nepaliconv -bs ${date_AD} -f 'y M d W' -u` 
-    filepath=${path}/${date}-${title_slug}.md
-    
-cat > ${filepath}<< EOF
----
-title: ${title}
-author: प्रकाश
-date : ${date} 
-मिति : ${date_BS}
-tags :
-categories:
-description: 
----
-
-[//]: # (केही टिप्पणी लेख्नुहोस्)
-EOF
-echo "${filepath} created"
-}
- 
-
 function MakeHW()
 {
     CRN=${1}
@@ -379,10 +270,20 @@ function fed()
     fi
 }
 
+function correct_permission()
+{
+    find . -print0 | while IFS= read -r -d '' file
+    do
+        echo $file
+        [[ -f "$file" ]] && chmod 664 "$file"
+        [[ -d "$file" ]] && chmod 775 "$file"
+    done
+}
+
 function cheat()
 {
     CMD=${@}
-    curl cheat.sh/${CMD} | less -R
+    curl --silent cheat.sh/${CMD} | less -R
 }
 
 function vch()
@@ -393,4 +294,10 @@ function vch()
 function sch()
 {
     source `which ${1}`
+}
+
+
+function weather()
+{
+    curl --silent wttr.in/$(curl --silent ifconfig.co/city)?m | less -R
 }
