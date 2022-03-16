@@ -51,7 +51,7 @@ alias treenode='tree -I "node_modules"'
 alias treejekyll='tree -I "vendor|_site"'
 
 # Slurm aliases
-alias slstatus='echo "Running ::"$(squeue --user $(whoami) | awk "/R/" | wc -l) "Pending ::"$(squeue --user $(whoami) | awk "/PD/" | wc -l)'
+alias slstatus='echo Running :: $(squeue --user $(whoami) | awk '\''{print $5}'\'' | grep R | wc -l)  Pending :: $(squeue --user $(whoami) | awk '\''{print $5}'\''| grep PD | wc -l)'
 
 alias cat="bat --style='changes'"
 
