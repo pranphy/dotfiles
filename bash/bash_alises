@@ -3,11 +3,9 @@
 alias tree="tree --dirsfirst"
 
 #Some more ls alises
-#alias lh='ls -lh'
-#alias lah='ls -lah'
+alias lh='ls -lh'
+alias lah='ls -lah'
 
-alias ls="exa --icons"
-alias lah="exa -la --icons"
 
 # image display stuff
 alias feh='feh --scale-down --auto-zoom'
@@ -53,7 +51,6 @@ alias treejekyll='tree -I "vendor|_site"'
 # Slurm aliases
 alias slstatus='echo Running :: $(squeue --user $(whoami) | awk '\''{print $5}'\'' | grep R | wc -l)  Pending :: $(squeue --user $(whoami) | awk '\''{print $5}'\''| grep PD | wc -l)'
 
-alias cat="bat --style='changes'"
 
 # For my private aliases 
 source ~/.private_aliases
