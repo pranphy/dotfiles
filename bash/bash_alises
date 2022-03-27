@@ -3,11 +3,8 @@
 alias tree="tree --dirsfirst"
 
 #Some more ls alises
-#alias lh='ls -lh'
-#alias lah='ls -lah'
-
-alias ls="exa --icons"
-alias lah="exa -la --icons"
+alias lh='ls -lh'
+alias lah='ls -lah'
 
 # image display stuff
 alias feh='feh --scale-down --auto-zoom'
