@@ -1,0 +1,68 @@
+# See dunst(5) for all configuration options
+# source file  /etc/dunst/dunstrc
+
+[global]
+    ### Display ###
+    monitor = 0
+    follow = none
+    width = 300
+    height = 300
+    origin = top-right
+    offset = 5x23
+    scale = 0
+    notification_limit = 0
+    transparency = 15
+    separator_height = 3
+    padding = 8
+    horizontal_padding = 8
+    text_icon_padding = 0
+    frame_width = 2
+    frame_color = "#ffffff"
+    separator_color = frame
+    sort = yes
+
+    font = Iosevka Term 8
+    line_height = 0
+
+    markup = full
+    format = "<b>%s</b>\n%p%b"
+    alignment = left
+
+    vertical_alignment = center
+
+    icon_path = "/home/pranphy/.local/share/icons/individual/fa/"
+
+    # Maximum amount of notifications kept in history
+    history_length = 20
+
+    # Always run rule-defined scripts, even if the notification is suppressed
+    always_run_script = true
+
+    corner_radius = 7 
+
+
+[urgency_low]
+    background = "#222222"
+    foreground = "#888888"
+    timeout = 10
+
+[urgency_normal]
+    background = "#4d3f6b"
+    foreground = "#ffffff"
+    timeout = 10
+    default_icon = bell-solid
+
+[urgency_critical]
+    background = "#900000"
+    foreground = "#ffffff"
+    frame_color = "#ff0000"
+    timeout = 0
+
+
+[ignore]
+    # This notification will not be displayed
+    summary = "foobar"
+    skip_display = true
+
+#
+# vim: ft=cfg
