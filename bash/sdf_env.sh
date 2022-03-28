@@ -19,5 +19,7 @@ then
 
     export MYROOT="${MYHOME}/st"
     [[ -f ${MYROOT}/enable.sh ]] && source ${MYROOT}/enable.sh
+    alias gcc="gcc -std=c99"
+    alias g++="g++ -std=c++11"
 fi
 
