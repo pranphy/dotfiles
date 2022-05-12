@@ -5,11 +5,16 @@
 # author : Prakash [प्रकाश]
 # date   : 2020-11-25 00:40
 
+[[ $- != *i* ]] && return
+
 if [[ ${HOSTNAME} == "gluon" ]]
 then
     export CDPATH=.:~:~/GitRepos:~/Sabthok/Education/Graduate/Drexel:~/Sabthok/Programming/Projects:~/.Rough
+    DOTFILES=${HOME}/repos/dotfiles
 
-    export PATH="${HOME}/repos/dotfiles/script:${HOME}/.local/bin:$PATH"
+    export PATH="${DOTFILES}/script:${HOME}/.local/bin:$PATH"
+    source ${DOTFILES}/bash/bash_utils
+    source ${DOTFILES}/bash/bash_utils_ne
 
 
     if type rg &> /dev/null; then
