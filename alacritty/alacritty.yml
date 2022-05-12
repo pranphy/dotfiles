@@ -19,7 +19,7 @@ font:
   normal:
     family: Iosevka Term
     style: Regular
-  size: 9.0
+  size: 8.0
 
 cursor:
   style: Underline
@@ -34,7 +34,7 @@ colors:
     background: '0x000000'
     foreground: '0xFFFFFF'
 
-  normal:
+  bright:
     black:   '0x282828'
     red:     '0xcc241d'
     green:   '0x98971a'
@@ -44,7 +44,7 @@ colors:
     cyan:    '0x689d6a'
     white:   '0xa89984'
 
-  bright:
+  normal:
     black:   '0x928374'
     red:     '0xfb4934'
     green:   '0xb8bb26'
