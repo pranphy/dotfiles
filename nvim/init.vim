@@ -24,12 +24,12 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
 
     Plug 'neovim/nvim-lspconfig'
     Plug 'renerocksai/telekasten.nvim'
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
 
 filetype plugin indent on
@@ -61,6 +61,8 @@ set nohlsearch
 set incsearch
 set inccommand=split
 set guifont=Iosevka\ Term:h12
+set laststatus=3
+set cmdheight=0
 
 let mapleader=' '
 
