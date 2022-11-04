@@ -19,6 +19,30 @@ def greek_symbols():
 	sym = ['psi','phi','chi','tau','Tau','Chi','Phi','Psi']
 	return sym
 
+def greek_letter(l):
+    mp = {'a': 'alpha', 'A' : 'Alpha',
+		'b': 'beta', 'B' : 'Beta',
+		'c': 'chi', 'C' : 'Chi',
+		'd': 'delta', 'D' : 'Delta',
+		'e': 'epsilon', 'E': 'Epsilon',
+		'f': 'phi', 'F': 'Phi',
+		'g': 'gamma', 'G' : 'Gamma',
+		'l': 'lambda', 'L': 'Lambda',
+		'm': 'mu', 'M' : 'Mu',
+		'n': 'nu', 'n' : 'Nu',
+		'o': 'omicron' ,'O' : 'Omicron',
+		'p': 'pi', 'P': 'Pi',
+		'r': 'rho' , 'R': 'Rho',
+		's': 'sigma', 'S': 'Sigma',
+		't' : 'theta', 'T': 'Theta',
+		'x' : 'xi', 'X': 'Xi'}
+    if l in mp.keys():
+        return f'\{mp[l]}'
+    else:
+        return l
+
+
+
 def math_funcs():
 	return ['sin','cos','tan','csc','cot','ket','bra','bar','hat']
 
@@ -301,10 +325,6 @@ snippet align "align "  eb
 $0
 endsnippet
 
-snippet TEST "Dummy" iA
-math   = `!p snip.rv=math()` nomath = `!p snip.rv=nomath()` comment = `!p snip.rv=comment()`
-endsnippet
-
 
 context "nomath()"
 snippet alins "align"  eiA
@@ -315,8 +335,6 @@ $0
 endsnippet
 
 snippet soln "solution" "nomath()" ebA
-math   = `!p snip.rv=math()`
-nomath = `!p snip.rv=nomath()`
 \begin{solution}
 	$1
 \end{solution} $0
@@ -331,17 +349,6 @@ snippet cases "cases from ams math" ebA
 \end{cases}
 endsnippet
 
-
-snippet "mint(ed)?( (\S+))?" "Minted code typeset" br
-\begin{minted}{${1:`!p
-snip.rv = match.group(3) if match.group(2) is not None else "language"`}}
-${2:${VISUAL:code}}
-\end{minted}$0
-endsnippet
-
-###################################################
-############# Praksh Snippet start here ###########
-###################################################
 
 context "nomath()"
 snippet "([0-9.]+)e(-?)([0-9]+) " "Scientific notation text"  eriA
@@ -468,8 +475,8 @@ snippet lr[ "left[ right]" iA
 endsnippet
 
 context "math()"
-snippet lra "leftangle rightangle"  eiA
-\left<${1:${VISUAL}} \right>$0
+snippet lr< "leftangle rightangle"  eiA
+\left<${1:${VISUAL}}\right>$0
 endsnippet
 
 context "math()"
@@ -493,7 +500,7 @@ endsnippet
 
 context "math()"
 snippet abs "vector "  eiA
-\abs{$1}
+\abs{${1:${VISUAL}}}
 endsnippet
 
 
@@ -536,7 +543,7 @@ snippet ^^ "quick power "  eiA
 endsnippet
 
 context "math()"
-snippet __ "quick sub "  eiA
+snippet __ "quick subscript"  eiA
 _{$1}
 endsnippet
 
@@ -561,10 +568,6 @@ snippet cb "Cube of the "  eiA
 endsnippet
 
 
-context "math()"
-snippet sb "Subscript "  eiA
-_{$1}
-endsnippet
 
 context "math()"
 snippet td "Power "  eiA
@@ -656,11 +659,6 @@ context "math()"
 
 
 context "math()"
-snippet pm "Plus sign inside math mode"  ieA
-\pm $0
-endsnippet
-
-context "math()"
 snippet +- "Plus sign inside math mode"  ieA
 \pm $0
 endsnippet
@@ -697,6 +695,12 @@ endsnippet
 #==================================================
 #=========== Trigonometry and Stuffs ==============
 #==================================================
+
+
+context "math()"
+snippet ";([a-zA-Z]{1})" "Greek letter"  erA
+`!p snip.rv=greek_letter(match.group(1))`$0
+endsnippet
 
 
 # One parameter family of three letter function
@@ -990,6 +994,7 @@ context "nomath()"
 snippet ";(\w+) " "Quick inline math"  wreA
 $`!p snip.rv=match.group(1)`$ $0
 endsnippet
+
 
 
 context "nomath()"

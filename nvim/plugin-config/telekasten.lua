@@ -1,6 +1,7 @@
-lua << END
-local home = vim.fn.expand("~/GitRepos/Dimag")
-require('telekasten').setup({
+local home = vim.fn.expand("~/zettelkasten")
+-- - Using `vim.fn.expand("~/zettelkasten")` should work now but mileage will vary with anything outside of finding and opening files
+local tk = require('telekasten')
+tk.setup({
     home         = home,
 
     -- if true, telekasten will be enabled when opening a note within the configured home
@@ -10,22 +11,37 @@ require('telekasten').setup({
     --                               and thus the telekasten syntax will not be loaded either
     auto_set_filetype = true,
 
+    -- dir names for special notes (absolute path or subdir name)
     dailies      = home .. '/' .. 'daily',
     weeklies     = home .. '/' .. 'weekly',
     templates    = home .. '/' .. 'templates',
 
-    -- image subdir for pasting
-    -- subdir name
+    -- image (sub)dir for pasting
+    -- dir name (absolute path or subdir name)
     -- or nil if pasted images shouldn't go into a special subdir
     image_subdir = "img",
 
     -- markdown file extension
-    extension    = ".md",
+    extension    = ".tk",
+
+    -- Generate note filenames. One of:
+    -- "title" (default) - Use title if supplied, uuid otherwise
+    -- "uuid" - Use uuid
+    -- "uuid-title" - Prefix title by uuid
+    -- "title-uuid" - Suffix title with uuid
+    new_note_filename = "title",
+    -- file uuid type ("rand" or input for os.date()")
+    uuid_type = "%Y%m%d%H%M",
+    -- UUID separator
+    uuid_sep = "-",
 
     -- following a link to a non-existing note will create it
     follow_creates_nonexisting = true,
     dailies_create_nonexisting = true,
     weeklies_create_nonexisting = true,
+
+    -- skip telescope prompt for goto_today and goto_thisweek
+    journal_auto_open = false,
 
     -- template for new notes (new_note, follow_link)
     -- set to `nil` or do not specify if you do not want a template
@@ -43,6 +59,9 @@ require('telekasten').setup({
     -- wiki:     ![[image name]]
     -- markdown: ![](image_subdir/xxxxx.png)
     image_link_style = "markdown",
+
+    -- default sort option: 'filename', 'modified'
+    sort = "filename",
 
     -- integrate with calendar-vim
     plug_into_calendar = true,
@@ -104,53 +123,37 @@ require('telekasten').setup({
     --                        except for notes/with/subdirs/in/title.
     new_note_location = "smart",
 
+    -- should all links be updated when a file is renamed
+    rename_update_links = true,
 })
-END
 
-nnoremap <leader>zf :lua require('telekasten').find_notes()<CR>
-nnoremap <leader>zd :lua require('telekasten').find_daily_notes()<CR>
-nnoremap <leader>zg :lua require('telekasten').search_notes()<CR>
-nnoremap <leader>zz :lua require('telekasten').follow_link()<CR>
-nnoremap <leader>zT :lua require('telekasten').goto_today()<CR>
-nnoremap <leader>zW :lua require('telekasten').goto_thisweek()<CR>
-nnoremap <leader>zw :lua require('telekasten').find_weekly_notes()<CR>
-nnoremap <leader>zn :lua require('telekasten').new_note()<CR>
-nnoremap <leader>zN :lua require('telekasten').new_templated_note()<CR>
-nnoremap <leader>zy :lua require('telekasten').yank_notelink()<CR>
-nnoremap <leader>zc :lua require('telekasten').show_calendar()<CR>
-nnoremap <leader>zC :CalendarT<CR>
-nnoremap <leader>zi :lua require('telekasten').paste_img_and_link()<CR>
-nnoremap <leader>zt :lua require('telekasten').toggle_todo()<CR>
-nnoremap <leader>zb :lua require('telekasten').show_backlinks()<CR>
-nnoremap <leader>zF :lua require('telekasten').find_friends()<CR>
-nnoremap <leader>zI :lua require('telekasten').insert_img_link({ i=true })<CR>
-nnoremap <leader>zp :lua require('telekasten').preview_img()<CR>
-nnoremap <leader>zm :lua require('telekasten').browse_media()<CR>
-nnoremap <leader>za :lua require('telekasten').show_tags()<CR>
-nnoremap <leader># :lua require('telekasten').show_tags()<CR>
+local map = vim.keymap.set
 
-" on hesitation, bring up the panel
-nnoremap <leader>z :lua require('telekasten').panel()<CR>
 
-" we could define [[ in **insert mode** to call insert link
-" inoremap [[ <cmd>:lua require('telekasten').insert_link()<CR>
-" alternatively: leader [
-inoremap [[ <cmd>:lua require('telekasten').insert_link({ i=true })<CR>
-"inoremap <leader>zt <cmd>:lua require('telekasten').toggle_todo({ i=true })<CR>
-"inoremap <leader># <cmd>lua require('telekasten').show_tags({i = true})<cr>
-
-" ----- the following are for syntax-coloring [[links]] and ==highlighted text==
-" ----- (see the section about coloring in README.md)
-
-" for gruvbox
-hi tklink ctermfg=72 guifg=#689d6a cterm=bold,underline gui=bold,underline
-hi tkBrackets ctermfg=gray guifg=gray
-
-" real yellow
-hi tkHighlight ctermbg=yellow ctermfg=darkred cterm=bold guibg=yellow guifg=darkred gui=bold
-" gruvbox
-"hi tkHighlight ctermbg=214 ctermfg=124 cterm=bold guibg=#fabd2f guifg=#9d0006 gui=bold
-
-hi link CalNavi CalRuler
-hi tkTagSep ctermfg=gray guifg=gray
-hi tkTag ctermfg=175 guifg=#d3869B
+--vim.keymap.set("n","<leader>[",function() tk.insert_link({ i=true }) end)
+map("n","<leader>[",tk.insert_link)
+map("i","[[",tk.insert_link)
+--vim.keymap.set("n","<leader>[",print("Hello World") )
+--
+map("n", "<leader>zf", tk.find_notes)
+map("n", "<leader>zd", tk.find_daily_notes)
+map("n", "<leader>zg", tk.search_notes)
+map("n", "<leader>zz", tk.follow_link)
+map("n", "<leader>zT", tk.goto_today)
+map("n", "<leader>zW", tk.goto_thisweek)
+map("n", "<leader>zw", tk.find_weekly_notes)
+map("n", "<leader>zn", tk.new_note)
+map("n", "<leader>zN", tk.new_templated_note)
+map("n", "<leader>zy", tk.yank_notelink)
+map("n", "<leader>zc", tk.show_calendar)
+--map("n", "<leader>zC", :CalendarT<CR>
+map("n", "<leader>zi", tk.paste_img_and_link)
+map("n", "<leader>zt", tk.toggle_todo)
+map("n", "<leader>zb", tk.show_backlinks)
+map("n", "<leader>zF", tk.find_friends)
+map("n", "<leader>zI", tk.insert_img_link)
+map("n", "<leader>zp", tk.preview_img)
+map("n", "<leader>zm", tk.browse_media)
+map("n", "<leader>za", tk.show_tags)
+map("n", "<leader>#" , tk.show_tags)
+map("n", "<leader>zr", tk.rename_note)

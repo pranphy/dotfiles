@@ -44,15 +44,19 @@ snippet "([pvb])matrix(\d+)x(\d+)" "Generate a matrix " r
 endsnippet
 
 
+snippet eqn "align" bA
+\begin{align} \label{${1:eq:only}}
+	$2
+\end{align}
+$0
+endsnippet
+
 
 
 snippet alins " align asterisk " bA
-
-$$
 \begin{align*}
 	$1
 \end{align*}
-$$
 $0
 endsnippet
 
