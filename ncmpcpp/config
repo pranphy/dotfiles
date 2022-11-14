@@ -6,6 +6,7 @@ mpd_music_dir = "/media/pranphy/backup/Data/Multimedia/Audio/Music"
 #mpd_music_dir = "~/Music"
 
 ncmpcpp_directory = ~/.config/ncmpcpp
+#mpd_host = 192.168.1.154
 mpd_host = localhost
 mpd_port = 6600
 #

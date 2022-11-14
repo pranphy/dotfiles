@@ -7,7 +7,6 @@ set nocompatible
 filetype off
 
 call plug#begin('~/.local/share/nvim/bundle/')
-    Plug 'Valloric/YouCompleteMe'
     Plug 'scrooloose/nerdtree'
     Plug 'vim-airline/vim-airline'
     Plug 'lervag/vimtex'
@@ -16,13 +15,12 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
     Plug 'JuliaEditorSupport/julia-vim'
-    Plug 'ervandew/supertab'
     Plug 'plasticboy/vim-markdown'
     Plug 'APZelos/blamer.nvim'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-    Plug 'neovim/nvim-lspconfig'
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
 
     " neovim only
     if has('nvim')
@@ -30,7 +28,16 @@ call plug#begin('~/.local/share/nvim/bundle/')
         Plug 'neovim/nvim-lspconfig'
         Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
         Plug 'APZelos/blamer.nvim'
-        Plug 'dccsillag/magma-nvim', {'do': ':UpdateRemotePlugins'}
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+
+        Plug 'neovim/nvim-lspconfig'
+        Plug 'hrsh7th/cmp-nvim-lsp'
+        Plug 'hrsh7th/cmp-buffer'
+        Plug 'hrsh7th/cmp-path'
+        Plug 'hrsh7th/cmp-cmdline'
+        Plug 'hrsh7th/nvim-cmp'
+        Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     endif
 call plug#end()
 
@@ -94,22 +101,6 @@ nnoremap <leader>nm :NERDTreeMirror<cr>
 
 
 "
-"let g:loaded_youcompleteme = 0
-let g:ycm_global_ycm_extra_conf='~/.config/nvim/ycm/ycm_extra_conf.py'
-let g:ycm_key_list_select_completion = ["jj","<down>"]
-let g:ycm_confirm_extra_conf=0
-let g:cpp_class_scope_highlight=1
-
-" YCM Support for latex family language
-if !exists('g:ycm_semantic_triggers')
-  let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
-let g:ycm_register_as_syntastic_checker=1
-
-
 " Vimtex configuration
 let g:vimtex_view_method = 'zathura'
 "let g:vimtex_syntax_enabled = 0
@@ -123,14 +114,13 @@ set conceallevel=1
 let g:tex_conceal='abdmg'
 hi Conceal ctermbg=none
 
-let g:SuperTabDefaultCompletionType = 'jj'
-
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+let g:UltiSnipsExpandTrigger = '<Plug>(ultisnips_expand)'
+let g:UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
+let g:UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
+let g:UltiSnipsListSnippets = '<c-x><c-s>'
+let g:UltiSnipsRemoveSelectModeMappings = 0
 let g:UltiSnipsEditSplit="vertical"
-"
 "
 
 let g:airline_powerline_fonts = 1
@@ -144,8 +134,4 @@ runtime plugin-config/makrdown-preview.vim
 runtime plugin-config/nepali-map.vim
 runtime plugin-config/vimwiki.vim
 runtime plugin-config/vim-fugitive.vim
-runtime plugin-config/vim-fugitive.vim
-
-
-
 

@@ -40,7 +40,7 @@ alias vfz='nvim $(fzf)'
 #alias gs="git status"
 alias gsu="git status -u"
 alias gcm="git commit -m"
-alias gpom="git push origin master"
+alias gpom="git push origin master || git push origin main"
 alias dscam="gphoto2 --stdout --capture-movie | ffmpeg -i - -vcodec rawvideo -pix_fmt yuv420p -threads 0 -f v4l2 /dev/video2"
 
 # tree aliases
@@ -52,6 +52,9 @@ alias slstatus='echo Running :: $(squeue --user $(whoami) | awk '\''{print $5}'\
 
 alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 alias ip='ip -c'
+alias batper='echo "$(cat /sys/class/power_supply/BAT0/capacity) $(cat /sys/class/power_supply/BAT0/status)"'
+alias btchk='notify-send "$(cat /sys/class/power_supply/BAT0/capacity) $(cat /sys/class/power_supply/BAT0/status)"'
+
 
 
 

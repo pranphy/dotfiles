@@ -2,7 +2,7 @@
     "editor.lineNumbers": "relative",
     "editor.fontFamily": "'Iosevka Term','Iosevka Nerd Font','Monaco', 'Noto Serif Devanagari','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'zero', 'onum'",
-    "editor.fontSize": 17,
+    "editor.fontSize": 16,
     "editor.minimap.enabled": false,
     /*"editor.columnSelection": true,*/
     "editor.emptySelectionClipboard": false,
@@ -23,12 +23,9 @@
         "statusBar.noFolderBackground" : "#212121",
         "statusBar.debuggingBackground": "#263238"
     },
-    "workbench.editorAssociations": [
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ],
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
     "terminal.integrated.commandsToSkipShell": [
         "language-julia.interrupt"
     ],
@@ -82,7 +79,7 @@
     "markdown-preview-enhanced.revealjsTheme": "night.css",
 
     /*Julia extension*/
-    "julia.executablePath": "/usr/bin/julia",
+    "julia.executablePath": "~/st/usr/bin/julia",
     "julia.execution.resultType": "both",
 
     "markdown-image.local.path": "/Attachments/images",
@@ -168,7 +165,14 @@
         "yaml",
         ".Xresources"
     ],
-    "window.zoomLevel": -1,
     "explorer.confirmDragAndDrop": false,
-    "redhat.telemetry.enabled": false
+    "redhat.telemetry.enabled": false,
+    "julia.symbolCacheDownload": true,
+    "grammarly.files.include": [
+        "**/README.md",
+        "**/readme.md",
+        "**/*.txt",
+        "**/*.tex"
+    ],
+    "jupyter.askForKernelRestart": false
 }

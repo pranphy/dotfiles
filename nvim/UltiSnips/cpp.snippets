@@ -33,7 +33,7 @@ endsnippet
 snippet class "begin" iA
 #include<iostream>
 
-class ${1:Class}`!p snip.rv = ' : ' if t[2] != '' else ''` ${2:public}${3:`!p snip.rv='ParentClass' if t[2] !='' else ''`}
+class ${1:Class}`!p snip.rv = ' : ' if t[2] != '' else ''` ${2:public}${3:`!p snip.rv=' ParentClass' if t[2] !='' else ''`}
 {
 private:
 	int a;
@@ -48,6 +48,11 @@ public:
 	int c;
 };
 
+endsnippet
+
+snippet cout "cout " iA
+std::cout<<"$1"<<std::endl;
+$0
 endsnippet
 
 snippet guard "header guard" iA
@@ -79,4 +84,6 @@ snippet { "brace complete " bA
 	$1
 }
 endsnippet
+
+
 

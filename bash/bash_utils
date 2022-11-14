@@ -53,9 +53,8 @@ function PyCalc()
 
 function jc()
 {
-    command='julia -E  "'$@'"'
-    echo ${command}
-    julia -E "${@}"
+    cmd='julia -E "'${@}'"'
+    eval ${cmd}
 }
 
 
@@ -300,4 +299,33 @@ function sch()
 function weather()
 {
     curl --silent wttr.in/$(curl --silent ifconfig.co/city)?m | less -R
+}
+
+function latexdoc()
+{
+    path=$(curl -s https://texdoc.org/texdoc/${@} | jq -r '.[0]["path"]' )
+    #docpath="https://texdoc.org/serve/${@}/0"
+    docpath="~/st/usr/local/texlive/2022/texmf-dist/doc/$path"
+    echo ${docpath}
+    zathura ${docpath}
+}
+
+function mkblog()
+{
+    dir=${1}
+    shift 1
+    param="${@}"
+    touch ${dir}/$(date +%Y-%m-%d)-$(echo ${param} | tr A-Z a-z | tr ' ' -).md
+}
+
+function mkfblog()
+{
+    dir=${1}
+    shift 1
+    param="${@}"
+    year=$(date +%Y)
+    month=$(date +%m)
+    day=$(date +%d)
+    mkdir -p ${dir}/${year}/${month}
+    touch ${dir}/${year}/${month}/$(echo ${param} | tr A-Z a-z | tr ' ' -).md
 }

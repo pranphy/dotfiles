@@ -7,7 +7,8 @@
 
 param=${1}
 docpath=~/.local/share/respra/doculist.conf
-line=$(cat ${docpath} | fzf --height 100%)
+#line=$(cat ${docpath} | fzf --height 100%)
+line=$(cat ${docpath} | dmenu -l 10)
 #command=$(cat ${docpath} | grep "${param}:+:" |  cut -d' ' -f 2-)
 #command=$(echo ${line} | grep "${param}:+:" |  cut -d' ' -f 2-)
 command=$(echo ${line} |  cut -d' ' -f 2- \

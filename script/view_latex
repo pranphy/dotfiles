@@ -6,8 +6,9 @@
 # date   : 2020-07-21 18:47
 
 FILE=${1:?No file}
-DESTDIR=${2}
-VIEW=${3}
+VIEW=${2}
+CONVERT=${3}
+DESTDIR=${4:-""}
 
 OPDIR=$(mktemp -d -t latex_view-XXXXXXXXXX)
 mkdir -p ${OPDIR}
@@ -47,12 +48,17 @@ cat > ${LATEXPATH} << EOF
     decorations.shapes,
     decorations.text,
     fit,
+    fillbetween,
+    intersections,
     math,
     matrix,
     mindmap,
     positioning,
     quotes,
     shapes
+}
+\usepgfplotslibrary{
+    groupplots%
 }
 \begin{document}
     ${TIKZCONTENT}
@@ -62,7 +68,8 @@ EOF
 
 #cat ${LATEXPATH}
 
-lualatex --shell-escape  -output-directory=${OPDIR} ${LATEXPATH}
+[[ "${CONVERT}" == "yes" ]]  && lualatex --shell-escape  -output-directory=${OPDIR} ${LATEXPATH}
+
 if [[ -x $(which convert) ]]
 then
     cmd="convert -density 150 -transparent white ${PDFPATH} ${PNGPATH}"
@@ -71,15 +78,8 @@ then
     ${cmd}
 fi
 
-if [[ "${VIEW}" == "" ]]
-then
-    #zathura ${PDFPATH}
-    echo pass
-fi
+[[ "${VIEW}" == "yes" ]] && zathura ${PDFPATH}
 
-if [[ ${DESTDIR} != "" ]]
-then
-    echo "Copying ${PNGPATH} to ${DESTDIR}"
-    cp ${PNGPATH} ${DESTDIR} 
-fi
+[[ ${DESTDIR} == "" ]] || cp ${PNGPATH} ${DESTDIR}  || echo "Copying ${PNGPATH} failed to ${DESTDIR}"
+
 

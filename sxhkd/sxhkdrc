@@ -2,11 +2,13 @@
 
 # terminal emulator
 super + Return
-	alacritty
+	kitty
 
+super + shift + Return
+	alacritty
 # program launcher
 super + @space
-	/home/pranphy/st/usr/bin/dmenu_path | /home/pranphy/st/usr/bin/dmenu_run -h 24
+	dmenu_run
 
 # program launcher
 super + r
@@ -94,7 +96,6 @@ super + {_,shift + }{1-9,0}
 #
 # preselect
 #
-
 # preselect the direction
 super + ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
@@ -157,10 +158,26 @@ alt + shift + c
     urxvt -geometry 65x8 -e bash ~/wait
 
 XF86MonBrightnessUp
-    xbacklight -inc 10
+    xbacklight -inc 5
+
+shift + XF86MonBrightnessUp
+    xbacklight -inc 1
 
 XF86MonBrightnessDown
-    xbacklight -dec 10
+    xbacklight -dec 5
+
+shift + XF86MonBrightnessDown
+    xbacklight -dec 1
+
+# move focused window to the next workspace and then switch to that workspace
+super + shift + {Left,Right}
+    id=$(bspc query --nodes --node); \
+    bspc node --to-desktop {prev,next}; \
+    bspc desktop --focus next; \
+    bspc node --focus ${id}
+
+super + {Left,Right}
+    bspc desktop -f {prev,next}
 
 alt + shift + p
     passmenu
