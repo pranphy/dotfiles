@@ -5,14 +5,14 @@ super + Return
 	kitty
 
 super + shift + Return
-	alacritty
+    alacritty
 # program launcher
 super + @space
 	dmenu_run
 
 # program launcher
 super + r
-    rofi -opacity "80" -show run
+    PATH="~/.local/share/junest/bin:$PATH:~/.junest/usr/bin_wrappers" rofi -opacity "80" -show run
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -180,7 +180,7 @@ super + {Left,Right}
     bspc desktop -f {prev,next}
 
 alt + shift + p
-    passmenu
+    PATH="~/.local/share/junest/bin:$PATH:~/.junest/usr/bin_wrappers" passmenu
 
 alt + shift + y
     kitty -e opndc

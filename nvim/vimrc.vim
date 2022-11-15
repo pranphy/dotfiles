@@ -17,9 +17,8 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'JuliaEditorSupport/julia-vim'
     Plug 'plasticboy/vim-markdown'
     Plug 'APZelos/blamer.nvim'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+    "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    "Plug 'junegunn/fzf.vim'
 
 
     " neovim only

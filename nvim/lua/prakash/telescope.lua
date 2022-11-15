@@ -4,8 +4,8 @@ local M = {}
 function M.edit_dotfiles()
     require('telescope.builtin').git_files( {
         shorten_path = true,
-        cwd = '~/GitRepos/MyDotFiles/',
-        prompt_title  = "Dotfiles",
+        cwd = '~/repos/dotiles/',
+        prompt_title  = "dotiles",
         height = 10,
         layout_options = {
             preview_width = 0.75,
@@ -17,7 +17,7 @@ end
 function M.edit_kb()
     require('telescope.builtin').git_files( {
         shorten_path = true,
-        cwd = '~/GitRepos/Dimag/',
+        cwd = '~/repos/knowledgebase/',
         prompt_title  = "Knowledge Base",
     })
 end
