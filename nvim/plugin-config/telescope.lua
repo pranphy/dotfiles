@@ -1,5 +1,6 @@
 -- vim: ft=lua
-require('telescope').setup({
+local telescope = require('telescope')
+telescope.setup({
   defaults = {
     vimgrep_arguments = {
       'rg',
@@ -10,17 +11,19 @@ require('telescope').setup({
       '--column',
       '--smart-case'
     },
-    layout_config = {
-        vertical = { width = 0.5 }
-    },
   }
 });
 
-vim.cmd('nnoremap <leader>ff <cmd>Telescope find_files<cr>')
-vim.cmd('nnoremap <leader>fz <cmd>Telescope file_browser<cr>')
-vim.cmd('nnoremap <leader>fg <cmd>Telescope live_grep<cr>')
-vim.cmd('nnoremap <leader>fb <cmd>Telescope buffers<cr>')
-vim.cmd('nnoremap <leader>fh <cmd>Telescope help_tags<cr>')
+-- local bufopts = { noremap=true, silent=true, buffer=bufnr }
 
-require('prakash.telescope')
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>fd', builtin.help_tags, {})
+
+local st=require('st.telescope')
+vim.keymap.set('n', '<leader>fkb', st.edit_kb, {})
+vim.keymap.set('n', '<leader>fd', st.edit_dotfiles, {})
 

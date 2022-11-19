@@ -4,7 +4,7 @@ local M = {}
 function M.edit_dotfiles()
     require('telescope.builtin').git_files( {
         shorten_path = true,
-        cwd = '~/repos/dotiles/',
+        cwd = '~/repos/dotfiles/',
         prompt_title  = "dotiles",
         height = 10,
         layout_options = {
