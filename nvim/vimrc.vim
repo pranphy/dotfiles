@@ -11,7 +11,6 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'vim-airline/vim-airline'
     Plug 'lervag/vimtex'
     Plug 'KeitaNakamura/tex-conceal.vim'
-    Plug 'SirVer/ultisnips'
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
     Plug 'JuliaEditorSupport/julia-vim'
@@ -37,6 +36,7 @@ call plug#begin('~/.local/share/nvim/bundle/')
         Plug 'hrsh7th/cmp-cmdline'
         Plug 'hrsh7th/nvim-cmp'
         Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+        Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
     endif
 call plug#end()
 
@@ -113,14 +113,6 @@ set conceallevel=1
 let g:tex_conceal='abdmg'
 hi Conceal ctermbg=none
 
-" UltiSnips
-let g:UltiSnipsExpandTrigger = '<Plug>(ultisnips_expand)'
-let g:UltiSnipsJumpForwardTrigger = '<Plug>(ultisnips_jump_forward)'
-let g:UltiSnipsJumpBackwardTrigger = '<Plug>(ultisnips_jump_backward)'
-let g:UltiSnipsListSnippets = '<c-x><c-s>'
-let g:UltiSnipsRemoveSelectModeMappings = 0
-let g:UltiSnipsEditSplit="vertical"
-"
 
 let g:airline_powerline_fonts = 1
 "let g:airline#extensions#tabline#enabled = 1
