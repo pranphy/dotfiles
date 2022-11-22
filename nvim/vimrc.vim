@@ -7,7 +7,6 @@ set nocompatible
 filetype off
 
 call plug#begin('~/.local/share/nvim/bundle/')
-    Plug 'scrooloose/nerdtree'
     Plug 'vim-airline/vim-airline'
     Plug 'lervag/vimtex'
     Plug 'KeitaNakamura/tex-conceal.vim'
@@ -35,8 +34,8 @@ call plug#begin('~/.local/share/nvim/bundle/')
         Plug 'hrsh7th/cmp-path'
         Plug 'hrsh7th/cmp-cmdline'
         Plug 'hrsh7th/nvim-cmp'
-        Plug 'quangnguyen30192/cmp-nvim-ultisnips'
         Plug 'L3MON4D3/LuaSnip', {'tag': 'v1.*'}
+        Plug 'nvim-tree/nvim-tree.lua'
     endif
 call plug#end()
 
@@ -94,9 +93,6 @@ nnoremap <C-H> <C-W><C-H>
 vnoremap < <gv
 vnoremap > >gv
 
-nnoremap <leader>nt :NERDTreeToggle<cr>
-nnoremap <leader>nc :NERDTreeClose<cr>
-nnoremap <leader>nm :NERDTreeMirror<cr>
 
 
 "
@@ -125,4 +121,6 @@ runtime plugin-config/makrdown-preview.vim
 runtime plugin-config/nepali-map.vim
 runtime plugin-config/vimwiki.vim
 runtime plugin-config/vim-fugitive.vim
+
+"-- lua require("plugin.nvim-tree")
 

@@ -13,4 +13,7 @@ tnoremap <A-l> <C-\><C-n><C-w>l
 runtime plugin-config/telescope.lua
 runtime plugin-config/treesitter.lua
 runtime plugin-config/cmp-nvim.lua
+runtime plugin-config/luasnip.lua
 runtime plugin-config/nvim-lsp.lua
+
+lua require("plugin.nvim-tree")
