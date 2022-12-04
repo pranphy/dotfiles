@@ -16,30 +16,19 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
     Plug 'JuliaEditorSupport/julia-vim'
-    Plug 'ervandew/supertab'
-    Plug 'godlygeek/tabular'
     Plug 'plasticboy/vim-markdown'
     Plug 'APZelos/blamer.nvim'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
-
+    Plug 'axvr/zepl.vim'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
 
-    Plug 'neovim/nvim-lspconfig'
-    "Plug 'renerocksai/telekasten.nvim'
-    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
 
 filetype plugin indent on
 syntax on
 
 colorscheme gruvbox
-"highlight Normal guibg=NONE ctermbg=NONE
-set guioptions -=T
-set guioptions -=m
+highlight Normal guibg=NONE ctermbg=NONE
 
 
 set hidden
@@ -51,7 +40,7 @@ set number
 set relativenumber
 set modeline
 set modelines=5
-set wrap
+set nowrap
 set breakindent
 set clipboard+=unnamedplus
 set splitbelow
@@ -62,7 +51,7 @@ set foldlevel=1
 set fileformat=unix
 set nohlsearch
 set incsearch
-set guifont=Iosevka\ Term\ 12
+set guifont=Iosevka\ Term
 
 let mapleader=' '
 
@@ -94,32 +83,8 @@ nnoremap <leader>nc :NERDTreeClose<cr>
 nnoremap <leader>nm :NERDTreeMirror<cr>
 
 
-if has ('nvim')
-    tnoremap jk <C-\><C-n>
-    tnoremap jK <C-\><C-n>
-    tnoremap <A-h> <C-\><C-n><C-w>h
-    tnoremap <A-j> <C-\><C-n><C-w>j
-    tnoremap <A-k> <C-\><C-n><C-w>k
-    tnoremap <A-l> <C-\><C-n><C-w>l
-endif
 
 "
-"let g:loaded_youcompleteme = 0
-let g:ycm_global_ycm_extra_conf='~/.config/nvim/ycm/ycm_extra_conf.py'
-let g:ycm_key_list_select_completion = ["jj","<down>"]
-let g:ycm_confirm_extra_conf=0
-let g:cpp_class_scope_highlight=1
-
-" YCM Support for latex family language
-if !exists('g:ycm_semantic_triggers')
-  let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
-let g:ycm_register_as_syntastic_checker=1
-
-
 " Vimtex configuration
 let g:vimtex_view_method = 'zathura'
 "let g:vimtex_syntax_enabled = 0
@@ -128,6 +93,12 @@ let g:vimtex_matchparen_enabled=0
 "let g:matchup_matchparen_deferred=1
 let vimtex_fild_enabled=1
 
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 set conceallevel=1
 let g:tex_conceal='abdmg'
@@ -146,4 +117,13 @@ let g:UltiSnipsEditSplit="vertical"
 let g:airline_powerline_fonts = 1
 "let g:airline#extensions#tabline#enabled = 1
 "let g:airline_extensions = []
+"
+runtime plugin-config/functions.vim
+runtime plugin-config/fzf.vim
+runtime plugin-config/makrdown-conceal.vim
+runtime plugin-config/makrdown-preview.vim
+runtime plugin-config/nepali-map.vim
+runtime plugin-config/vimwiki.vim
+runtime plugin-config/vim-fugitive.vim
+runtime plugin-config/zepl.vim
 

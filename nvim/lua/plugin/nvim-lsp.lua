@@ -48,11 +48,17 @@ lspconfig.pyright.setup({
 
 })
 
-lspconfig.clangd.setup{
+lspconfig.ccls.setup{
     on_attach = on_attach,
-    cmd = { "clangd" },
-    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+    cmd = { "ccls" },
+    --filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 }
+
+-- lspconfig.clangd.setup{
+--     on_attach = on_attach,
+--     cmd = { "clangd" },
+--     -- filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+-- }
 
 require'lspconfig'.texlab.setup{}
 

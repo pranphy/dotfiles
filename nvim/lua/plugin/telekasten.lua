@@ -22,7 +22,7 @@ tk.setup({
     image_subdir = "img",
 
     -- markdown file extension
-    extension    = ".tk",
+    extension    = ".md",
 
     -- Generate note filenames. One of:
     -- "title" (default) - Use title if supplied, uuid otherwise
@@ -157,3 +157,4 @@ map("n", "<leader>zm", tk.browse_media)
 map("n", "<leader>za", tk.show_tags)
 map("n", "<leader>#" , tk.show_tags)
 map("n", "<leader>zr", tk.rename_note)
+

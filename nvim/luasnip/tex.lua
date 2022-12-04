@@ -1,14 +1,13 @@
 -- Place this in ${HOME}/.config/nvim/LuaSnip/all.lua
-local ls = require"luasnip"
-local s = ls.snippet
-local t = ls.text_node
-local i = ls.insert_node
-local f = ls.function_node
-local rep = require("luasnip.extras").rep
-local fmt = require("luasnip.extras.fmt").fmt
-local fmta = require("luasnip.extras.fmt").fmta
+-- local ls = require("luasnip")
+-- local s = ls.snippet
+-- local t = ls.text_node
+-- local i = ls.insert_node
+-- local f = ls.function_node
+-- local rep = require("luasnip.extras").rep
+-- local fmt = require("luasnip.extras.fmt").fmt
+-- local fmta = require("luasnip.extras.fmt").fmta
 
-ls.config.set_config({history=true,enable_autosnippets=true})
 
 -- Some functions
 local function math()
@@ -19,12 +18,32 @@ local function nomath()
     return not math()
 end 
 
+local function hasit(table,value)
+    local lt = {}
+    for k,v in ipairs(table) do
+        lt[v] = true
+    end
+    return lt[value]
+end
+
+local greek_let = {"sin","cos","tan","phi","phi","cot","tan","eta","chi"}
+
+local function greekp(rv)
+    if hasit(greek_let,rv) then rv = "\\"..rv end
+    return rv
+end
+
+local function greekf()
+    return f(function(_,snip)
+        -- return greekp(snip.captures[1]).."{"..greekp(snip.captures[2]).."}"
+        return greekp(snip.captures[1])..greekp(snip.captures[2])
+    end)
+end
+
 local function env(name) 
     local is_inside = vim.fn['vimtex#env#is_inside'](name)
     return (is_inside[1] > 0 and is_inside[2] > 0)
 end
-
-local get_date =function() return os.date("%Y-%m-%d %H:%M") end
 
 -- Basically a function node with (s)nippet (c)apture and text appended
 local function sc(n,append_text)
@@ -88,8 +107,26 @@ s({trig="head", snippetType="autosnippet"},
         % vim: ai ts=4 sts=4 et sw=4 ft=tex
         <>
        ]],
-       { f(get_date), i(0) }
+       { t(os.date("%Y-%m-%d %H:%M")), i(0) }
    )
+),
+
+
+tfs({trig="beg"},
+    [[
+    \begin{<>}
+        <>
+    \end{<>}
+    ]], { i(1,"env"), i(2), rep(1) }
+),
+
+
+tfs({trig="minted"},
+    [[
+    \begin{minted}[cpp]{autogobble}
+        <>
+    \end{minted}
+    ]], { i(1,"code")}
 ),
 
 tfs({trig="fig"},
@@ -113,11 +150,12 @@ tfs({trig="fig"},
 
 
 
+
 -- full snippet
 s({ trig="([bBpvV])mat(%d+)x(%d+)([ar])", regTrig=true, name="matrix", dscr='matrix trigger lets go'},
     fmta([[
     \begin{<>}<>
-    <>
+        <>
     \end{<>}]],
     {sc(1,"matrix"),
     f(function (_, snip) -- augments
@@ -130,22 +168,31 @@ s({ trig="([bBpvV])mat(%d+)x(%d+)([ar])", regTrig=true, name="matrix", dscr='mat
     d(1, mat),
     sc(1,"matrix")}
     )
-),
-
-
-
+)
+-- Non auto trigger end
 },  
 
 {-- auto trigger begin
+s("pac",fmta([[\usepackage{<>}]],{i(0,"package")})),
 
-ms("int ","\\int" ), --auto correct integration
-ms("oo","\\infty" ), --auto correct infinity
-ms("DD","\\Delta" ), --auto correct infinity
+
+--
+
+ms("int ","\\int " ), --auto correct integration
+ms("oo","\\infty " ), --auto correct infinity
+ms("DD","\\Delta " ), --auto correct infinity
 ms("inff", [[\int\limits_{-\infty}^{\infty}]]),
 ms("inof", [[\int\limits_{0}^{\infty}]]),
 ms("info", [[\int\limits_{-\infty}^{0}]]),
 ms("inop", [[\int\limits_{0}^{\pi}]]),
 ms("inpp", [[\int\limits_{-\pi}^{\pi}]]),
+
+ms("sr ","^{2} " ), --auto correct integration
+--ms("sr ", [[^{2}]]),--{i(1)}),
+mfs("td ", [[^{<>}]],{i(1)}),
+
+-- Greek Process
+mfrs("(%w%w%w)(%w%w%w)", [[<>]],{greekf()}),
 
 -- glossary entry
 tfrs("gls(%w+)%s", [[\gls{<>} ]],{sc(1)}),
@@ -206,5 +253,7 @@ mfs("cases",
 mfrs('([\\%w%(%)_^,}{+-=]+)%/',
     [[\frac{<>}{<>}]],{sc(1),i(1)}
 ),
+
+
 
 }

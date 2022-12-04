@@ -2,7 +2,7 @@
 local M = {}
 
 function M.edit_dotfiles()
-    require('telescope.builtin').git_files( {
+    require('telescope.builtin').find_files( {
         shorten_path = true,
         cwd = '~/repos/dotfiles/',
         prompt_title  = "dotiles",
@@ -13,13 +13,22 @@ function M.edit_dotfiles()
     })
 end
 
-
 function M.edit_kb()
-    require('telescope.builtin').git_files( {
+    require('telescope.builtin').find_files( {
         shorten_path = true,
-        cwd = '~/repos/knowledgebase/',
-        prompt_title  = "Knowledge Base",
+        cwd = '~/repos/dimag/',
+        prompt_title  = "Dimag",
     })
 end
 
+function M.edit_snippets()
+    require('telescope.builtin').find_files( {
+        shorten_path = true,
+        cwd = '~/.config/nvim/luasnip/',
+        prompt_title  = "Snippets",
+    })
+end
+
+
 return M
+
