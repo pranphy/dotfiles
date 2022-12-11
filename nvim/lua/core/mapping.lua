@@ -14,4 +14,7 @@ map("v",">",">gv")
 
 map("n","<tab>","gt")
 map("n","<s-tab>","gT")
+--  for quickfix navigation
+map("n","<leader>j",":cnext<cr>")
+map("n","<leader>k",":cprevious<cr>")
 
