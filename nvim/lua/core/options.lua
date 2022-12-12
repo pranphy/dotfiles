@@ -9,11 +9,14 @@ set.softtabstop = 2
 set.expandtab = true
 set.splitright = true
 set.splitbelow = true
+set.wrap = false
+set.breakindent = true
 
 set.number = true
 set.relativenumber = true
 set.fileformat = 'unix'
-set.foldmethod  = 'indent'
+set.foldmethod  = 'syntax'
+set.hlsearch = false
 
 set.inccommand = 'split'
 set.laststatus = 3
@@ -26,3 +29,4 @@ vim.cmd[[
 colorscheme gruvbox
 highlight Normal guibg=NONE ctermbg=NONE
 ]]
+
