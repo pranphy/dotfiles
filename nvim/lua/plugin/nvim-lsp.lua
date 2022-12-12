@@ -60,7 +60,7 @@ lspconfig.ccls.setup{
 --     -- filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 -- }
 
-require'lspconfig'.texlab.setup{}
+lspconfig.texlab.setup{}
 
 vim.lsp.set_log_level("INFO")
 

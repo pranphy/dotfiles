@@ -115,13 +115,14 @@ local cmdline_mapping = {
 }
 
 cmp.setup.cmdline({ '/', '?' }, {
-    mapping = cmdline_mapping,
+    mapping = cmp.mapping.preset.cmdline(),
+    --mapping = cmdline_mapping,
     sources = { { name = 'buffer' } }
 })
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
-    -- mapping = cmp.mapping.preset.cmdline(),
-    mapping = cmdline_mapping,
+    mapping = cmp.mapping.preset.cmdline(),
+    --mapping = cmdline_mapping,
     sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } })
 })
 

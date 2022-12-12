@@ -128,11 +128,12 @@ tk.setup({
 })
 
 local map = vim.keymap.set
+function nmap(a,b) map("n",a,b) end
 
 
 --vim.keymap.set("n","<leader>[",function() tk.insert_link({ i=true }) end)
 map("n","<leader>[",tk.insert_link)
-map("i","[[",tk.insert_link)
+-- map("i","[[",tk.insert_link)
 --vim.keymap.set("n","<leader>[",print("Hello World") )
 --
 map("n", "<leader>zf", tk.find_notes)
