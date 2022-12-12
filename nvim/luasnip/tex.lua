@@ -1,22 +1,11 @@
--- Place this in ${HOME}/.config/nvim/LuaSnip/all.lua
--- local ls = require("luasnip")
--- local s = ls.snippet
--- local t = ls.text_node
--- local i = ls.insert_node
--- local f = ls.function_node
--- local rep = require("luasnip.extras").rep
--- local fmt = require("luasnip.extras.fmt").fmt
--- local fmta = require("luasnip.extras.fmt").fmta
-
-
 -- Some functions
 local function math()
     return vim.api.nvim_eval('vimtex#syntax#in_mathzone()') == 1
-end 
+end
 
 local function nomath()
     return not math()
-end 
+end
 
 local function hasit(table,value)
     local lt = {}
@@ -40,7 +29,7 @@ local function greekf()
     end)
 end
 
-local function env(name) 
+local function env(name)
     local is_inside = vim.fn['vimtex#env#is_inside'](name)
     return (is_inside[1] > 0 and is_inside[2] > 0)
 end
@@ -76,7 +65,7 @@ local function tfrs(a,b,c)
     return tfs({trig=a,regTrig=true},b,c)
 end
 
--- dynamic matrix 
+-- dynamic matrix
 local mat = function(args, snip)
 	local rows = tonumber(snip.captures[2])
     local cols = tonumber(snip.captures[3])
@@ -148,9 +137,6 @@ tfs({trig="fig"},
 ),
 
 
-
-
-
 -- full snippet
 s({ trig="([bBpvV])mat(%d+)x(%d+)([ar])", regTrig=true, name="matrix", dscr='matrix trigger lets go'},
     fmta([[
@@ -168,9 +154,10 @@ s({ trig="([bBpvV])mat(%d+)x(%d+)([ar])", regTrig=true, name="matrix", dscr='mat
     d(1, mat),
     sc(1,"matrix")}
     )
-)
+),
+s("sec",fmta([[\section{<>}]],{i(0,"Section Title")})),
 -- Non auto trigger end
-},  
+},
 
 {-- auto trigger begin
 s("pac",fmta([[\usepackage{<>}]],{i(0,"package")})),
@@ -198,7 +185,7 @@ mfrs("(%w%w%w)(%w%w%w)", [[<>]],{greekf()}),
 tfrs("gls(%w+)%s", [[\gls{<>} ]],{sc(1)}),
 tfrs("pgls(%w+)%s", [[\glspl{<>} ]],{sc(1)}),
 
--- 
+--
 tfrs("(%w+)", [[\textbf{<>}]],{sc(1)}),
 
 tfrs(";(%w+)", "$<>$",{sc(1)}),
@@ -211,7 +198,7 @@ tfs("alins",
   \begin{align*}
       <>
   \end{align*}
-  ]], { i(1) } 
+  ]], { i(1) }
 ),
 
 
