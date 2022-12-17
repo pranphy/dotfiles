@@ -27,13 +27,14 @@ function RootLs()
 }
 
 function rep_string()
-{   
+{
     if [[ ${1} == "-h" ]]
     then
         echo "RepString <path_to_files> <from_regex> <to_regex> <filewildcard>"
         echo "   replaces string in all file matching <filewildcard>  for  all"
         echo "   occurances of <from_regex> to <to_regex>. Use with caution as"
         echo "   it might damage files"
+        return
     fi
 
     path=$1
@@ -82,7 +83,7 @@ function Mount()
     do
         if  [[ "${dr,,}" == "study"  ]]; then
             udisksctl mount -b  /dev/sda3
-        elif [[ "${dr,,}" == "backup" ]]; then 
+        elif [[ "${dr,,}" == "backup" ]]; then
             udisksctl mount -b  /dev/sda4
         else
             printf "Unknown parameter: $drive \n\tusage :: Mount disk_label1 [,disk_label2, ... ]\n"
@@ -99,7 +100,7 @@ function UnMount()
     do
         if  [[ "${dr,,}" == "study"  ]]; then
             udisksctl unmount -b  /dev/sda3
-        elif [[ "${dr,,}" == "backup" ]]; then 
+        elif [[ "${dr,,}" == "backup" ]]; then
             udisksctl unmount -b  /dev/sda4
         else
             printf "Unknown parameter(s) $drive \n\t usage :: UnMount disk_label1 [,disk_label2, ... ]\n"
@@ -171,9 +172,9 @@ function MakeDiary()
     path=$1
     date=`date +%Y-%m-%d`
     date_AD=`date +%Y.%m.%d`
-    date_BS=`nepaliconv -bs ${date_AD} -f 'y M d W' -u` 
+    date_BS=`nepaliconv -bs ${date_AD} -f 'y M d W' -u`
     touch $path/$date.md
-    
+
 cat > ${path}/${date}.md<< EOF
 ---
 मिति: ${date_BS} [${date}]
@@ -290,6 +291,7 @@ function vch()
     vi `which ${1}`
 }
 
+
 function sch()
 {
     source `which ${1}`
@@ -329,3 +331,14 @@ function mkfblog()
     mkdir -p ${dir}/${year}/${month}
     touch ${dir}/${year}/${month}/$(echo ${param} | tr A-Z a-z | tr ' ' -).md
 }
+
+function crun()
+{
+    [[ $1 ]]    || { echo "Missing operand" >&2; return 1; }
+    [[ -r $1 ]] || { printf "File %s does not exist or is not readable\n" "$1" >&2; return 1; }
+    local output_path=${TMPDIR:-/tmp}/${1##*/};
+    g++ -w -fmax-errors=1 -Wfatal-errors --std=c++20 "$1" -o "$output_path" && "$output_path";
+    rm "$output_path";
+    return 0;
+}
+
