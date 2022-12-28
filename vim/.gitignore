@@ -2,3 +2,4 @@
 # Ignore all plugins
 bundle
 colors
+autoload/plug.vim
