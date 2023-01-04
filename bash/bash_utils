@@ -297,6 +297,11 @@ function sch()
     source `which ${1}`
 }
 
+function vsch()
+{
+    vi $(which ${1})
+    source $(which ${1})
+}
 
 function weather()
 {
@@ -305,11 +310,16 @@ function weather()
 
 function latexdoc()
 {
-    path=$(curl -s https://texdoc.org/texdoc/${@} | jq -r '.[0]["path"]' )
+    cachedir=${XDG_CACHE_DIR:-~/.cache}
+    chdir=${cachedir}/texdoc
+    mkdir -p ${chdir}
+    tmpfile="${chdir}/${1}.pdf"
+    #path=$(curl -s https://texdoc.org/texdoc/${@} | jq -r '.[0]["path"]' )
+    [[ ! -f ${tmpfile} ]]  && curl "https://texdoc.org/serve/${@}/0" --output ${tmpfile}
     #docpath="https://texdoc.org/serve/${@}/0"
-    docpath="~/st/usr/local/texlive/2022/texmf-dist/doc/$path"
-    echo ${docpath}
-    zathura ${docpath}
+    #docpath="~/st/usr/local/texlive/2022/texmf-dist/doc/$path"
+    #echo ${docpath}
+    zathura ${tmpfile}
 }
 
 function mkblog()
@@ -334,10 +344,11 @@ function mkfblog()
 
 function crun()
 {
+    CXX=${CXX:-g++}
     [[ $1 ]]    || { echo "Missing operand" >&2; return 1; }
     [[ -r $1 ]] || { printf "File %s does not exist or is not readable\n" "$1" >&2; return 1; }
     local output_path=${TMPDIR:-/tmp}/${1##*/};
-    g++ -w -fmax-errors=1 -Wfatal-errors --std=c++20 "$1" -o "$output_path" && "$output_path";
+    ${CXX} -w -fmax-errors=1 -Wfatal-errors --std=c++20 "$1" -o "$output_path" && "$output_path";
     rm "$output_path";
     return 0;
 }
