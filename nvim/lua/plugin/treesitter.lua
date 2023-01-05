@@ -4,6 +4,6 @@ require('nvim-treesitter.configs').setup({
   --additional_vim_regex_highlighting = true,
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { "latex","tex"},  -- list of language that will be disabled
+    --disable = { "latex","tex"},  -- list of language that will be disabled
   },
 })

@@ -1,8 +1,10 @@
 -- vim: ft=lua
 local M = {}
 
+local builtin = require("telescope.builtin")
+
 function M.edit_dotfiles()
-    require('telescope.builtin').find_files( {
+    builtin.find_files( {
         shorten_path = true,
         cwd = '~/repos/dotfiles/',
         prompt_title  = "dotiles",
@@ -14,7 +16,7 @@ function M.edit_dotfiles()
 end
 
 function M.edit_kb()
-    require('telescope.builtin').find_files( {
+    builtin.find_files( {
         shorten_path = true,
         cwd = '~/repos/dimag/',
         prompt_title  = "Dimag",
@@ -22,13 +24,23 @@ function M.edit_kb()
 end
 
 function M.edit_snippets()
-    require('telescope.builtin').find_files( {
+    builtin.find_files( {
         shorten_path = true,
         cwd = '~/.config/nvim/luasnip/',
         prompt_title  = "Snippets",
     })
 end
 
+
+function M.edit_all_codes()
+    vim.ui.input({prompt = 'Enter path: '}, function(input)
+      builtin.find_files( {
+          shorten_path = true,
+          cwd = input,
+          prompt_title  = "From :" .. input,
+      })
+   end)
+end
 
 return M
 

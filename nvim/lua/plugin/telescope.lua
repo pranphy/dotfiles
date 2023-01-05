@@ -58,4 +58,5 @@ local st=require('st.telescope')
 vim.keymap.set('n', '<leader>fkb', st.edit_kb, {})
 vim.keymap.set('n', '<leader>fd', st.edit_dotfiles, {})
 vim.keymap.set('n', '<leader>fs', st.edit_snippets, {})
+vim.keymap.set('n', '<leader>fc', st.edit_all_codes, {})
 
