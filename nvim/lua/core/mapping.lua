@@ -18,3 +18,4 @@ map("n","<s-tab>","gT")
 map("n","<leader>j",":cnext<cr>")
 map("n","<leader>k",":cprevious<cr>")
 
+require("core.nepali")
