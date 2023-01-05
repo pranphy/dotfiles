@@ -3,9 +3,9 @@ local set = vim.opt
 
 set.hidden = true
 
-set.tabstop = 2
-set.shiftwidth = 2
-set.softtabstop = 2
+set.tabstop = 4
+set.shiftwidth = 4
+set.softtabstop = 4
 set.expandtab = true
 set.splitright = true
 set.splitbelow = true
@@ -26,7 +26,9 @@ vim.g.mapleader = ' '
 -- vim.g.colors_name = 'gruvbox'
 
 vim.cmd[[
-colorscheme gruvbox
+colorscheme dracula
+highlight SignColumn guibg=NONE
 highlight Normal guibg=NONE ctermbg=NONE
+highlight VertSplit guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
 ]]
 
