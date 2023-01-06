@@ -1,18 +1,20 @@
 "
-" Thought for a while about what to put here
-" and ended up writing this instead.
+" -*- coding: utf-8 -*-
+" vim: ai ts=4 sts=4 et sw=4 ft=vim
+" author : Prakash [प्रकाश]
+" date   : 2018-12-12
 "
-"
+
 set nocompatible
 filetype off
 
-call plug#begin('~/.local/share/nvim/bundle/')
-    Plug 'Valloric/YouCompleteMe'
+call plug#begin('~/.local/share/vim/bundle/')
+    Plug 'ycm-core/YouCompleteMe'
+    Plug 'SirVer/ultisnips'
+    Plug 'lervag/vimtex'
     Plug 'scrooloose/nerdtree'
     Plug 'vim-airline/vim-airline'
-    Plug 'lervag/vimtex'
     Plug 'KeitaNakamura/tex-conceal.vim'
-    Plug 'SirVer/ultisnips'
     Plug 'tpope/vim-fugitive'
     Plug 'junegunn/gv.vim'
     Plug 'JuliaEditorSupport/julia-vim'
@@ -21,7 +23,6 @@ call plug#begin('~/.local/share/nvim/bundle/')
     Plug 'axvr/zepl.vim'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-
 call plug#end()
 
 filetype plugin indent on
