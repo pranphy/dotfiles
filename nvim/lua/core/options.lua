@@ -25,10 +25,3 @@ set.cmdheight = 0
 vim.g.mapleader = ' '
 -- vim.g.colors_name = 'gruvbox'
 
-vim.cmd[[
-colorscheme dracula
-highlight SignColumn guibg=NONE
-highlight Normal guibg=NONE ctermbg=NONE
-highlight VertSplit guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
-]]
-
