@@ -1,16 +1,10 @@
 # See dunst(5) for all configuration options
-# source file  /etc/dunst/dunstrc
 
 [global]
-    ### Display ###
     monitor = 0
-    follow = none
-    width = 300
-    height = 300
+    geometry = 300x5-20 # be careful with this
     origin = top-right
-    offset = 5x23
-    scale = 0
-    notification_limit = 0
+    notification_limit = 5
     transparency = 15
     separator_height = 3
     padding = 8
@@ -21,16 +15,14 @@
     separator_color = frame
     sort = yes
 
-    font = Iosevka Term 8
-    line_height = 0
+    font = Iosevka Term
+    line_height = 2
 
-    markup = full
+    #markup = full
     format = "<b>%s</b>\n%p%b"
     alignment = left
 
     vertical_alignment = center
-
-    icon_path = "/home/pranphy/.local/share/icons/individual/fa/"
 
     # Maximum amount of notifications kept in history
     history_length = 20
@@ -38,18 +30,18 @@
     # Always run rule-defined scripts, even if the notification is suppressed
     always_run_script = true
 
-    corner_radius = 7 
+    corner_radius =  8
 
 
 [urgency_low]
     background = "#222222"
     foreground = "#888888"
-    timeout = 10
+    timeout = 5
 
 [urgency_normal]
-    background = "#4d3f6b"
-    foreground = "#ffffff"
-    timeout = 10
+    background = "#333333"
+    foreground = "#eeeeee"
+    timeout = 5
     default_icon = bell-solid
 
 [urgency_critical]
