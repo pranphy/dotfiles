@@ -9,5 +9,6 @@ require("plugin.cmp-nvim")
 require("plugin.telekasten")
 require("plugin.gitsigns")
 require("plugin.neogit")
+require("plugin.diffview")
 require("plugin.zepl")
 

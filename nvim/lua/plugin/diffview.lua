@@ -1,0 +1,3 @@
+-- Lua
+
+require("diffview").setup()
