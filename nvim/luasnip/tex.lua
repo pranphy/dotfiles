@@ -15,7 +15,7 @@ local function hasit(table,value)
     return lt[value]
 end
 
-local greek_let = {"sin","cos","tan","phi","phi","cot","tan","eta","chi"}
+local greek_let = {"sin","cos","tan","csc","cot","sec","phi","psi","eta","chi"}
 
 local function greekp(rv)
     if hasit(greek_let,rv) then rv = "\\"..rv end
@@ -45,9 +45,19 @@ local function ms(p1,p2)
     return s(p1,{t(p2)},{condition=math})
 end
 
+-- (m)ath mode (i)n word (s)nippets
+local function mis(p1,p2)
+    return ms({trig=p1,wordTrig=false},p2) -- wordTrig false makes inword snippet
+end
+
 -- (m)ath mode (f)ormatted (s)nippet
 local function mfs(a,b,c)
     return s(a,fmta(b,c),{condition=math})
+end
+
+-- (m)ath mode (i)n word (f)ormatted (s)nippet
+local function mifs(a,b,c)
+    return mfs({trig=a,wordTrig=false},b,c)
 end
 
 -- (m)ath mode (f)ormatted (r)egex (s)nippet
@@ -99,6 +109,20 @@ s({trig="head", snippetType="autosnippet"},
        { t(os.date("%Y-%m-%d %H:%M")), i(0) }
    )
 ),
+s({trig="tmpl", snippetType="autosnippet"},
+   fmta([[
+        \documentclass[a4paper,11pt]{article}
+        \usepackage{amsmath}
+        \usepackage{parskip}
+        \title{Test Title}
+        \date{<>}
+        \begin{document}
+            <>
+        \end{document}
+       ]],
+       { t(os.date("%Y-%m-%d")), i(0) }
+   )
+),
 
 
 tfs({trig="beg"},
@@ -130,7 +154,7 @@ tfs({trig="fig"},
     {
         i(1,"htpb"),
         i(2,"0.8"),
-        i(3,"images/example.jpg"),
+        i(3,"example-image-a"),
         i(4,"Some cool caption"),
         i(5,"fig-label")
     }
@@ -174,7 +198,8 @@ ms("info", [[\int\limits_{-\infty}^{0}]]),
 ms("inop", [[\int\limits_{0}^{\pi}]]),
 ms("inpp", [[\int\limits_{-\pi}^{\pi}]]),
 
-ms("sr ","^{2} " ), --auto correct integration
+mis("sr","^2" ), --auto correct integration
+mifs("^^",[[^{<>}]],{i(1)}), --auto correct integration
 --ms("sr ", [[^{2}]]),--{i(1)}),
 mfs("td ", [[^{<>}]],{i(1)}),
 
@@ -205,7 +230,7 @@ tfs("alins",
 
 -- subscripts
 mfrs('(%a)(%d)', [[<>_<>]], {sc(1), sc(2)} ),
-mfrs('(%a)_(%d%d)', [[<>_{<>}]], { sc(1),sc(2) }),
+--mfrs('(%a)_(%d%d)', [[<>_{<>}]], { sc(1),sc(2) }),
 
 
 -- scientific notation
@@ -240,7 +265,6 @@ mfs("cases",
 mfrs('([\\%w%(%)_^,}{+-=]+)%/',
     [[\frac{<>}{<>}]],{sc(1),i(1)}
 ),
-
 
 
 }
