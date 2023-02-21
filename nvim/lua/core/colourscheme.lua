@@ -67,9 +67,11 @@ local colourscheme = "gruvbox"
 require(colourscheme).setup(config[colourscheme])
 
 vim.cmd("colorscheme "..colourscheme)
-vim.cmd[[
-highlight SignColumn guibg=NONE
-highlight Normal guibg=NONE ctermbg=NONE
-highlight VertSplit guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
-]]
+
+require("st.util").make_transparent()
+-- vim.cmd[[
+-- highlight SignColumn guibg=NONE
+-- highlight Normal guibg=NONE ctermbg=NONE
+-- highlight VertSplit guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
+-- ]]
 

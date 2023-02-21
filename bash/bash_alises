@@ -58,6 +58,6 @@ alias btchk='notify-send "$(cat /sys/class/power_supply/BAT0/capacity) $(cat /sy
 
 
 
-# For my private aliases 
-source ~/.private_aliases
+# For my private aliases
+[[ -f ~/.private_aliases ]] &&  source ~/.private_aliases
 

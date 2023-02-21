@@ -14,3 +14,7 @@ require("plugin.zepl")
 require("plugin.peek-nvim")
 require("plugin.clipboard-image")
 
+vim.cmd[[
+runtime vim/juliavim.vim
+]]
+

@@ -5,11 +5,9 @@
 # author : Prakash [प्रकाश]
 # date   : 2020-11-25 00:40
 
-[[ $- != *i* ]] && return
-
 if [[ ${HOSTNAME} == "gluon" ]]
 then
-    export CDPATH=.:~:~/GitRepos:~/Sabthok/Education/Graduate/Drexel:~/Sabthok/Programming/Projects:~/.Rough
+    export CDPATH=.:~:~/repos:~/Sabthok/Education/Graduate/Drexel:~/Sabthok/Programming/Projects:~/.Rough
     DOTFILES=${HOME}/repos/dotfiles
 
     export PATH="${DOTFILES}/script:${HOME}/.local/bin:$PATH"
@@ -20,7 +18,7 @@ then
     if type rg &> /dev/null; then
         export FZF_DEFAULT_COMMAND='rg --ignore-file ~/.rgignore --files --hidden'
     fi
-    export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
+    export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --border --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
     export FZF_COMPLETION_OPTS='--border --info=inline'
     FZF_COMPLETION_FILE=/usr/share/bash-completion/completions/fzf
     [[ -f ${FZF_COMPLETION_FILE} ]] && source ${FZF_COMPLETION_FILE}

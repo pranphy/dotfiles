@@ -26,9 +26,9 @@ let g:fzf_tags_command = 'ctags -R'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 
 command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse','--info=inline', '--preview', '~/.local/share/nvim/bundle/fzf.vim/bin/preview.sh {}']}, <bang>0)
+    \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse','--info=inline', '--preview', '~/.local/share/vim/bundle/fzf.vim/bin/preview.sh {}']}, <bang>0)
 
-command! -bang ProjectFiles call fzf#vim#files('~/GitRepos/MyDotFiles',{'options': ['--layout=reverse','--info=inline', '--preview', '~/.local/share/nvim/bundle/fzf.vim/bin/preview.sh {}']}, <bang>0)
+command! -bang ProjectFiles call fzf#vim#files('~/repos/dotfiles',{'options': ['--layout=reverse','--info=inline', '--preview','~/.local/share/vim/bundle/fzf.vim/bin/preview.sh {}']}, <bang>0)
 
 
 function! RipgrepFzf(query, fullscreen)
@@ -43,6 +43,7 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " Personal mappings
 nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fd :ProjectFiles<cr>
 
 
 

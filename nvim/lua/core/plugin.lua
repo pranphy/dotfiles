@@ -8,7 +8,7 @@ return require("packer").startup(function(use)
   use "neovim/nvim-lspconfig"
 
   use "nvim-telescope/telescope.nvim"
-  use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+  use "nvim-treesitter/nvim-treesitter"
   use "nvim-treesitter/nvim-treesitter-textobjects"
   use { "nvim-telescope/telescope-bibtex.nvim",
     config = function () require"telescope".load_extension("bibtex") end,
@@ -36,8 +36,28 @@ return require("packer").startup(function(use)
   use "axvr/zepl.vim"
   use "Mofiqul/dracula.nvim"
   use "ellisonleao/gruvbox.nvim"
-  use {"toppair/peek.nvim", run = "deno task --quiet build:fast"}
-  use "JuliaEditorSupport/julia-vim"
   use "ekickx/clipboard-image.nvim"
+  use "JuliaEditorSupport/julia-vim"
+  use { "toppair/peek.nvim", run = 'deno task --quiet build:fast',
+    config = {
+      require('peek').setup({
+        auto_load = true,         -- whether to automatically load preview when
+        -- entering another markdown buffer
+        close_on_bdelete = true,  -- close preview window on buffer delete
+
+        syntax = true,            -- enable syntax highlighting, affects performance
+
+        theme = 'dark',           -- 'dark' or 'light'
+
+        update_on_change = true,
+
+        -- relevant if update_on_change is true
+        throttle_at = 200000,     -- start throttling when file exceeds this
+        -- amount of bytes in size
+        throttle_time = 'auto',   -- minimum amount of time in milliseconds
+        -- that has to pass before starting new render
+      })
+    }
+  }
 end)
 

@@ -313,9 +313,15 @@ function latexdoc()
 {
     cachedir=${XDG_CACHE_DIR:-~/.cache}/texdoc
     mkdir -p ${cachedir}
+<<<<<<< Updated upstream
     tempfile="${cachedir}/${1}.pdf"
     [[ ! -f ${tempfile} ]]  && curl "https://texdoc.org/serve/${@}/0" --output ${tempfile}
     zt ${tempfile}
+=======
+    filename=${cachedir}/${1}.pdf
+    [[ ! -f ${filename} ]] && curl  https://texdoc.org/serve/${@}/0  --output ${filename}
+    zathura ${filename}
+>>>>>>> Stashed changes
 }
 
 function mkblog()
@@ -414,5 +420,8 @@ function csvshow()
     cmd+="to_markdown(${options}))"
     cmd+='"'
     eval ${cmd}
+#Sort by size to display in list the files in the current directory, sorted by their size on disk.k
+sbs() {
+    du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s", $1>=2**30? ($1/2**30, "G"): $1>=2**20? ($1/2**20, "M"): $1>=2**10? ($1/2**10, "K"): ($1, "")}e';
 }
 

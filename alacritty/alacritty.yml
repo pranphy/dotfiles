@@ -17,9 +17,9 @@ scrolling:
 # Font configuration
 font:
   normal:
-    family: Iosevka Term
-    style: Regular
-  size: 8.0
+    family: Iosevka Term Oblique Nerd Font
+    style: Italic
+  size: 11.0
 
 cursor:
   style: Underline

@@ -1,96 +1,98 @@
 -- This file is extensively for insert mode mapping
 -- for devanagari characters in my keymap layout.
 
-local opts = {remap=false,buffer=true}
 
+local nep_map = {
+  ["$"] = "द्ध",
+  ["0"] = "०",
+  ["1"] = "१",
+  ["2"] = "२",
+  ["3"] = "३",
+  ["4"] = "४",
+  ["5"] = "५",
+  ["6"] = "६",
+  ["7"] = "७",
+  ["8"] = "८",
+  ["9"] = "९",
+  ["A"] = "आ",
+  ["a"] = "ब",
+  ["b"] = "द",
+  ["B"] = "ौ",
+  ["c"] = "अ",
+  ["C"] = "ऋ",
+  ["d"] = "म",
+  ["D"] = "म्",
+  ["E"] = "ऐ",
+  ["e"] = "भ",
+  ["F"] = "ँँ",
+  ["f"] = "ा",
+  ["g"] = "न",
+  ["G"] = "न्",
+  ["h"] = "ज",
+  ["H"] = "झ",
+  ["I"] = "क्ष",
+  ["i"] = "ष",
+  ["j"] = "व",
+  ["J"] = "ो",
+  ["k"] = "प",
+  ["K"] = "फ",
+  ["l"] = "ि",
+  ["L"] = "ी",
+  ["m"] = "‌",
+  ["M"] = "ः",
+  ["n"] = "ल",
+  ["N"] = "ल्",
+  ["O"] = "इ",
+  ["o"] = "य",
+  ["p"] = "उ",
+  ["P"] = "ए",
+  ["Q"] = "त्त",
+  ["q"] = "त्र",
+  ["+"] = "",
+  ["."] = "।",
+  ["r"] = "च",
+  ["R"] = "च्",
+  ["s"] = "क",
+  ["S"] = "क्",
+  ["t"] = "त",
+  ["T"] = "त्",
+  ["U"] = "ऊ",
+  ["u"] = "ग",
+  ["V"] = "ॐ",
+  ["v"] = "ख",
+  ["w"] = "ध",
+  ["W"] = "ध्",
+  ["x"] = "ह",
+  ["X"] = "ह्",
+  ["y"] = "थ",
+  ["Y"] = "थ्",
+  ["z"] = "श",
+  ["Z"] = "श्",
+  ["@"] = "ई",
+  ["_"] = "ओ",
+  ["="] = "औ",
+  ["#"] = "घ",
+  ["<"] = "ङ",
+  ["%"] = "छ",
+  ["!"] = "ज्ञ",
+  ["^"] = "ट",
+  ["&"] = "ठ",
+  ["*"] = "ड",
+  ["("] = "ढ",
+  [")"] = "ण",
+  ["/"] = "र",
+  [">"] = "श्र",
+  [";"] = "स",
+  [":"] = "स्",
+  ["'"] = "ु",
+  ["\\"] = "्",
+  ['"'] = "ू",
+  ["["] = "ृ",
+  ["]"] = "े",
+  ["}"] = "ै",
+}
 
-vim.keymap.set("c","त्र","q",opts)
-vim.keymap.set("c","ध","w",opts)
+for asc, dev in pairs(nep_map) do
+   vim.keymap.set("i",asc,dev,{remap = false, buffer = true} )
+end
 
-vim.keymap.set("i","$","द्ध",opts)
-vim.keymap.set("i","0","०",opts)
-vim.keymap.set("i","1","१",opts)
-vim.keymap.set("i","2","२",opts)
-vim.keymap.set("i","3","३",opts)
-vim.keymap.set("i","4","४",opts)
-vim.keymap.set("i","5","५",opts)
-vim.keymap.set("i","6","६",opts)
-vim.keymap.set("i","7","७",opts)
-vim.keymap.set("i","8","८",opts)
-vim.keymap.set("i","9","९",opts)
-vim.keymap.set("i","A", "आ",opts)
-vim.keymap.set("i","a","ब",opts)
-vim.keymap.set("i","b","द",opts)
-vim.keymap.set("i","B","ौ",opts)
-vim.keymap.set("i","c","अ",opts)
-vim.keymap.set("i","C","ऋ",opts)
-vim.keymap.set("i","d","म",opts)
-vim.keymap.set("i","D","म्",opts)
-vim.keymap.set("i","E","ऐ",opts)
-vim.keymap.set("i","e","भ",opts)
-vim.keymap.set("i","F","ँँ",opts)
-vim.keymap.set("i","f","ा",opts)
-vim.keymap.set("i","g","न",opts)
-vim.keymap.set("i","G","न्",opts)
-vim.keymap.set("i","h","ज",opts)
-vim.keymap.set("i","H","झ",opts)
-vim.keymap.set("i","I","क्ष",opts)
-vim.keymap.set("i","i","ष",opts)
-vim.keymap.set("i","j","व",{remap=false})
-vim.keymap.set("i","J","ो",opts)
-vim.keymap.set("i","k","प",opts)
-vim.keymap.set("i","K","फ",opts)
-vim.keymap.set("i","l","ि",opts)
-vim.keymap.set("i","L","ी",opts)
-vim.keymap.set("i","m","‌",opts)
-vim.keymap.set("i","M","ः",opts)
-vim.keymap.set("i","n","ल",opts)
-vim.keymap.set("i","N","ल्",opts)
-vim.keymap.set("i","O","इ",opts)
-vim.keymap.set("i","o","य",opts)
-vim.keymap.set("i","p","उ",opts)
-vim.keymap.set("i","P","ए",opts)
-vim.keymap.set("i","Q","त्त",opts)
-vim.keymap.set("i","q","त्र",opts)
-vim.keymap.set("i","+","",opts)
-vim.keymap.set("i",".","।",opts)
-vim.keymap.set("i","r","च",opts)
-vim.keymap.set("i","R","च्",opts)
-vim.keymap.set("i","s","क",opts)
-vim.keymap.set("i","S","क्",opts)
-vim.keymap.set("i","t","त",opts)
-vim.keymap.set("i","T","त्",opts)
-vim.keymap.set("i","U","ऊ",opts)
-vim.keymap.set("i","u","ग",opts)
-vim.keymap.set("i","V","ॐ",opts)
-vim.keymap.set("i","v","ख",opts)
-vim.keymap.set("i","w","ध",opts)
-vim.keymap.set("i","W","ध्",opts)
-vim.keymap.set("i","x","ह",opts)
-vim.keymap.set("i","X","ह्",opts)
-vim.keymap.set("i","y","थ",opts)
-vim.keymap.set("i","Y","थ्",opts)
-vim.keymap.set("i","z","श",opts)
-vim.keymap.set("i","Z","श्",opts)
-vim.keymap.set("i","@","ई",opts)
-vim.keymap.set("i","_","ओ",opts)
-vim.keymap.set("i","=","औ",opts)
-vim.keymap.set("i","#","घ",opts)
-vim.keymap.set("i","<","ङ",opts)
-vim.keymap.set("i","%","छ",opts)
-vim.keymap.set("i","!","ज्ञ",opts)
-vim.keymap.set("i","^","ट",opts)
-vim.keymap.set("i","&","ठ",opts)
-vim.keymap.set("i","*","ड",opts)
-vim.keymap.set("i","(","ढ",opts)
-vim.keymap.set("i",")","ण",opts)
-vim.keymap.set("i","/","र",opts)
-vim.keymap.set("i",">","श्र",opts)
-vim.keymap.set("i",";","स",opts)
-vim.keymap.set("i",":","स्",opts)
-vim.keymap.set("i","'","ु",opts)
-vim.keymap.set("i","\\","्",opts)
-vim.keymap.set("i",'"',"ू",opts)
-vim.keymap.set("i","[","ृ",opts)
-vim.keymap.set("i","]","े",opts)
-vim.keymap.set("i","}","ै",opts)

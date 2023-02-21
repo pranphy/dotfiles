@@ -1,4 +1,5 @@
-local home = vim.fn.expand("~/zettelkasten")
+--local home = vim.fn.expand("~/zettelkasten")
+local home = vim.fn.expand("~/repos/dimag/")
 -- - Using `vim.fn.expand("~/zettelkasten")` should work now but mileage will vary with anything outside of finding and opening files
 local tk = require('telekasten')
 tk.setup({
@@ -12,14 +13,16 @@ tk.setup({
     auto_set_filetype = true,
 
     -- dir names for special notes (absolute path or subdir name)
-    dailies      = home .. '/' .. 'daily',
-    weeklies     = home .. '/' .. 'weekly',
-    templates    = home .. '/' .. 'templates',
+    dailies      = home .. '/' .. "Personal/Diary/" .. os.date('%Y'),
+    --weeklies     = home .. '/' .. 'weekly',
+    weeklies     = home .. '/' .. "Personal/Diary/"  .. os.date('%Y'),
+    --templates    = home .. '/' .. 'templates',
+    templates    = vim.fn.expand("~/Templates"),
 
     -- image (sub)dir for pasting
     -- dir name (absolute path or subdir name)
     -- or nil if pasted images shouldn't go into a special subdir
-    image_subdir = "img",
+    image_subdir = "assets/img",
 
     -- markdown file extension
     extension    = ".md",
@@ -136,26 +139,25 @@ map("n","<leader>[",tk.insert_link)
 -- map("i","[[",tk.insert_link)
 --vim.keymap.set("n","<leader>[",print("Hello World") )
 --
-map("n", "<leader>zf", tk.find_notes)
-map("n", "<leader>zd", tk.find_daily_notes)
-map("n", "<leader>zg", tk.search_notes)
-map("n", "<leader>zz", tk.follow_link)
-map("n", "<leader>zT", tk.goto_today)
-map("n", "<leader>zW", tk.goto_thisweek)
-map("n", "<leader>zw", tk.find_weekly_notes)
-map("n", "<leader>zn", tk.new_note)
-map("n", "<leader>zN", tk.new_templated_note)
-map("n", "<leader>zy", tk.yank_notelink)
-map("n", "<leader>zc", tk.show_calendar)
---map("n", "<leader>zC", :CalendarT<CR>
-map("n", "<leader>zi", tk.paste_img_and_link)
-map("n", "<leader>zt", tk.toggle_todo)
-map("n", "<leader>zb", tk.show_backlinks)
-map("n", "<leader>zF", tk.find_friends)
-map("n", "<leader>zI", tk.insert_img_link)
-map("n", "<leader>zp", tk.preview_img)
-map("n", "<leader>zm", tk.browse_media)
-map("n", "<leader>za", tk.show_tags)
-map("n", "<leader>#" , tk.show_tags)
-map("n", "<leader>zr", tk.rename_note)
-
+nmap("<leader>zf", tk.find_notes)
+nmap("<leader>zd", tk.find_daily_notes)
+nmap("<leader>zg", tk.search_notes)
+nmap("<leader>zz", tk.follow_link)
+nmap("<leader>zT", tk.goto_today)
+nmap("<leader>zW", tk.goto_thisweek)
+nmap("<leader>zw", tk.find_weekly_notes)
+nmap("<leader>zn", tk.new_note)
+nmap("<leader>zN", tk.new_templated_note)
+nmap("<leader>zy", tk.yank_notelink)
+nmap("<leader>zc", tk.show_calendar)
+nmap("<leader>zC", ":Calendar<CR>")
+nmap("<leader>zi", tk.paste_img_and_link)
+nmap("<leader>zt", tk.toggle_todo)
+nmap("<leader>zb", tk.show_backlinks)
+nmap("<leader>zF", tk.find_friends)
+nmap("<leader>zI", tk.insert_img_link)
+nmap("<leader>zp", tk.preview_img)
+nmap("<leader>zm", tk.browse_media)
+nmap("<leader>za", tk.show_tags)
+nmap("<leader>#" , tk.show_tags)
+nmap("<leader>zr", tk.rename_note)

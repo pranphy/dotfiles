@@ -42,7 +42,7 @@
     background = "#333333"
     foreground = "#eeeeee"
     timeout = 5
-    default_icon = bell-solid
+    corner_radius = 7
 
 [urgency_critical]
     background = "#900000"
