@@ -11,4 +11,6 @@ require("plugin.gitsigns")
 require("plugin.neogit")
 require("plugin.diffview")
 require("plugin.zepl")
+require("plugin.peek-nvim")
+require("plugin.clipboard-image")
 

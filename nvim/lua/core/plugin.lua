@@ -9,6 +9,7 @@ return require("packer").startup(function(use)
 
   use "nvim-telescope/telescope.nvim"
   use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+  use "nvim-treesitter/nvim-treesitter-textobjects"
   use { "nvim-telescope/telescope-bibtex.nvim",
     config = function () require"telescope".load_extension("bibtex") end,
   }
@@ -35,5 +36,8 @@ return require("packer").startup(function(use)
   use "axvr/zepl.vim"
   use "Mofiqul/dracula.nvim"
   use "ellisonleao/gruvbox.nvim"
+  use {"toppair/peek.nvim", run = "deno task --quiet build:fast"}
+  use "JuliaEditorSupport/julia-vim"
+  use "ekickx/clipboard-image.nvim"
 end)
 
