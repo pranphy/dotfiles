@@ -125,7 +125,7 @@ function DelExcept()
     #cmd=$cmd" | parallel rm"
     cmd=$cmd" -exec mv {} .Trash +"
     echo $cmd
-    $cmd
+    #$cmd
 
 }
 
@@ -170,17 +170,18 @@ function ResetLocal()
 function MakeDiary()
 {
     path=$1
-    date=`date +%Y-%m-%d`
-    date_AD=`date +%Y.%m.%d`
-    date_BS=`nepaliconv -bs ${date_AD} -f 'y M d W' -u`
+    date=$(date +%Y-%m-%d)
+    date_AD=$(date +%Y.%m.%d)
+    date_BS=$(nepaliconv -bs ${date_AD} -f 'y M d W' -u)
     touch $path/$date.md
 
 cat > ${path}/${date}.md<< EOF
 ---
-मिति: ${date_BS} [${date}]
-लेखक: प्रकाश [Prakash]
+title: Diary@${date_AD}
+date: ${date_BS} [${date}]
+Author: Prakash [प्रकाश]
 ---
-[//]: # (केही टिप्पणी लेख्नुहोस्)
+
 EOF
 }
 
@@ -288,13 +289,13 @@ function cheat()
 
 function vch()
 {
-    vi `which ${1}`
+    vi $(which ${1})
 }
 
 
 function sch()
 {
-    source `which ${1}`
+    source $(which ${1})
 }
 
 function vsch()
@@ -314,7 +315,7 @@ function latexdoc()
     mkdir -p ${cachedir}
     tempfile="${cachedir}/${1}.pdf"
     [[ ! -f ${tempfile} ]]  && curl "https://texdoc.org/serve/${@}/0" --output ${tempfile}
-    zathura ${tempfile}
+    zt ${tempfile}
 }
 
 function mkblog()
@@ -380,5 +381,38 @@ function ftpupload()
     lcd $LCD;
     cd $RCD;
     mirror --only-newer --ignore-time --reverse $DELETE --verbose"
+}
+
+function csvshow()
+{
+    [[ $- != *i* ]] && return
+    options="index=False"
+    case ${1} in
+    -h)
+        echo "csvshow [-hl] <file.csv>"
+        echo "file.csv  File path"
+        echo " -h       Show this help and exit"
+        echo " -l       Show LaTeX format "
+        return 0
+        ;;
+    -l)
+        options+=",tablefmt='latex'"
+        shift 1
+        ;;
+    -s)
+        options+=",tablefmt='plain'"
+        shift 1
+        ;;
+    esac
+     cmd='python3 -c "' # " start for the python -c
+    cmd+='import pandas as pd;'
+    cmd+='print(pd.read_csv('
+    cmd+="'"    # Single quote to wrap csv path
+    cmd+="${@}" # the file path
+    cmd+="'"    # Single quote end to wrap csv path
+    cmd+=")."   # read_csv close
+    cmd+="to_markdown(${options}))"
+    cmd+='"'
+    eval ${cmd}
 }
 

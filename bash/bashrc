@@ -76,8 +76,8 @@ export EDITOR=nvim
 set -o vi
 bind '"jk":vi-movement-mode'
 
-#XDG Env variables 
+#XDG Env variables
 export XDG_CONFIG_HOME=${HOME}/.config
 
-[[ -f ~/.this_host_env.sh ]] && source ~/.this_host_env.sh
+[[ -f ${HOME}/.this_host_env.sh ]] && source ${HOME}/.this_host_env.sh
 

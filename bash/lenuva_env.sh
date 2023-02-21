@@ -18,7 +18,7 @@ then
     if type rg &> /dev/null; then
         export FZF_DEFAULT_COMMAND='rg --ignore-file ~/.rgignore --files --hidden'
     fi
-    export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
+    export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border --preview="bat -p --color=always {}"'
     export FZF_COMPLETION_OPTS='--border --info=inline'
     FZF_COMPLETION_FILE=/usr/share/bash-completion/completions/fzf
     [[ -f ${FZF_COMPLETION_FILE} ]] && source ${FZF_COMPLETION_FILE}
@@ -37,6 +37,6 @@ then
 
     export MYROOT="${HOME}/st"
     [[ -f ${MYROOT}/enable.sh ]] && source ${MYROOT}/enable.sh
+    [[ -f ~/sft/enable.sh ]] && source ~/sft/enable.sh
     export PATH="${HOME}/.local/bin:$PATH:${HOME}/repos/dotfiles/script"
-    source ${HOME}/.junest/enable.sh
 fi
