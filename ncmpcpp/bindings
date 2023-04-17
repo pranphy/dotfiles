@@ -13,3 +13,12 @@ def_key "l"
 def_key "h"
   previous_column
 
+def_key "tab"
+  next_screen
+
+def_key "shift-tab"
+  previous_screen
+
+def_key "f1"
+  show_help
+

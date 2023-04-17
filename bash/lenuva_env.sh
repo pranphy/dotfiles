@@ -16,7 +16,7 @@ then
     fi
 
     if type rg &> /dev/null; then
-        export FZF_DEFAULT_COMMAND='rg --ignore-file ~/.rgignore --files --hidden'
+        export FZF_DEFAULT_COMMAND='rg --no-ignore --ignore-file ~/.rgignore --files --hidden'
     fi
     export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border --preview="bat -p --color=always {}"'
     export FZF_COMPLETION_OPTS='--border --info=inline'
