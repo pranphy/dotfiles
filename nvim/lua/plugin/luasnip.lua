@@ -5,7 +5,7 @@ local ls = require("luasnip")
 require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/luasnip/"})
 
 ls.config.set_config({
-    history = true, --keep around last snippet.
+    history = false, --keep around last snippet.
     updateevents = "TextChanged, TextChangedI"
 })
 

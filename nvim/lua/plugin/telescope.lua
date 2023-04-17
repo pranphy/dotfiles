@@ -4,12 +4,19 @@ telescope.setup({
   defaults = {
     vimgrep_arguments = {
       'rg',
-      --'--color=never',
+      '--no-ignore',
+      '--ignore-file=~/.rgignore',
       '--no-heading',
       '--with-filename',
       '--line-number',
       '--column',
       '--smart-case'
+    },
+  },
+  pickers = {
+    find_files = {
+      -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+      find_command = { "rg", "--no-ignore", "--ignore-file=~/.rgignore", "--files", "--hidden", "--glob", "!**/.git/*", "--glob", "!**/.ccls-cache/*" },
     },
   },
    extensions = {

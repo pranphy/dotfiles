@@ -7,7 +7,7 @@ let g:repl_config = {
             \   },
             \   'scheme': { 'cmd': 'rlwrap csi' },
             \   'julia':  { 'cmd': 'julia' },
-            \   'cpp':  { 'cmd': 'root -l' },
+            \   'cpp':  { 'cmd': 'reroot -l' },
             \   'python':  { 'cmd': 'python3' }
             \ }
 ]]

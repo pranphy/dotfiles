@@ -17,5 +17,8 @@ map("n","<s-tab>","gT")
 --  for quickfix navigation
 map("n","<leader>j",":cnext<cr>")
 map("n","<leader>k",":cprevious<cr>")
+map("n","<leader>y",'"*y')
+map("n","<leader>p",'"*P')
 
 require("core.nepali")
+

@@ -51,6 +51,7 @@ lspconfig.pyright.setup({
 lspconfig.ccls.setup{
     on_attach = on_attach,
     cmd = { "ccls" },
+    single_file_support = true,
     --filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 }
 

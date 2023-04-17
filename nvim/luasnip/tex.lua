@@ -136,7 +136,7 @@ tfs({trig="beg"},
 
 tfs({trig="minted"},
     [[
-    \begin{minted}[cpp]{autogobble}
+    \begin{minted}[autogobble]{cpp}
         <>
     \end{minted}
     ]], { i(1,"code")}

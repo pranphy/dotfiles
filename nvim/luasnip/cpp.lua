@@ -1,4 +1,6 @@
 local ls = require"luasnip"
+
+local stu = require("st.util")
 --local fmtd = ls.extend_decorator.apply(fmt, {delimiters = "{}"})
 -- Basically a function node with (s)nippet (c)apture and text appended
 local function sc(n,append_text)
@@ -8,8 +10,18 @@ end
 --
 
 return {
-s( "kymp", { t("Hello, This is python!") }),
+
 }, { -- End manual and start auto trigger.
+
+
+s("hdr",fmt([[
+    // -*- coding: utf-8 -*-
+    // vim: ai ts=4 sts=4 et sw=4 ft=cpp
+    // author : Prakash [प्रकाश]
+    // date   : {}
+
+]], { f(stu.date_ymd)}
+)),
 
 s( "mainfunc", fmta([[
     int main(int argc, char** argv)
@@ -36,7 +48,7 @@ s( "fn", fmta([[
 s("cout", fmt([[std::cout<<"{}"<<std::endl;]],{i(1)})),
 
 s({trig="for(%w+)%s",regTrig=true}, fmta([[
-    for(<> = <>; <> <>; <>)
+    for(int <> = <>; <> <>; <>)
     {
         <>
     }
