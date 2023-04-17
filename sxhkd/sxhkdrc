@@ -124,6 +124,8 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+    bspc node -v {-20 0,0 20,0 -20,20 0}
+
 
 XF86Audio{RaiseVolume,LowerVolume}
     pactl set-sink-volume @DEFAULT_SINK@ {+5%,-5%}
@@ -187,3 +189,4 @@ alt + shift + s
 alt + p
     bspc window -t floating; \
     bspc window -t sticky
+

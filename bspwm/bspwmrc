@@ -27,6 +27,7 @@ bspc rule -a URxvt state=floating
 bspc rule -a mpv state=floating
 bspc rule -a discord state=floating
 bspc rule -a Slack state=floating
+bspc rule -a Deno state=tiled
 bspc rule -a Toolkit state=floating
 bspc rule -a Pavucontrol state=floating
 bspc rule -a gksqt state=floating

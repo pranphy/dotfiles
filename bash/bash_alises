@@ -50,7 +50,7 @@ alias treejekyll='tree -I "vendor|_site"'
 # Slurm aliases
 alias slstatus='echo Running :: $(squeue --user $(whoami) | awk '\''{print $5}'\'' | grep R | wc -l)  Pending :: $(squeue --user $(whoami) | awk '\''{print $5}'\''| grep PD | wc -l)'
 
-alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
+alias tlmgr='/usr/share/texlive/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 alias ip='ip -c'
 alias batper='echo "$(cat /sys/class/power_supply/BAT0/capacity) $(cat /sys/class/power_supply/BAT0/status)"'
 alias btchk='notify-send "$(cat /sys/class/power_supply/BAT0/capacity) $(cat /sys/class/power_supply/BAT0/status)"'

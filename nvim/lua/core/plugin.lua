@@ -36,6 +36,7 @@ return require("packer").startup(function(use)
   use "axvr/zepl.vim"
   use "Mofiqul/dracula.nvim"
   use "ellisonleao/gruvbox.nvim"
+  use "folke/tokyonight.nvim"
   use "ekickx/clipboard-image.nvim"
   use "JuliaEditorSupport/julia-vim"
   use { "toppair/peek.nvim", run = 'deno task --quiet build:fast',

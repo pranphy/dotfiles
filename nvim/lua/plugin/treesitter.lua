@@ -49,3 +49,4 @@ require('nvim-treesitter.configs').setup({
   },
   textobjects =  textobjects_config;
 })
+
