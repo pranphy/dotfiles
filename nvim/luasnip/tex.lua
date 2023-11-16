@@ -186,9 +186,6 @@ s("sec",fmta([[\section{<>}]],{i(0,"Section Title")})),
 {-- auto trigger begin
 s("pac",fmta([[\usepackage{<>}]],{i(0,"package")})),
 
-
---
-
 ms("int ","\\int " ), --auto correct integration
 ms("oo","\\infty " ), --auto correct infinity
 ms("DD","\\Delta " ), --auto correct infinity

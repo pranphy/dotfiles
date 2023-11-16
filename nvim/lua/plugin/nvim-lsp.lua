@@ -1,3 +1,42 @@
+local lspconfig = require'lspconfig'
+
+lspconfig.pyright.setup({
+  on_attach = on_attach,
+  settings = {
+    python = {
+      analysis = {
+        reportUnusedVariable = true ,
+        typeCheckingMode = "basic"
+      }
+    }
+  }
+
+})
+
+lspconfig.ccls.setup{
+  on_attach = on_attach,
+  cmd = { "ccls" },
+  single_file_support = true,
+  --filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+}
+
+lspconfig.texlab.setup{}
+--lspconfig.julials.setup{}
+
+vim.lsp.set_log_level("INFO")
+
+-- Related to LSP but general(?) functions
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+
 
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
@@ -32,47 +71,4 @@ local on_attach = function(client, bufnr)
 end
 
 
-
-local lspconfig = require'lspconfig'
-
-lspconfig.pyright.setup({
-    on_attach = on_attach,
-    settings = {
-        python = {
-            analysis = {
-                reportUnusedVariable = true ,
-                typeCheckingMode = "basic"
-            }
-        }
-    }
-
-})
-
-lspconfig.ccls.setup{
-    on_attach = on_attach,
-    cmd = { "ccls" },
-    single_file_support = true,
-    --filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-}
-
--- lspconfig.clangd.setup{
---     on_attach = on_attach,
---     cmd = { "clangd" },
---     -- filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
--- }
-
-lspconfig.texlab.setup{}
-
-vim.lsp.set_log_level("INFO")
-
--- Related to LSP but general(?) functions
-vim.diagnostic.config({
-  virtual_text = false,
-})
-
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
 

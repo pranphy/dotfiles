@@ -1,5 +1,6 @@
 -- default config:
-require('peek').setup({
+local peek = require 'peek'
+peek.setup({
   auto_load = true,         -- whether to automatically load preview when
                             -- entering another markdown buffer
   close_on_bdelete = true,  -- close preview window on buffer delete
@@ -7,6 +8,7 @@ require('peek').setup({
   syntax = true,            -- enable syntax highlighting, affects performance
 
   theme = 'dark',           -- 'dark' or 'light'
+  app = { 'firefox', '-p', 'nobrd' },
 
   update_on_change = true,
 
@@ -17,5 +19,5 @@ require('peek').setup({
                             -- that has to pass before starting new render
 })
 
-vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})
-vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
+vim.api.nvim_create_user_command('PeekOpen', peek.open, {})
+vim.api.nvim_create_user_command('PeekClose', peek.close, {})

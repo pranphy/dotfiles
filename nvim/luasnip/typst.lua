@@ -186,12 +186,13 @@ mifs("^^",[[^(<>)]],{i(1)}),
 
 mfs("td ", [[^(<>)]],{i(1)}),
 mis("to","arrow"),
+mis("ow","omega"),
 mis("pst","^*"),
 mis("dgr","^dagger"),
 
 -- Greek Process
 mfrs("(%w%w%w)(%w%w%w)", [[<>]],{greekf()}),
-mfrs("d(%w)", [[dif <>]],{sc(1)}),
+--mfrs("d(%w)", [[dif <>]],{sc(1)}),
 mfrs("(%w)~", [[tilde(<>)]],{sc(1)}),
 mfrs("(%w)bar", [[bar(<>)]],{sc(1)}),
 mfrs("(%w)hat", [[hat(<>)]],{sc(1)}),

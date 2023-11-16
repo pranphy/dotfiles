@@ -1,12 +1,23 @@
 -- ft: lua
 
 return {},{ -- AutoTrigger
-s("hdr", fmt([[
+s("yhdr", fmt([[
    ---
-   title  : {}
-   date   : {}
-   author : {}
+   title: {}
+   date: {}
+   author: {}
    ---
+   {}
+   ]],
+   {i(1,"Some title"), t(os.date("%Y-%m-%d %H:%M")), t("Prakash"),i(0) })
+),
+
+s("thdr", fmt([[
+   +++
+   title  = "{}"
+   date   = "{}"
+   author = "{}"
+   +++
    {}
    ]],
    {i(1,"Some title"), t(os.date("%Y-%m-%d %H:%M")), t("Prakash"),i(0) })

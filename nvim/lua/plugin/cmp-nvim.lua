@@ -92,7 +92,7 @@ local cmp_setting = {
         { name = 'luasnip' },
         { name = 'path', option = { trailing_slash = false }, },
     }, {
-        { name = 'buffer' },
+        { name = 'buffer', keyword_length = 5 },
     })
 }
 cmp.setup(cmp_setting)
@@ -125,4 +125,3 @@ cmp.setup.cmdline(':', {
     --mapping = cmdline_mapping,
     sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } })
 })
-

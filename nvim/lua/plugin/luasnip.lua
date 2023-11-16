@@ -9,20 +9,15 @@ ls.config.set_config({
     updateevents = "TextChanged, TextChangedI"
 })
 
-vim.cmd([[
-imap <silent><expr> <A-space> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<A-space>'
-inoremap <silent> <A-shift-space> <cmd>lua require'luasnip'.jump(-1)<Cr>
+vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
+vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
+vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
 
-snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-
-
-imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-
-"command! LuaSnipEdit :lua require("luasnip.loaders").edit_snippet_files()
-command! LuaSnipEdit :lua require("st.telescope").edit_snippets()
-]])
+vim.keymap.set({"i", "s"}, "<C-E>", function()
+	if ls.choice_active() then
+		ls.change_choice(1)
+	end
+end, {silent = true})
 
 ls.config.set_config({history=true,enable_autosnippets=true})
 
