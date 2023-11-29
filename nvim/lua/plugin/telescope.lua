@@ -1,10 +1,9 @@
--- vim: ft=lua
 local telescope = require('telescope')
 telescope.setup({
   defaults = {
     vimgrep_arguments = {
       'rg',
-      '--no-ignore',
+      '--no-ignore-vcs',
       '--ignore-file=~/.rgignore',
       '--no-heading',
       '--with-filename',
@@ -16,10 +15,10 @@ telescope.setup({
   pickers = {
     find_files = {
       -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-      find_command = { "rg", "--no-ignore", "--ignore-file=~/.rgignore", "--files", "--hidden", "--glob", "!**/.git/*", "--glob", "!**/.ccls-cache/*" },
+      find_command = { "rg", "--no-ignore-vcs", "--ignore-file=~/.rgignore", "--files", "--hidden", "--glob", "!**/.git/*", "--glob", "!**/.ccls-cache/*" },
     },
   },
-   extensions = {
+  extensions = {
     bibtex = {
       -- Depth for the *.bib file
       depth = 1,
@@ -51,7 +50,7 @@ telescope.setup({
 });
 
 -- local bufopts = { noremap=true, silent=true, buffer=bufnr }
-telescope.load_extension("bibtex")
+--telescope.load_extension("bibtex")
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})

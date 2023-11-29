@@ -1,5 +1,5 @@
 -- default config:
-local peek = require 'peek'
+local peek = require('peek')
 peek.setup({
   auto_load = true,         -- whether to automatically load preview when
                             -- entering another markdown buffer
@@ -21,3 +21,4 @@ peek.setup({
 
 vim.api.nvim_create_user_command('PeekOpen', peek.open, {})
 vim.api.nvim_create_user_command('PeekClose', peek.close, {})
+vim.keymap.set("n","<leader>ll",peek.open)

@@ -1,6 +1,7 @@
 local map = vim.keymap.set
 
 map("i","jk","<esc>")
+map("v","<space><space>","<esc>")
 map("n","<C-J>","<C-W><C-J>")
 map("n","<C-K>","<C-W><C-K>")
 map("n","<C-H>","<C-W><C-H>")

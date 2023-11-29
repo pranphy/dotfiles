@@ -1,5 +1,5 @@
 -- vim: ft=lua
-textobjects_config = {
+local textobjects_config = {
   select = {
     enable = true,
 
