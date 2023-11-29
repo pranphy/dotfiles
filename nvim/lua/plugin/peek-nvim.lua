@@ -11,6 +11,7 @@ peek.setup({
   app = { 'firefox', '-p', 'nobrd' },
 
   update_on_change = true,
+  app = {"firefox", "-p", "nobrd" },
 
   -- relevant if update_on_change is true
   throttle_at = 200000,     -- start throttling when file exceeds this

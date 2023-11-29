@@ -131,7 +131,7 @@ s({trig="head", snippetType="autosnippet"},
    fmta([[
         // Author : Prakash
         // Date   : <>
-        // vim: ai ts=4 sts=4 et sw=4 ft=tex
+        // vim: ai ts=4 sts=4 et sw=4 ft=typst
         <>
        ]],
        { t(os.date("%Y-%m-%d %H:%M")), i(0) }
@@ -197,9 +197,11 @@ mfrs("(%w)~", [[tilde(<>)]],{sc(1)}),
 mfrs("(%w)bar", [[bar(<>)]],{sc(1)}),
 mfrs("(%w)hat", [[hat(<>)]],{sc(1)}),
 mfrs("vec(%w)", [[arrow(<>)]],{sc(1)}),
+mfrs("%.(%w)", [[dot(<>)]],{sc(1)}),
 
 --
 tfrs("(%w+)", [[*<>*]],{sc(1)}),
+tfrs("(%l)(%d)", [[$<>_<>$]],{sc(1),sc(2)}),
 
 tfrs(";(%w)", "$<>$",{sc(1)}),
 tfrs(";;", "$<>$",{i(1)}),

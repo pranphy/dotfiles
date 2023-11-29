@@ -34,6 +34,7 @@ s( "mainfunc", fmta([[
 ),
 
 s("cout", fmt([[std::cout<<"{}"<<std::endl;]],{i(1)})),
+s("rh2", fmta([[auto <> = new TH2D("<>","Title; x[mm]; y[mm]",100,0,100,100,0,100); ]],{i(1),i(2)})),
 
 
 s( "fn", fmta([[
@@ -45,7 +46,6 @@ s( "fn", fmta([[
     ]], { i(1, "int"),i(2,"function_name"),i(3,"int a"), i(4,"statement;"), i(0)}
 )),
 
-s("cout", fmt([[std::cout<<"{}"<<std::endl;]],{i(1)})),
 
 s({trig="for(%w+)%s",regTrig=true}, fmta([[
     for(int <> = <>; <> <>; <>)

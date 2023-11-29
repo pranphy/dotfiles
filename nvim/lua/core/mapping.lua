@@ -20,6 +20,9 @@ map("n","<leader>j",":cnext<cr>")
 map("n","<leader>k",":cprevious<cr>")
 map("n","<leader>y",'"*y')
 map("n","<leader>p",'"*P')
+--map("n","<leader>zz",':q<cr>')
+map("n","<leader>qq",':q!<cr>')
+map("n","<leader>wz",':wq<cr>')
 
 require("core.nepali")
 

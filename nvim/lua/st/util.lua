@@ -7,12 +7,14 @@ end
 function M.format_selected_table_latex()
 end
 
+
+
 function M.make_transparent()
-  vim.cmd[[
-  highlight SignColumn guibg=NONE
-  highlight Normal guibg=NONE ctermbg=NONE
-  highlight VertSplit guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
-  ]]
+  local groups = { "SignColumn", "Normal", "Special", "NormalFloat", "VertSplit" }
+  for _,group in ipairs(groups) do
+    vim.api.nvim_set_hl(0,group,{bg = "None", ctermbg = "NONE" })
+  end
 end
+
 
 return M

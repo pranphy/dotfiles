@@ -10,7 +10,7 @@ require("neo-tree").setup({
       noremap = true,
       nowait = true,
     },
-    mappings = { ["o"] = "open" },
+    mappings = { ["l"] = "open", ["h"] = "close" },
   }
 })
 

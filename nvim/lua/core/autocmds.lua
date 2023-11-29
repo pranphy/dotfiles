@@ -21,10 +21,10 @@ autocmd('TextYankPost', {
 })
 
 -- Remove whitespace on save
-autocmd('BufWritePre', {
-  pattern = '',
-  command = ":%s/\\s\\+$//e"
-})
+--autocmd('BufWritePre', {
+--  pattern = '',
+--  command = ":%s/\\s\\+$//e"
+--})
 
 -- Don't auto commenting new lines
 autocmd('BufEnter', {
@@ -40,7 +40,7 @@ augroup('setIndent', { clear = true })
 autocmd('Filetype', {
   group = 'setIndent',
   pattern = { 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript',
-    'yaml', 'lua'
+    'yaml'
   },
   command = 'setlocal shiftwidth=2 tabstop=2'
 })
