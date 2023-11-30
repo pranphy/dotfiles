@@ -7,5 +7,5 @@ let g:vimtex_matchparen_enabled=0
 "let g:matchup_override_vimtex=1
 "let g:matchup_matchparen_deferred=1
 let vimtex_fild_enabled=1
-let g:vimtex_compiler_method = 'typst compile %h'
+let g:vimtex_compiler_method = 'latexmk'
 ]]
