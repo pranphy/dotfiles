@@ -32,6 +32,12 @@ autocmd('BufEnter', {
   command = 'set fo-=c fo-=r fo-=o'
 })
 
+-- GDMLs are XMLs
+autocmd('BufEnter', {
+  pattern = '*.gdml',
+  command = 'set ft=xml'
+})
+
 -- Settings for filetypes:
 --------------------------
 
@@ -39,9 +45,7 @@ autocmd('BufEnter', {
 augroup('setIndent', { clear = true })
 autocmd('Filetype', {
   group = 'setIndent',
-  pattern = { 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript',
-    'yaml'
-  },
+  pattern = { 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript', 'yaml', 'gdml', },
   command = 'setlocal shiftwidth=2 tabstop=2'
 })
 
