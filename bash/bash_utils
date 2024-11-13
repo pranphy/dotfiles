@@ -306,7 +306,9 @@ function vsch()
 
 function weather()
 {
-    curl --silent wttr.in/$(curl --silent ifconfig.co/city)?m | less -R
+    city=$(curl --silent ifconfig.co/city)
+    encity=${city// /%20}
+    curl --silent wttr.in/${encity}?m | less -R
 }
 
 function latexdoc()
@@ -315,7 +317,7 @@ function latexdoc()
     mkdir -p ${cachedir}
     tempfile="${cachedir}/${1}.pdf"
     [[ ! -f ${tempfile} ]]  && curl "https://texdoc.org/serve/${@}/0" --output ${tempfile}
-    zt ${tempfile}
+    zathura ${tempfile}
 }
 
 function mkblog()
