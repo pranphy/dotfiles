@@ -13,13 +13,12 @@ alias feh='feh --scale-down --auto-zoom'
 alias searchtext="grep -rnw . -e"
 
 alias vi="nvim"
-alias vim8="/opt/vim8/bin/vim"
 
 # Carried over confusion from vim
 alias :q="exit"
 
 #  Clean tex
-alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist *.gls *.glg *.acr *.alg *.run.xml *.lof"
+alias cleantex="rm *.aux *.log *.toc *.fls *.synctex.gz *.nav *.out *.snm *.bbl *.blg *.fdb_latexmk *.acn *.glo *.ist *.gls *.glg *.acr *.alg *.run.xml *.lof *.vrb *.toc *.out *.blg *.bcf *.aux *.bbl"
 alias cleanpyc='for file in `find . -name '*.pyc'` do; echo $file; rm $file; done'
 
 # Youtube audio get
@@ -41,6 +40,7 @@ alias vfz='nvim $(fzf)'
 alias gsu="git status -u"
 alias gcm="git commit -m"
 alias gpom="git push origin master || git push origin main"
+alias gpod="git push origin develop"
 alias dscam="gphoto2 --stdout --capture-movie | ffmpeg -i - -vcodec rawvideo -pix_fmt yuv420p -threads 0 -f v4l2 /dev/video2"
 
 # tree aliases
@@ -54,6 +54,8 @@ alias tlmgr='/usr/share/texlive/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 alias ip='ip -c'
 alias batper='echo "$(cat /sys/class/power_supply/BAT0/capacity) $(cat /sys/class/power_supply/BAT0/status)"'
 alias btchk='notify-send "$(cat /sys/class/power_supply/BAT0/capacity) $(cat /sys/class/power_supply/BAT0/status)"'
+
+alias cmake="cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 
 
 
