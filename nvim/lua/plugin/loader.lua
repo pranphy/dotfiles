@@ -1,7 +1,7 @@
 --ft=lua
 local M = {}
 local function lazy_manager()
-  local lazypath = vim.fn.stdpath("data") .. "/my_lazy/lazy.nvim"
+  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
       "git",
@@ -34,17 +34,19 @@ M.load_plugins = function(names)
         plugpath = plugin.cfg.path
       end
     else
-      local plugid = string.match(plugin[1],"/(.*)")
-      local alts = {plugid, plugid:gsub(".nvim",""),plugid:gsub("nvim--","") }
-      for k,v in pairs(alts) do
-        local configdir = vim.env.MYVIMRC:match("(.*/)")
-        local filename = configdir.."lua/plugin/"..v..".lua"
+      if (plugin[1] ~= nil) then
+          local plugid = string.match(plugin[1],"/(.*)")
+          local alts = {plugid, plugid:gsub(".nvim",""),plugid:gsub(".vim",""),plugid:gsub("nvim--","") }
+          for k,v in pairs(alts) do
+            local configdir = vim.env.MYVIMRC:match("(.*/)")
+            local filename = configdir.."lua/plugin/"..v..".lua"
 
-        if file_exists(filename) then
-          plugpath = "plugin."..v
-          break
-        end
-      end
+            if file_exists(filename) then
+              plugpath = "plugin."..v
+              break
+            end
+          end
+       end
     end
     if plugpath ~= '' then
       plugin["config"] = function(_,opt)

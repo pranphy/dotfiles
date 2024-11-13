@@ -1,0 +1,3 @@
+--vim.cmd[[
+--inoremap <tab> <C-X><C-U>
+--]]

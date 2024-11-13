@@ -19,10 +19,11 @@ local textobjects_config = {
 }
 
 require('nvim-treesitter.configs').setup({
-  ensure_installed = {"lua","python","c","cpp","julia","latex","bash"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+ -- ensure_installed = {"lua","python","c","cpp","julia","latex","bash","markdown","markdown_inline"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+ ensure_installed = {"lua","python","c","cpp","julia","bash"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { "latex"},  -- list of language that will be disabled
+    disable = { "latex","markdown"},  -- list of language that will be disabled
   },
   textobjects =  textobjects_config;
 })

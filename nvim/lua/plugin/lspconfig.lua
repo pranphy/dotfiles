@@ -50,6 +50,9 @@ lspconfig.ccls.setup{
 lspconfig.texlab.setup{}
 --lspconfig.julials.setup{}
 
+lspconfig.marksman.setup{}
+lspconfig.kotlin_language_server.setup{}
+
 vim.lsp.set_log_level("INFO")
 
 -- Related to LSP but general(?) functions

@@ -34,6 +34,7 @@ end
 
 function M.edit_all_codes()
     vim.ui.input({prompt = 'Enter path: '}, function(input)
+      if input == nil then return end
       builtin.find_files( {
           shorten_path = true,
           cwd = input,

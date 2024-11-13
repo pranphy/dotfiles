@@ -8,6 +8,7 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.wrap = false
 vim.opt.breakindent = true
+vim.opt.conceallevel = 2
 
 vim.opt.number = true
 vim.opt.relativenumber = true

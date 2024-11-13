@@ -1,10 +1,9 @@
 require'clipboard-image'.setup {
   default = {
-    img_dir={"assets","img","paste"},
-    img_dir_txt = "assets/img/paste",
+    img_dir={"asset","image","paste"},
+    img_dir_txt = "asset/image/paste",
     img_name = function ()
       vim.fn.inputsave()
-
       local name = vim.fn.input('Name: ')
       vim.fn.inputrestore()
       local date = os.date("%Y%m%d-%H%M%S")
@@ -13,4 +12,4 @@ require'clipboard-image'.setup {
   }
 }
 
-vim.keymap.set({"i","n"},"<A-S-V>","<esc>:PasteImg<cr>a")
+vim.keymap.set({"i","n"},"<A-S-V>",require"clipboard-image.paste".paste_img)

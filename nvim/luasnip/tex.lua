@@ -160,6 +160,20 @@ tfs({trig="fig"},
     }
 ),
 
+tfs({trig="twocols"},
+    [[
+        \begin{columns}
+            \begin{column}{0.5\textwidth}
+               <>
+            \end{column}
+            \begin{column}{0.5\textwidth}
+                ome text
+            \end{column}
+        \end{columns}
+    ]], { i(1,"some text here")}
+),
+
+
 
 -- full snippet
 s({ trig="([bBpvV])mat(%d+)x(%d+)([ar])", regTrig=true, name="matrix", dscr='matrix trigger lets go'},
@@ -180,11 +194,21 @@ s({ trig="([bBpvV])mat(%d+)x(%d+)([ar])", regTrig=true, name="matrix", dscr='mat
     )
 ),
 s("sec",fmta([[\section{<>}]],{i(0,"Section Title")})),
+
+tfs("--",
+  [[
+  \begin{itemize}
+      \item  <>
+  \end{itemize}
+  ]], { i(1) }
+),
+
 -- Non auto trigger end
 },
 
 {-- auto trigger begin
 s("pac",fmta([[\usepackage{<>}]],{i(0,"package")})),
+s("igfx",fmta([[\includegraphics[width=<>\linewidth]{<>}]],{i(0,"0.9"),i(1,"./asset/image/")})),
 
 ms("int ","\\int " ), --auto correct integration
 ms("oo","\\infty " ), --auto correct infinity
@@ -198,7 +222,7 @@ ms("inpp", [[\int\limits_{-\pi}^{\pi}]]),
 mis("sr","^2" ), --auto correct integration
 mifs("^^",[[^{<>}]],{i(1)}), --auto correct integration
 --ms("sr ", [[^{2}]]),--{i(1)}),
-mfs("td ", [[^{<>}]],{i(1)}),
+mifs("td(%d+)%s", [[^{<>}]],{sc(1)}),
 
 -- Greek Process
 mfrs("(%w%w%w)(%w%w%w)", [[<>]],{greekf()}),
@@ -221,6 +245,17 @@ tfs("alins",
       <>
   \end{align*}
   ]], { i(1) }
+),
+
+
+
+-- beamer
+tfs("sloc",
+  [[
+  \begin{frame}{<>}
+      <>
+  \end{frame}
+  ]], { i(1),i(2) }
 ),
 
 

@@ -138,15 +138,6 @@ s({trig="head", snippetType="autosnippet"},
    )
 ),
 
-tfs({trig="beg"},
-    [[
-    \begin{<>}
-        <>
-    \end{<>}
-    ]], { i(1,"env"), i(2), rep(1) }
-),
-
-
 
 -- full snippet
 s({ trig="([bBpvV])mat(%d+)x(%d+)([ar])", regTrig=true, name="matrix", dscr='matrix trigger lets go'},
@@ -171,6 +162,37 @@ s("sec",fmta([[\section{<>}]],{i(0,"Section Title")})),
 },
 
 {-- auto trigger begin
+
+s("img",fmta([[
+    #align(center)[#image("<>",width:20%)]
+    ]],
+    {i(1)}
+    )
+),
+
+s("sltc",fmta([[
+    #slide(title:"<>")[
+          #grid(columns:(50%,50%),[
+          - 
+          ],[
+          -
+          ]
+          )
+        - <>
+    ]
+    ]],
+    {i(1,"Section Title"),i(2,"Soem line")}
+    )
+),
+
+s("slide",fmta([[
+    #slide(title:"<>")[
+        - <>
+    ]
+    ]],
+    {i(1,"Section Title"),i(2,"Soem line")}
+    )
+),
 
 ms("int ","integral " ), --auto correct integration
 ms("DD","Delta " ), --auto correct infinity

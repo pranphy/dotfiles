@@ -24,4 +24,6 @@ s("thdr", fmt([[
 ),
 
 s("dt",fmt("{}> ",{f(function() return os.date("%H:%M") end)})),
+s("DONE",t("- [x] ")),
+s("TODO",t("- [ ] ")),
 }

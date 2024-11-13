@@ -1,6 +1,9 @@
 -- This file is extensively for insert mode mapping
 -- for devanagari characters in my keymap layout.
 
+local M = {}
+
+vim.b.nep_act = false
 
 local nep_map = {
   ["$"] = "द्ध",
@@ -38,7 +41,7 @@ local nep_map = {
   ["K"] = "फ",
   ["l"] = "ि",
   ["L"] = "ी",
-  ["m"] = "‌",
+  ["m"] = "‌", -- zwnj
   ["M"] = "ः",
   ["n"] = "ल",
   ["N"] = "ल्",
@@ -48,7 +51,7 @@ local nep_map = {
   ["P"] = "ए",
   ["Q"] = "त्त",
   ["q"] = "त्र",
-  ["+"] = "",
+  ["+"] = "ं",
   ["."] = "।",
   ["r"] = "च",
   ["R"] = "च्",
@@ -91,9 +94,34 @@ local nep_map = {
   ["["] = "ृ",
   ["]"] = "े",
   ["}"] = "ै",
+  ["|"] = "‍" -- zwj
 }
 
-for asc, dev in pairs(nep_map) do
-   vim.keymap.set("i",asc,dev,{remap = false, buffer = true} )
+function M.enable()
+    for asc, dev in pairs(nep_map) do
+        vim.keymap.set("i",asc,dev,{remap = false, buffer = true} )
+        vim.keymap.set("i","{"..asc,asc,{remap=false,buffer=true})
+    end
+    vim.b.nep_act = true
 end
+
+
+function M.disable()
+    for asc, dev in pairs(nep_map) do
+        vim.keymap.del("i",asc,{buffer = true} )
+        vim.keymap.del("i","{"..asc,{remap=false,buffer=true})
+    end
+    vim.b.nep_act = false
+end
+
+function M.toggle()
+    if vim.b.nep_act == true then
+        M.disable()
+    else
+        M.enable()
+    end
+end
+
+
+return M
 
