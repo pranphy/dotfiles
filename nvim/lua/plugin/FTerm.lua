@@ -1,12 +1,16 @@
 ft = require("FTerm")
 ft.setup({
-    border = 'double',
+    border = 'rounded',
     dimensions  = {
-        height = 0.9,
-        width = 0.9,
+        height = 0.95,
+        width = 0.95,
     },
 })
 
 -- Example keybindings
-vim.keymap.set('n', '<A-i>', ft.toggle)
-vim.keymap.set('t', '<A-i>', ft.toggle)
+if vim.g.neovide then
+    vim.keymap.set('n', '<A-i>', ft.toggle)
+    vim.keymap.set('t', '<A-i>', ft.toggle)
+
+    vim.keymap.set({"n","i","t"}, '<C-z>', ft.toggle)
+end

@@ -2,11 +2,11 @@ require("obsidian").setup({
     workspaces = {
         {
             name = "personal",
-            path = "~/.Rough/vault/personal",
+            path = "~/scratch/vault/personal",
         },
         {
             name = "work",
-            path = "~/.Rough/vault/work",
+            path = "~/scratch/vault/work",
         },
         {
             name = "dimag",
