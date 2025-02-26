@@ -66,6 +66,12 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+lspconfig.ltex_plus.setup{
+    on_attach = on_attach,
+    cmd = {'ltex-ls-plus'},
+    settings = { ltex = { language= 'en-GB' },},
+}
+
 
 
 local opts = { noremap=true, silent=true }
