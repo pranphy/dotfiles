@@ -37,26 +37,26 @@ local cmp = require("cmp")
 
 local luasnip = require("luasnip")
 
-local cmp_im = require('cmp_im')
-cmp_im.setup{
-  -- Enable/Disable IM
-  enable = false,
-  -- IM keyword pattern
-  keyword = [[\l\+]],
-  -- IM tables path array
-  tables = {'/home/pranphy/.Rough/nvim/neptidc.txt'},
-  trigger = {' '},
-  -- Function to format IM-key and IM-tex for completion display
-  format = function(key, text) return vim.fn.printf('%-15S %s', text, key) end,
-  -- Max number entries to show for completion of each table
-  maxn = 8,
-}
-
-vim.keymap.set({'n', 'v', 'c', 'i'}, '<M-;>', function()
-  vim.notify(string.format('IM is %s', cmp_im.toggle() and 'enabled' or 'disabled'))
-end)
-
-cmp.register_source('IM',require('cmp_im').source)
+--local cmp_im = require('cmp_im')
+--cmp_im.setup{
+--  -- Enable/Disable IM
+--  enable = false,
+--  -- IM keyword pattern
+--  keyword = [[\l\+]],
+--  -- IM tables path array
+--  tables = {'/home/pranphy/.Rough/nvim/neptidc.txt'},
+--  trigger = {' '},
+--  -- Function to format IM-key and IM-tex for completion display
+--  format = function(key, text) return vim.fn.printf('%-15S %s', text, key) end,
+--  -- Max number entries to show for completion of each table
+--  maxn = 8,
+--}
+--
+--vim.keymap.set({'n', 'v', 'c', 'i'}, '<M-;>', function()
+--  vim.notify(string.format('IM is %s', cmp_im.toggle() and 'enabled' or 'disabled'))
+--end)
+--
+--cmp.register_source('IM',require('cmp_im').source)
 
 
 
@@ -82,7 +82,7 @@ local supertab_mapping = {
             fallback()
         end
     end, { "i", "s" }),
-    ['<Space>'] = cmp.mapping( cmp_im.select(), { 'i' })
+    --['<Space>'] = cmp.mapping( cmp_im.select(), { 'i' })
 }
 
 
@@ -118,6 +118,7 @@ local cmp_setting = {
         { name = 'path', option = { trailing_slash = false }, },
         { name = 'IM' },
         { name = 'calc' },
+     --{ name = 'nvim_lsp_signature_help' }
     },{
         { name = 'IM' },
         { name = 'buffer', keyword_length = 5 },
@@ -134,11 +135,11 @@ cmp.setup.filetype('gitcommit', {
     })
 })
 
-cmp.setup.filetype('nepali', {
-    sources = cmp.config.sources({
-        { name = 'IM' },
-    })
-})
+--cmp.setup.filetype('nepali', {
+--    sources = cmp.config.sources({
+--        { name = 'IM' },
+--    })
+--})
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 --local cmdline_mapping = supertab_mapping
