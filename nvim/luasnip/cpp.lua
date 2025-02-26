@@ -34,6 +34,8 @@ s( "mainfunc", fmta([[
 ),
 
 s("cout", fmt([[std::cout<<"{}"<<std::endl;]],{i(1)})),
+s("\\alpha", {t("α")}),
+s("\\pi", {t("π")}),
 s("rh2", fmta([[auto <> = new TH2D("<>","Title; x[mm]; y[mm]",100,0,100,100,0,100); ]],{i(1),i(2)})),
 
 

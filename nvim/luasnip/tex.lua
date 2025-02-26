@@ -30,8 +30,10 @@ local function greekf()
 end
 
 local function env(name)
-    local is_inside = vim.fn['vimtex#env#is_inside'](name)
-    return (is_inside[1] > 0 and is_inside[2] > 0)
+    return function()
+        local is_inside = vim.fn['vimtex#env#is_inside'](name)
+        return (is_inside[1] > 0 and is_inside[2] > 0)
+    end
 end
 
 -- Basically a function node with (s)nippet (c)apture and text appended
@@ -264,10 +266,14 @@ tfs("sloc",
 -- mfrs('(%l)(%d)', [[<>_<>]], {sc(1), sc(2)} ),
 --mfrs('(%a)_(%d%d)', [[<>_{<>}]], { sc(1),sc(2) }),
 
+mfrs("<([%w\\]+)|",[[\bra{<>}]], {sc(1)}),
+mfrs("\\bra{([\\%w%d]+)}([\\%w%d]+)>",[[\ip{<>}{<>}]], {sc(1),sc(2)}),
+mfrs("\\ip{([\\%w%d]+)}{([\\%w%d]+)}sq",[[\norm{\ip{<>}{<>}}^{2}]], {sc(1),sc(2)}),
+mfrs("`([%w_]+)`",[[\icode{<>}]], {sc(1)}),
 
 -- scientific notation
 mfrs('(%d+)[Ee](-?)(%d+)%s',
-    [[<> \times 10^{<><>}]],
+    [[<> \times 90^{<><>}]],
     { sc(1), sc(2), sc(3) }
 ),
 
@@ -298,5 +304,9 @@ mfrs('([\\%w%(%)_^,}{+-=]+)%/',
     [[\frac{<>}{<>}]],{sc(1),i(1)}
 ),
 
+-- s(p1,{t(p2)},{condition=math})
+s("-",fmta([[\entry[<>] ]],{f(function() return os.date("%H:%M") end)}),{condition=env("updates")}),
+s("now",fmta([[<>]],{f(function() return os.date("%Y-%m-%d") end)}),{condition=env("updates")}),
 
 }
+
