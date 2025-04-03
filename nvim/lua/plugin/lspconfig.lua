@@ -40,24 +40,31 @@ lspconfig.pyright.setup({
 
 })
 
-lspconfig.ccls.setup{
+--lspconfig.ccls.setup{
+--  on_attach = on_attach,
+--  cmd = { "ccls" },
+--  single_file_support = true,
+--  --filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+--}
+
+lspconfig.clangd.setup{
   on_attach = on_attach,
-  cmd = { "ccls" },
+  cmd = { "clangd" },
   single_file_support = true,
   --filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 }
 
-lspconfig.texlab.setup{}
---lspconfig.julials.setup{}
+--lspconfig.texlab.setup{}
+lspconfig.julials.setup{}
 
 lspconfig.marksman.setup{}
-lspconfig.kotlin_language_server.setup{}
+--lspconfig.kotlin_language_server.setup{}
 
 vim.lsp.set_log_level("INFO")
 
 -- Related to LSP but general(?) functions
 vim.diagnostic.config({
-  virtual_text = false,
+  virtual_text = false, -- looks very ugly with multiple errors and red text
 })
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -66,11 +73,13 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-lspconfig.ltex_plus.setup{
-    on_attach = on_attach,
-    cmd = {'ltex-ls-plus'},
-    settings = { ltex = { language= 'en-GB' },},
-}
+--lspconfig.ltex_plus.setup{
+--    on_attach = on_attach,
+--    enabled = true,
+--    cmd = {'ltex-ls-plus'},
+--    settings = { ltex = { enabled=true, language= 'en-GB' },},
+--    filetypes = {"tex", "latex"},
+--}
 
 
 

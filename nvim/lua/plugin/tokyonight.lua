@@ -89,5 +89,4 @@ local config = {
 
 local colourscheme = "tokyonight"
 require(colourscheme).setup(config[colourscheme])
-vim.cmd("colorscheme "..colourscheme)
-require("st.util").make_transparent()
+vim.cmd.colorscheme(colourscheme)

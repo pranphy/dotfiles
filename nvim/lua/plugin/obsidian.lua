@@ -13,6 +13,9 @@ require("obsidian").setup({
             path = "~/repos/dimag",
         },
     },
-    wiki_link_func = "use_alias_only"
+    ui = {
+        enable = false,
+    },
+    --wiki_link_func = "use_alias_only"
     -- see below for full list of options 👇
 })

@@ -41,7 +41,7 @@ zen.setup(
     -- - listen_on unix:/tmp/kitty
     kitty = {
       enabled = true,
-      font = "+8", -- font size increment
+      font = "+12", -- font size increment
     },
     -- this will change the font size on alacritty when in zen mode
     -- requires  Alacritty Version 0.10.0 or higher
@@ -75,12 +75,19 @@ zen.setup(
   -- callback where you can add custom code when the Zen window opens
   on_open = function(win)
       vim.o.wrap = true
+      if vim.g.neovide then
+          vim.g.scale_save = vim.g.neovide_scale_factor
+        vim.g.neovide_scale_factor = 1.8*vim.g.neovide_scale_factor
+      end
   end,
   -- callback where you can add custom code when the Zen window closes
   on_close = function()
+      if vim.g.neovide then
+        vim.g.neovide_scale_factor = vim.g.scale_save
+      end
   end,
 }
 )
 
 
-vim.keymap.set("n",'<leader>m', ':ZenMode<cr>')
+vim.keymap.set("n",'<leader>m', zen.toggle)

@@ -1,13 +1,5 @@
 -- ft: lua
 local ls = require("luasnip")
-local lsu = require("lsnp.utils")
-
-
-ls.setup({ snip_env = {
-    mfs = lsu.mfs,
-    fs = lsu.fs,
-}})
-
 
 require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/luasnip/"})
 

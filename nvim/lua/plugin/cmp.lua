@@ -115,9 +115,10 @@ local cmp_setting = {
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip', keyword_length=2 },
-        { name = 'path', option = { trailing_slash = false }, },
+        { name = 'path', option = { trailing_slash = false, get_cwd = function() return vim.fn.getcwd() end },  },
         { name = 'IM' },
         { name = 'calc' },
+        { name = 'codeium' },
      --{ name = 'nvim_lsp_signature_help' }
     },{
         { name = 'IM' },
