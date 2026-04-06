@@ -9,7 +9,7 @@ s("yhdr", fmt([[
    ---
    {}
    ]],
-   {i(1,"Some title"), t(os.date("%Y-%m-%d %H:%M")), t("Prakash"),i(0) })
+   {i(1,"Some title"), t(os.date("%Y-%m-%d")), t("Prakash"),i(0) })
 ),
 
 s("thdr", fmt([[

@@ -2,7 +2,6 @@ local stu = require("st.util")
 return {
 s( "kymp", { t("Hello, This is python!") }),
 }, { -- End manual and start auto trigger.
-s( "pra", { t("Hello, This is pythonista!") }),
 s( "print", fmt([[print(f"{}")]], {i(1,"text")  })),
 s( "fst", fmt([[f"{}"]], {i(1,"text")  })),
 s("hdr",fmt([[

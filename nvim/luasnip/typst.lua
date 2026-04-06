@@ -194,6 +194,17 @@ s("slide",fmta([[
     )
 ),
 
+s("twocol",fmta([[
+    #grid(columns:(50%,50%),[
+        - <>
+    ],[
+       - <>
+    ])
+    ]],
+    {i(1,"Section Title"),i(2,"Soem line")}
+    )
+),
+
 ms("int ","integral " ), --auto correct integration
 ms("DD","Delta " ), --auto correct infinity
 ms("inff", [[integral_(-oo)^(oo)]]),
