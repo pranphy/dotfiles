@@ -77,7 +77,7 @@ imgclip.setup({
 function paste_image()
     imgclip.paste_image({
         use_absolute_path = false,
-    },"tru.png")
+    })
 end
 
 vim.keymap.set({"i","n"},"<A-S-V>",paste_image)

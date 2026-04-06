@@ -1,2 +1,2 @@
---require("plugin.rocks")
 require("plugin.lazy")
+--require("plugin.rocks")

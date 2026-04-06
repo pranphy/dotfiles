@@ -12,9 +12,23 @@ Snacks.setup({
       enabled = false,
       timeout = 3000,
     },
-    image = {enabled = util.ternary(vim.g.neovide, false, true)},
+    image = {enabled = util.ternary(vim.g.neovide, false, true), doc = {inline=false, enabled=true}},
+    --image = {enabled = true, doc = {inline=false, enabled=true}},
     picker = { enabled = true,
         files = { hidden=false, ignored=false},
+         matcher = {
+            fuzzy = true, -- use fuzzy matching
+            smartcase = true, -- use smartcase
+            ignorecase = true, -- use ignorecase
+            sort_empty = false, -- sort results when the search string is empty
+            filename_bonus = true, -- give bonus for matching file names (last part of the path)
+            file_pos = true, -- support patterns like `file:line:col` and `file:line`
+            -- the bonusses below, possibly require string concatenation and path normalization,
+            -- so this can have a performance impact for large lists and increase memory usage
+            cwd_bonus = true, -- give bonus for matching files in the cwd
+            frecency = true, -- frecency bonus
+            history_bonus = true, -- give more weight to chronological order
+          },
     },
     terminal = { style="terminal" },
     --quickfile = { enabled = true },
@@ -43,6 +57,11 @@ function find_dotfiles()
     return Snacks.picker.files({cwd = "~/.config/"..appname, cmd = "rg"})
 end
 
+function grep_geant4()
+    return Snacks.picker.grep({ cwd = "~/sft/geant4/geant4-v11.2.1/source/", cmd = "rg",})
+        --cmd = {"rg", "--no-ignore-vcs", "--ignore-file ", vim.env.HOME.."~/.rgignore", "--smart-case"},
+end
+
 function toggle_floatterm()
     return Snacks.terminal.toggle("bash",{
         win = {
@@ -66,6 +85,7 @@ vim.keymap.set("n","<leader>fp", function()
 end)
 
 vim.keymap.set("n","<leader>fg", Snacks.picker.grep ) -- Grep,
+vim.keymap.set("n","<leader>fG", grep_geant4) -- Grep,
 
 if vim.g.neovide then
     vim.keymap.set({"n","i","t"},"<C-Z>",toggle_floatterm)
@@ -137,7 +157,8 @@ function zen_mode_toggle()
             inlay_hints = false
         },
         window = {
-            width = .35 -- width will be 85% of the editor width
+            width = .35, -- width will be 85% of the editor width
+            border = ''
         },
         zoom = {
             win = {

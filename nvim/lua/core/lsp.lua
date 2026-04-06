@@ -1,4 +1,4 @@
-local lspconfig = require'lspconfig'
+--local lspconfig = require'lspconfig'
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -26,9 +26,10 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
+vim.lsp.config("*",{ on_attach = on_attach })
 
-lspconfig.pyright.setup({
-  on_attach = on_attach,
+vim.lsp.config("pyright",{
+  --on_attach = on_attach,
   settings = {
     python = {
       analysis = {
@@ -40,27 +41,40 @@ lspconfig.pyright.setup({
 
 })
 
---lspconfig.ccls.setup{
+--vim.lsp.config("ccls",{
 --  on_attach = on_attach,
 --  cmd = { "ccls" },
 --  single_file_support = true,
 --  --filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
---}
+--})
 
-lspconfig.clangd.setup{
-  on_attach = on_attach,
-  cmd = { "clangd" },
+
+vim.lsp.config("clangd",{
+  --on_attach = on_attach,
+  cmd = { "clangd","--header-insertion=iwyu" },
+  init_options = { fallbackFlags = {'--std=c++23'} },
   single_file_support = true,
-  --filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-}
+  filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+})
 
---lspconfig.texlab.setup{}
-lspconfig.julials.setup{}
+vim.lsp.config("texlab",{})
+--vim.lsp.config("harper-ls",{cmd = { "harper-ls" }});
+--vim.lsp.config("julials",{})
 
-lspconfig.marksman.setup{}
---lspconfig.kotlin_language_server.setup{}
+vim.lsp.config("marksman",{})
+--vim.lsp.config("kotlin_language_server",{}
 
-vim.lsp.set_log_level("INFO")
+vim.lsp.config("jetls", {
+    cmd = {
+        "jetls",
+        "--threads=auto",
+        "--",
+    },
+    filetypes = {"julia"}
+})
+vim.lsp.enable({"clangd","jetls","pyright","harper-ls"})
+
+vim.lsp.log.set_level("ERROR")
 
 -- Related to LSP but general(?) functions
 vim.diagnostic.config({
@@ -73,13 +87,13 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
---lspconfig.ltex_plus.setup{
+--vim.lsp.config("ltex_plus",{
 --    on_attach = on_attach,
 --    enabled = true,
 --    cmd = {'ltex-ls-plus'},
 --    settings = { ltex = { enabled=true, language= 'en-GB' },},
 --    filetypes = {"tex", "latex"},
---}
+--})
 
 
 

@@ -1,4 +1,5 @@
 require("obsidian").setup({
+    legacy_commands = false,
     workspaces = {
         {
             name = "personal",
@@ -13,9 +14,9 @@ require("obsidian").setup({
             path = "~/repos/dimag",
         },
     },
-    ui = {
-        enable = false,
-    },
+    --ui = {
+    --    enable = false,
+    --},
     --wiki_link_func = "use_alias_only"
     -- see below for full list of options 👇
 })

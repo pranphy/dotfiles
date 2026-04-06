@@ -11,7 +11,7 @@ end
 
 if vim.g.neovide then
     --vim.o.guifont = "Iosevka Term:h17"
-    vim.o.guifont = "IosevkaTermSlab Nerd Font:h23"
+    vim.o.guifont = "IosevkaTermSlab Nerd Font:h17"
     vim.g.neovide_input_ime = true
     vim.g.neovide_cursor_vfx_mode = "torpedo"
     vim.keymap.set({ "n", "v" }, "<C-+>", scale(1.1))
