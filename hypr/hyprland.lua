@@ -11,22 +11,22 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 end)
 
-hl.monitor({ output = "eDP-1", mode = "3072x1920@60", position = "0x0", scale = 1 })
+hl.monitor({ output = "eDP-1", mode = "3072x1920@60", position = "1920x0", scale = 1 })
 hl.monitor({
     output = "DP-2",
     mode="highres",
     --mode = "modeline 148.50 1920 2008 2052 2200 1080 1084 1089 1125 +hsync +vsync",
     --mode = "modeline 138.50 1920 1968 2000 2080 1080 1083 1088 1111 +hsync -vsync",
-    position = "auto",
+    position = "0x0",
     scale = 1
 })
 
 
 hl.config({
     general = {
-        gaps_in  = 10,
-        gaps_out = 10,
-        border_size = 2,
+        gaps_in  = 2,
+        gaps_out = 5,
+        border_size = 1,
         col = {
             active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
             inactive_border = "rgba(595959aa)",
@@ -39,7 +39,7 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 8,
+        rounding       = 4,
         rounding_power = 2,
         active_opacity   = 1.0,
         inactive_opacity = 1.0,
@@ -48,7 +48,7 @@ hl.config({
         blur = { enabled = true, size = 3, passes = 1, vibrancy  = 0.1696, },
     },
 
-    animations = { enabled = false, },
+    animations = { enabled = true, },
      misc = {
         force_default_wallpaper = -1,    -- Set to 0 or 1 to disable the anime mascot wallpapers
         disable_hyprland_logo   = false, -- If true disables the random hyprland logo / anime girl background. :(
@@ -73,8 +73,8 @@ hl.bind(mainmod .. " + W",hl.dsp.window.kill())
 --hl.bind(mainmod .. " + ALT + Q", 'exec, ~/.local/bin/killhypr')
 hl.bind(mainmod .. " + S",hl.dsp.window.float({action = "toggle" }))
 hl.bind(mainmod .. " + F", hl.dsp.window.fullscreen({action="toggle"}))
-hl.bind(mainmod .. " + code:34", hl.dsp.focus({workspace = "-1"}))
-hl.bind(mainmod .. " + code:35", hl.dsp.focus({workspace = "+1"}))
+hl.bind(mainmod .. " + code:34", hl.dsp.focus({workspace = "r-1"}))
+hl.bind(mainmod .. " + code:35", hl.dsp.focus({workspace = "r+1"}))
 
 ---- Focus Movement (Vim Keys)
 hl.bind(mainmod .. " + l",hl.dsp.focus({direction="right"}))
@@ -159,3 +159,8 @@ hl.bind(mainmod .. " + B", hl.dsp.exec_cmd('notify-send "$(date +\\%H:\\%M) <> $
 ---- Multi-key combination Binds (Chords / App Shortcuts)
 --hl.bind("SUPER_L + SHIFT_L + F + N", "exec, firefox -p nt")
 --hl.bind("SUPER_L + SHIFT_L + F + D", "exec, firefox -p default")
+
+hl.window_rule({match={initial_class="GLWindow", initial_title="Makie"},float=true,no_initial_focus=true});
+
+-- Fix pinentry losing focus
+hl.window_rule({ match       = { class = "(pinentry-)(.*)" }, stay_focused = true, })
